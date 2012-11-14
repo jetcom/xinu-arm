@@ -1,0 +1,25 @@
+# This Makefile contains rules to build files in this directory.
+
+# Name of this component (the directory this file is stored in)
+COMP = system/platforms/fluke-arm
+
+# Source files for this component
+
+# Important system components
+S_FILES = ctxsw.S pause.S
+C_FILES = create.c debug.c handlers.c interrupt.c platforminit.c stubs.c vic.c timer.c
+
+PDIR = $(TOPDIR)/$(COMP)
+$(PDIR)/vic.o: $(PDIR)/vic.c $(PDIR)/vic.h
+$(PDIR)/interrupts.o: $(PDIR)/interrupts.c $(PDIR)/vic.h
+
+
+# Files for testing memory locations
+C_FILES += mem.c
+
+# Files for helping modularization
+C_FILES += test.c
+
+# Add the files to the compile source path
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}
