@@ -1,11 +1,11 @@
 README: information about the directory tree and how to build an image.
-Embedded Xinu, Copyright (C) 2008, 2009, 2010.  All rights reserved.
+Embedded Xinu, Copyright (C) 2008, 2009, 2010, 2012.  All rights reserved.
 
 $Id: README 2157 2010-01-19 00:40:07Z brylow $
 ----
 
 Embedded Xinu
-Version: 2.01
+Version: 2.10
 
 1. What is Embedded Xinu?
 2. Directory Structure
@@ -28,9 +28,10 @@ system originally developed by Douglas Comer for instructional purposes at
 Purdue University in the 1980s.
 
 Embedded Xinu is a reimplementation of the original Xinu operating system
-on the MIPS processor which is able to run on inexpensive wireless routers
-and is suitable for courses and research in the areas of Operating Systems,
-Hardware Systems, Embedded Systems, Networking, and Compilers.
+on the Arm processors and is suitable on running on inexpensive development 
+Arm platforms, such as the Raspberry-pi.  It is suitable for courses and 
+research in the areas of Operating Systems, Hardware Systems, Embedded 
+Systems, Networking, and Compilers.
 
 
 ----------------------
@@ -88,16 +89,19 @@ test/     contains a number of testcases (which can be run using the shell
 3.1 Supported platform with hardware modification
 --------------------------------------------------
 
-To run Embedded Xinu you need a supported router or virtual machine.
+To run Embedded Xinu you need a supported device or virtual machine.
 Currently, Embedded Xinu supports Linksys WRT54GL, Linksys WRT160NL,
-and the Qemu-mipsel virtual machine.  For an updated list
+and the Qemu-mipsel virtual machine for the MIPS target, and is 
+currently being build to run on arm-1176 processors for running on a
+Raspberry-pi, and Qemu-arm-1176 virtual machine  For an updated list
 of supported platforms, visit:
 
 http://xinu.mscs.mu.edu/List_of_supported_platforms
 
-In order to communicate with the router, you need to perform a hardware
-modification that will expose the serial port that exists on the PCB.  For
-more information on this process, see:
+If you are targetting the MIPS platform, and wish to run on a Linksys 
+target, you  you need to perform a hardware modification that will 
+expose the serial port that exists on the PCB.  For more information 
+on this process, see:
 
 http://xinu.mscs.mu.edu/Modify_the_Linksys_hardware
 
@@ -110,6 +114,8 @@ or MIPS (big endian for the 160NL router).  Instructions on how to do this
 can be found here:
 
 http://xinu.mscs.mu.edu/Build_Xinu#Cross-Compiler
+
+Update for Arm
 
 3.3 Serial communication software
 ---------------------------------
