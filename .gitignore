@@ -1,2 +1,6 @@
 *.o
 *.swp
+*.elf
+*.hex
+*.bin
+*.a
