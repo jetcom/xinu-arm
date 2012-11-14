@@ -8,7 +8,8 @@
 
 PLATFORM = fluke-arm
 
-BOOTIMAGE = xinu.hex
+HEXFILE = xinu.hex
+BINFILE = xinu.bin
 
 CHOST = arm-elf
 CROSS_COMPILER = ${CHOST}-
@@ -58,6 +59,9 @@ DEVICES = uart-fluke-bluetooth loopback led #uart-ns16550
 #		udp tcp http telnet
 DEVCOMPS  = ${DEVICES:%=device/%}
 
-${BOOTIMAGE}: xinu.elf
+${HEXFILE}: xinu.elf
 	${CP} ${CPFLAGS} xinu.elf xinu.hex
 
+${BINFILE}: xinu.elf
+        ${OBJCOPY} -O binary $^ $@ 
+        
