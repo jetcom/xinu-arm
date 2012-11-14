@@ -6,13 +6,15 @@
 #
 #  $Id: platformVars 2132 2009-11-17 23:22:38Z brylow $
 
-PLATFORM = fluke-arm
+PLATFORM = arm-qemu
 
 HEXFILE = xinu.hex
 BINFILE = xinu.bin
 
-CHOST = arm-elf
+
+CHOST = arm-none-eabi
 CROSS_COMPILER = ${CHOST}-
+LIBGCC?=-L/usr/local/lib/gcc/${CHOST}/4.6.3/ -lgcc
 
 CC       = ${CROSS_COMPILER}gcc
 CPP      = ${CROSS_COMPILER}cpp

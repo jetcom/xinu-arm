@@ -3,7 +3,8 @@
 #
 #  $Id: Makefile 2132 2009-11-17 23:22:38Z brylow $
 
-PLATFORM = fluke-arm
+PLATFORM = arm-qemu
+#PLATFORM = fluke-arm 
 
 # DETAIL   = -DDETAIL
 
@@ -17,7 +18,7 @@ MAIN_SRC  = ../system/main.c
 TOPDIR    = ..
 LIBDIR    = ${TOPDIR}/lib
 
-LIBGCC=-L/usr/local/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/ -lgcc
+LIBGCC?=-L/usr/local/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/ -lgcc
 
 # Default make target is in platformVars file.
 
