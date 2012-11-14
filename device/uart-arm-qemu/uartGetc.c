@@ -9,8 +9,8 @@
 #include <stddef.h>
 #include <uart.h>
 #include <device.h>
-#include "fluke-uart.h"
-#include "fluke.h"
+#include "qemu-uart.h"
+#include "qemu.h"
 /**
  * Read a single character from UART.
  * @param pdev pointer to UART device

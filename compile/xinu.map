@@ -1,7 +1,8 @@
 Archive member included because of file (symbol)
 
 ../lib/libxc.a(bzero.o)       ../device/loopback/loopbackOpen.o (bzero)
-../lib/libxc.a(doprnt.o)      ../device/uart-fluke-bluetooth/kprintf.o (_doprnt)
+../lib/libxc.a(ctype_.o)      ../device/tty/ttyRead.o (_ctype_)
+../lib/libxc.a(doprnt.o)      ../device/uart-arm-qemu/kprintf.o (_doprnt)
 ../lib/libxc.a(fprintf.o)     ../system/debug.o (fprintf)
 ../lib/libxc.a(memcpy.o)      ../system/tar.o (memcpy)
 ../lib/libxc.a(printf.o)      ../system/platforms/arm-qemu/test.o (printf)
@@ -20,16 +21,24 @@ Discarded input sections
  .bss           0x00000000        0x0 ../loader/platforms/arm-qemu/start.o
  .data          0x00000000        0x0 ../system/platforms/arm-qemu/ctxsw.o
  .bss           0x00000000        0x0 ../system/platforms/arm-qemu/ctxsw.o
+ .text          0x00000000       0x10 ../system/platforms/arm-qemu/pause.o
  .data          0x00000000        0x0 ../system/platforms/arm-qemu/pause.o
  .bss           0x00000000        0x0 ../system/platforms/arm-qemu/pause.o
- .data          0x00000000        0x0 ../device/uart-fluke-bluetooth/usleep.o
- .bss           0x00000000        0x0 ../device/uart-fluke-bluetooth/usleep.o
- .text          0x00000000        0x0 ../system/platforms/arm-qemu/create.o
- .data          0x00000000        0x0 ../system/platforms/arm-qemu/create.o
+ .stab          0x00000000       0x30 ../system/platforms/arm-qemu/pause.o
+                                 0x3c (size before relaxing)
+ .ARM.attributes
+                0x00000000       0x16 ../system/platforms/arm-qemu/pause.o
+ .data          0x00000000        0x0 ../device/uart-arm-qemu/usleep.o
+ .bss           0x00000000        0x0 ../device/uart-arm-qemu/usleep.o
  .text          0x00000000        0x0 ../system/platforms/arm-qemu/debug.o
  .data          0x00000000        0x0 ../system/platforms/arm-qemu/debug.o
  .bss           0x00000000        0x0 ../system/platforms/arm-qemu/debug.o
  .text.die      0x00000000       0x68 ../system/platforms/arm-qemu/debug.o
+ .text          0x00000000        0x0 ../system/platforms/arm-qemu/debugret.o
+ .data          0x00000000        0x0 ../system/platforms/arm-qemu/debugret.o
+ .bss           0x00000000        0x0 ../system/platforms/arm-qemu/debugret.o
+ .text          0x00000000        0x0 ../system/platforms/arm-qemu/create.o
+ .data          0x00000000        0x0 ../system/platforms/arm-qemu/create.o
  .text          0x00000000        0x0 ../system/platforms/arm-qemu/handlers.o
  .data          0x00000000        0x0 ../system/platforms/arm-qemu/handlers.o
  .bss           0x00000000        0x0 ../system/platforms/arm-qemu/handlers.o
@@ -77,6 +86,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/resume.o
  .data          0x00000000        0x0 ../system/resume.o
  .bss           0x00000000        0x0 ../system/resume.o
+ .stab          0x00000000      0x3e4 ../system/resume.o
+                                0x57c (size before relaxing)
  .text.resume   0x00000000       0xdc ../system/resume.o
  .comment       0x00000000       0x31 ../system/resume.o
  .ARM.attributes
@@ -84,6 +95,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/suspend.o
  .data          0x00000000        0x0 ../system/suspend.o
  .bss           0x00000000        0x0 ../system/suspend.o
+ .stab          0x00000000      0x444 ../system/suspend.o
+                                0x5dc (size before relaxing)
  .text.suspend  0x00000000      0x124 ../system/suspend.o
  .comment       0x00000000       0x31 ../system/suspend.o
  .ARM.attributes
@@ -91,6 +104,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/chprio.o
  .data          0x00000000        0x0 ../system/chprio.o
  .bss           0x00000000        0x0 ../system/chprio.o
+ .stab          0x00000000      0x3e4 ../system/chprio.o
+                                0x57c (size before relaxing)
  .text.chprio   0x00000000       0xd0 ../system/chprio.o
  .comment       0x00000000       0x31 ../system/chprio.o
  .ARM.attributes
@@ -98,6 +113,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/getprio.o
  .data          0x00000000        0x0 ../system/getprio.o
  .bss           0x00000000        0x0 ../system/getprio.o
+ .stab          0x00000000      0x3b4 ../system/getprio.o
+                                0x54c (size before relaxing)
  .text.getprio  0x00000000       0xd4 ../system/getprio.o
  .comment       0x00000000       0x31 ../system/getprio.o
  .ARM.attributes
@@ -120,6 +137,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/yield.o
  .data          0x00000000        0x0 ../system/yield.o
  .bss           0x00000000        0x0 ../system/yield.o
+ .stab          0x00000000      0x36c ../system/yield.o
+                                0x504 (size before relaxing)
  .text.yield    0x00000000       0x30 ../system/yield.o
  .comment       0x00000000       0x31 ../system/yield.o
  .ARM.attributes
@@ -127,11 +146,19 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/userret.o
  .data          0x00000000        0x0 ../system/userret.o
  .bss           0x00000000        0x0 ../system/userret.o
+ .stab          0x00000000      0x324 ../system/userret.o
+                                0x4bc (size before relaxing)
+ .text.userret  0x00000000       0x1c ../system/userret.o
+ .comment       0x00000000       0x31 ../system/userret.o
+ .ARM.attributes
+                0x00000000       0x32 ../system/userret.o
  .text          0x00000000        0x0 ../system/clkinit.o
  .data          0x00000000        0x0 ../system/clkinit.o
  .text          0x00000000        0x0 ../system/clkhandler.o
  .data          0x00000000        0x0 ../system/clkhandler.o
  .bss           0x00000000        0x0 ../system/clkhandler.o
+ .stab          0x00000000      0x378 ../system/clkhandler.o
+                                0x510 (size before relaxing)
  .text.clkhandler
                 0x00000000      0x140 ../system/clkhandler.o
  .comment       0x00000000       0x31 ../system/clkhandler.o
@@ -140,6 +167,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/insertd.o
  .data          0x00000000        0x0 ../system/insertd.o
  .bss           0x00000000        0x0 ../system/insertd.o
+ .stab          0x00000000      0x450 ../system/insertd.o
+                                0x5e8 (size before relaxing)
  .text.insertd  0x00000000      0x2f0 ../system/insertd.o
  .comment       0x00000000       0x31 ../system/insertd.o
  .ARM.attributes
@@ -147,6 +176,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/sleep.o
  .data          0x00000000        0x0 ../system/sleep.o
  .bss           0x00000000        0x0 ../system/sleep.o
+ .stab          0x00000000      0x3d8 ../system/sleep.o
+                                0x570 (size before relaxing)
  .text.sleep    0x00000000       0xfc ../system/sleep.o
  .comment       0x00000000       0x31 ../system/sleep.o
  .ARM.attributes
@@ -157,6 +188,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/wakeup.o
  .data          0x00000000        0x0 ../system/wakeup.o
  .bss           0x00000000        0x0 ../system/wakeup.o
+ .stab          0x00000000      0x354 ../system/wakeup.o
+                                0x4ec (size before relaxing)
  .text.wakeup   0x00000000       0xd4 ../system/wakeup.o
  .comment       0x00000000       0x31 ../system/wakeup.o
  .ARM.attributes
@@ -166,6 +199,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/semfree.o
  .data          0x00000000        0x0 ../system/semfree.o
  .bss           0x00000000        0x0 ../system/semfree.o
+ .stab          0x00000000      0x408 ../system/semfree.o
+                                0x5a0 (size before relaxing)
  .text.semfree  0x00000000      0x108 ../system/semfree.o
  .comment       0x00000000       0x31 ../system/semfree.o
  .ARM.attributes
@@ -185,6 +220,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/memget.o
  .data          0x00000000        0x0 ../system/memget.o
  .bss           0x00000000        0x0 ../system/memget.o
+ .stab          0x00000000      0x450 ../system/memget.o
+                                0x540 (size before relaxing)
  .text.memget   0x00000000      0x11c ../system/memget.o
  .comment       0x00000000       0x31 ../system/memget.o
  .ARM.attributes
@@ -198,6 +235,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/bfpalloc.o
  .data          0x00000000        0x0 ../system/bfpalloc.o
  .bss           0x00000000        0x0 ../system/bfpalloc.o
+ .stab          0x00000000      0x51c ../system/bfpalloc.o
+                                0x6a8 (size before relaxing)
  .text.bfpalloc
                 0x00000000      0x1f8 ../system/bfpalloc.o
  .comment       0x00000000       0x31 ../system/bfpalloc.o
@@ -206,6 +245,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/bfpfree.o
  .data          0x00000000        0x0 ../system/bfpfree.o
  .bss           0x00000000        0x0 ../system/bfpfree.o
+ .stab          0x00000000      0x3f0 ../system/bfpfree.o
+                                0x57c (size before relaxing)
  .text.bfpfree  0x00000000      0x120 ../system/bfpfree.o
  .comment       0x00000000       0x31 ../system/bfpfree.o
  .ARM.attributes
@@ -213,6 +254,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/bufget.o
  .data          0x00000000        0x0 ../system/bufget.o
  .bss           0x00000000        0x0 ../system/bufget.o
+ .stab          0x00000000      0x3cc ../system/bufget.o
+                                0x540 (size before relaxing)
  .text.bufget   0x00000000       0xe0 ../system/bufget.o
  .comment       0x00000000       0x31 ../system/bufget.o
  .ARM.attributes
@@ -220,6 +263,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/buffree.o
  .data          0x00000000        0x0 ../system/buffree.o
  .bss           0x00000000        0x0 ../system/buffree.o
+ .stab          0x00000000      0x3e4 ../system/buffree.o
+                                0x558 (size before relaxing)
  .text.buffree  0x00000000      0x110 ../system/buffree.o
  .comment       0x00000000       0x31 ../system/buffree.o
  .ARM.attributes
@@ -230,6 +275,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/receive.o
  .data          0x00000000        0x0 ../system/receive.o
  .bss           0x00000000        0x0 ../system/receive.o
+ .stab          0x00000000      0x3c0 ../system/receive.o
+                                0x558 (size before relaxing)
  .text.receive  0x00000000       0x8c ../system/receive.o
  .comment       0x00000000       0x31 ../system/receive.o
  .ARM.attributes
@@ -237,6 +284,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/recvclr.o
  .data          0x00000000        0x0 ../system/recvclr.o
  .bss           0x00000000        0x0 ../system/recvclr.o
+ .stab          0x00000000      0x3b4 ../system/recvclr.o
+                                0x54c (size before relaxing)
  .text.recvclr  0x00000000       0x8c ../system/recvclr.o
  .comment       0x00000000       0x31 ../system/recvclr.o
  .ARM.attributes
@@ -244,6 +293,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/recvtime.o
  .data          0x00000000        0x0 ../system/recvtime.o
  .bss           0x00000000        0x0 ../system/recvtime.o
+ .stab          0x00000000      0x414 ../system/recvtime.o
+                                0x5a0 (size before relaxing)
  .text.recvtime
                 0x00000000      0x12c ../system/recvtime.o
  .comment       0x00000000       0x31 ../system/recvtime.o
@@ -252,6 +303,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/close.o
  .data          0x00000000        0x0 ../system/close.o
  .bss           0x00000000        0x0 ../system/close.o
+ .stab          0x00000000      0x33c ../system/close.o
+                                0x420 (size before relaxing)
  .text.close    0x00000000       0x7c ../system/close.o
  .comment       0x00000000       0x31 ../system/close.o
  .ARM.attributes
@@ -259,6 +312,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/control.o
  .data          0x00000000        0x0 ../system/control.o
  .bss           0x00000000        0x0 ../system/control.o
+ .stab          0x00000000      0x360 ../system/control.o
+                                0x444 (size before relaxing)
  .text.control  0x00000000       0x94 ../system/control.o
  .comment       0x00000000       0x31 ../system/control.o
  .ARM.attributes
@@ -269,6 +324,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/open.o
  .data          0x00000000        0x0 ../system/open.o
  .bss           0x00000000        0x0 ../system/open.o
+ .stab          0x00000000      0x378 ../system/open.o
+                                0x474 (size before relaxing)
  .text.open     0x00000000       0x90 ../system/open.o
  .comment       0x00000000       0x31 ../system/open.o
  .ARM.attributes
@@ -282,6 +339,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/read.o
  .data          0x00000000        0x0 ../system/read.o
  .bss           0x00000000        0x0 ../system/read.o
+ .stab          0x00000000      0x354 ../system/read.o
+                                0x438 (size before relaxing)
  .text.read     0x00000000       0x8c ../system/read.o
  .comment       0x00000000       0x31 ../system/read.o
  .ARM.attributes
@@ -292,6 +351,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/seek.o
  .data          0x00000000        0x0 ../system/seek.o
  .bss           0x00000000        0x0 ../system/seek.o
+ .stab          0x00000000      0x348 ../system/seek.o
+                                0x42c (size before relaxing)
  .text.seek     0x00000000       0x88 ../system/seek.o
  .comment       0x00000000       0x31 ../system/seek.o
  .ARM.attributes
@@ -302,6 +363,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/getdev.o
  .data          0x00000000        0x0 ../system/getdev.o
  .bss           0x00000000        0x0 ../system/getdev.o
+ .stab          0x00000000      0x348 ../system/getdev.o
+                                0x42c (size before relaxing)
  .text.getdev   0x00000000       0x9c ../system/getdev.o
  .comment       0x00000000       0x31 ../system/getdev.o
  .ARM.attributes
@@ -309,6 +372,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/debug.o
  .data          0x00000000        0x0 ../system/debug.o
  .bss           0x00000000        0x0 ../system/debug.o
+ .stab          0x00000000      0x5d0 ../system/debug.o
+                                0x78c (size before relaxing)
  .rodata        0x00000000       0x28 ../system/debug.o
  .text.hexdump_print
                 0x00000000      0x128 ../system/debug.o
@@ -319,6 +384,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../system/tar.o
  .data          0x00000000        0x0 ../system/tar.o
  .bss           0x00000000        0x0 ../system/tar.o
+ .stab          0x00000000      0x75c ../system/tar.o
+                                0x810 (size before relaxing)
  .text.tarListFiles
                 0x00000000       0xe8 ../system/tar.o
  .text.tarGetFile
@@ -333,34 +400,11 @@ Discarded input sections
  .comment       0x00000000       0x31 ../system/tar.o
  .ARM.attributes
                 0x00000000       0x32 ../system/tar.o
- .text          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartInit.o
- .data          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartInit.o
- .text          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartWrite.o
- .data          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartWrite.o
- .bss           0x00000000        0x0 ../device/uart-fluke-bluetooth/uartWrite.o
- .text          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartRead.o
- .data          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartRead.o
- .bss           0x00000000        0x0 ../device/uart-fluke-bluetooth/uartRead.o
- .text          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartPutc.o
- .data          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartPutc.o
- .bss           0x00000000        0x0 ../device/uart-fluke-bluetooth/uartPutc.o
- .text          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartGetc.o
- .data          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartGetc.o
- .bss           0x00000000        0x0 ../device/uart-fluke-bluetooth/uartGetc.o
- .text          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartInterrupt.o
- .data          0x00000000        0x0 ../device/uart-fluke-bluetooth/uartInterrupt.o
- .bss           0x00000000        0x0 ../device/uart-fluke-bluetooth/uartInterrupt.o
- .text          0x00000000        0x0 ../device/uart-fluke-bluetooth/kprintf.o
- .data          0x00000000        0x0 ../device/uart-fluke-bluetooth/kprintf.o
- .bss           0x00000000        0x0 ../device/uart-fluke-bluetooth/kprintf.o
- .text.kinitputc
-                0x00000000        0x4 ../device/uart-fluke-bluetooth/kprintf.o
- .text          0x00000000        0x0 ../device/uart-fluke-bluetooth/power.o
- .data          0x00000000        0x0 ../device/uart-fluke-bluetooth/power.o
- .bss           0x00000000        0x0 ../device/uart-fluke-bluetooth/power.o
  .text          0x00000000        0x0 ../device/loopback/loopbackGetc.o
  .data          0x00000000        0x0 ../device/loopback/loopbackGetc.o
  .bss           0x00000000        0x0 ../device/loopback/loopbackGetc.o
+ .stab          0x00000000      0x3f0 ../device/loopback/loopbackGetc.o
+                                0x5ac (size before relaxing)
  .text.loopbackGetc
                 0x00000000       0xc0 ../device/loopback/loopbackGetc.o
  .comment       0x00000000       0x31 ../device/loopback/loopbackGetc.o
@@ -369,6 +413,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../device/loopback/loopbackClose.o
  .data          0x00000000        0x0 ../device/loopback/loopbackClose.o
  .bss           0x00000000        0x0 ../device/loopback/loopbackClose.o
+ .stab          0x00000000      0x3a8 ../device/loopback/loopbackClose.o
+                                0x510 (size before relaxing)
  .text.loopbackClose
                 0x00000000       0x9c ../device/loopback/loopbackClose.o
  .comment       0x00000000       0x31 ../device/loopback/loopbackClose.o
@@ -377,6 +423,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../device/loopback/loopbackOpen.o
  .data          0x00000000        0x0 ../device/loopback/loopbackOpen.o
  .bss           0x00000000        0x0 ../device/loopback/loopbackOpen.o
+ .stab          0x00000000      0x3cc ../device/loopback/loopbackOpen.o
+                                0x534 (size before relaxing)
  .text.loopbackOpen
                 0x00000000       0xc8 ../device/loopback/loopbackOpen.o
  .comment       0x00000000       0x31 ../device/loopback/loopbackOpen.o
@@ -385,6 +433,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../device/loopback/loopbackPutc.o
  .data          0x00000000        0x0 ../device/loopback/loopbackPutc.o
  .bss           0x00000000        0x0 ../device/loopback/loopbackPutc.o
+ .stab          0x00000000      0x3cc ../device/loopback/loopbackPutc.o
+                                0x534 (size before relaxing)
  .text.loopbackPutc
                 0x00000000      0x108 ../device/loopback/loopbackPutc.o
  .comment       0x00000000       0x31 ../device/loopback/loopbackPutc.o
@@ -393,6 +443,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../device/loopback/loopbackWrite.o
  .data          0x00000000        0x0 ../device/loopback/loopbackWrite.o
  .bss           0x00000000        0x0 ../device/loopback/loopbackWrite.o
+ .stab          0x00000000      0x3d8 ../device/loopback/loopbackWrite.o
+                                0x51c (size before relaxing)
  .text.loopbackWrite
                 0x00000000       0xd8 ../device/loopback/loopbackWrite.o
  .comment       0x00000000       0x31 ../device/loopback/loopbackWrite.o
@@ -401,6 +453,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../device/loopback/loopbackRead.o
  .data          0x00000000        0x0 ../device/loopback/loopbackRead.o
  .bss           0x00000000        0x0 ../device/loopback/loopbackRead.o
+ .stab          0x00000000      0x3cc ../device/loopback/loopbackRead.o
+                                0x510 (size before relaxing)
  .text.loopbackRead
                 0x00000000       0xc8 ../device/loopback/loopbackRead.o
  .comment       0x00000000       0x31 ../device/loopback/loopbackRead.o
@@ -409,6 +463,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../device/loopback/loopbackControl.o
  .data          0x00000000        0x0 ../device/loopback/loopbackControl.o
  .bss           0x00000000        0x0 ../device/loopback/loopbackControl.o
+ .stab          0x00000000      0x3e4 ../device/loopback/loopbackControl.o
+                                0x528 (size before relaxing)
  .text.loopbackControl
                 0x00000000       0xf8 ../device/loopback/loopbackControl.o
  .comment       0x00000000       0x31 ../device/loopback/loopbackControl.o
@@ -417,6 +473,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../device/loopback/loopbackInit.o
  .data          0x00000000        0x0 ../device/loopback/loopbackInit.o
  .bss           0x00000000        0x4 ../device/loopback/loopbackInit.o
+ .stab          0x00000000      0x36c ../device/loopback/loopbackInit.o
+                                0x4b0 (size before relaxing)
  .text.loopbackInit
                 0x00000000       0x68 ../device/loopback/loopbackInit.o
  .comment       0x00000000       0x31 ../device/loopback/loopbackInit.o
@@ -431,9 +489,122 @@ Discarded input sections
  .text          0x00000000        0x0 ../device/led/ledWrite.o
  .data          0x00000000        0x0 ../device/led/ledWrite.o
  .bss           0x00000000        0x0 ../device/led/ledWrite.o
+ .text          0x00000000        0x0 ../device/tty/ttyControl.o
+ .data          0x00000000        0x0 ../device/tty/ttyControl.o
+ .bss           0x00000000        0x0 ../device/tty/ttyControl.o
+ .stab          0x00000000      0x444 ../device/tty/ttyControl.o
+                                0x540 (size before relaxing)
+ .text.ttyControl
+                0x00000000      0x1f0 ../device/tty/ttyControl.o
+ .comment       0x00000000       0x31 ../device/tty/ttyControl.o
+ .ARM.attributes
+                0x00000000       0x32 ../device/tty/ttyControl.o
+ .text          0x00000000        0x0 ../device/tty/ttyOpen.o
+ .data          0x00000000        0x0 ../device/tty/ttyOpen.o
+ .bss           0x00000000        0x0 ../device/tty/ttyOpen.o
+ .stab          0x00000000      0x438 ../device/tty/ttyOpen.o
+                                0x570 (size before relaxing)
+ .text.ttyOpen  0x00000000      0x144 ../device/tty/ttyOpen.o
+ .comment       0x00000000       0x31 ../device/tty/ttyOpen.o
+ .ARM.attributes
+                0x00000000       0x32 ../device/tty/ttyOpen.o
+ .text          0x00000000        0x0 ../device/tty/ttyRead.o
+ .data          0x00000000        0x0 ../device/tty/ttyRead.o
+ .bss           0x00000000        0x0 ../device/tty/ttyRead.o
+ .stab          0x00000000      0x804 ../device/tty/ttyRead.o
+                                0x918 (size before relaxing)
+ .text.ttyRead  0x00000000      0x5ac ../device/tty/ttyRead.o
+ .text.ttyEcho  0x00000000       0x9c ../device/tty/ttyRead.o
+ .comment       0x00000000       0x31 ../device/tty/ttyRead.o
+ .ARM.attributes
+                0x00000000       0x32 ../device/tty/ttyRead.o
+ .text          0x00000000        0x0 ../device/tty/ttyClose.o
+ .data          0x00000000        0x0 ../device/tty/ttyClose.o
+ .bss           0x00000000        0x0 ../device/tty/ttyClose.o
+ .stab          0x00000000      0x36c ../device/tty/ttyClose.o
+                                0x4a4 (size before relaxing)
+ .text.ttyClose
+                0x00000000       0x78 ../device/tty/ttyClose.o
+ .comment       0x00000000       0x31 ../device/tty/ttyClose.o
+ .ARM.attributes
+                0x00000000       0x32 ../device/tty/ttyClose.o
+ .text          0x00000000        0x0 ../device/tty/ttyGetc.o
+ .data          0x00000000        0x0 ../device/tty/ttyGetc.o
+ .bss           0x00000000        0x0 ../device/tty/ttyGetc.o
+ .stab          0x00000000      0x360 ../device/tty/ttyGetc.o
+                                0x474 (size before relaxing)
+ .text.ttyGetc  0x00000000       0x54 ../device/tty/ttyGetc.o
+ .comment       0x00000000       0x31 ../device/tty/ttyGetc.o
+ .ARM.attributes
+                0x00000000       0x32 ../device/tty/ttyGetc.o
+ .text          0x00000000        0x0 ../device/tty/ttyInit.o
+ .data          0x00000000        0x0 ../device/tty/ttyInit.o
+ .bss           0x00000000      0x414 ../device/tty/ttyInit.o
+ .stab          0x00000000      0x348 ../device/tty/ttyInit.o
+                                0x45c (size before relaxing)
+ .text.ttyInit  0x00000000       0x68 ../device/tty/ttyInit.o
+ .comment       0x00000000       0x31 ../device/tty/ttyInit.o
+ .ARM.attributes
+                0x00000000       0x32 ../device/tty/ttyInit.o
+ .text          0x00000000        0x0 ../device/tty/ttyPutc.o
+ .data          0x00000000        0x0 ../device/tty/ttyPutc.o
+ .bss           0x00000000        0x0 ../device/tty/ttyPutc.o
+ .stab          0x00000000      0x3f0 ../device/tty/ttyPutc.o
+                                0x504 (size before relaxing)
+ .text.ttyPutc  0x00000000      0x134 ../device/tty/ttyPutc.o
+ .comment       0x00000000       0x31 ../device/tty/ttyPutc.o
+ .ARM.attributes
+                0x00000000       0x32 ../device/tty/ttyPutc.o
+ .text          0x00000000        0x0 ../device/tty/ttyWrite.o
+ .data          0x00000000        0x0 ../device/tty/ttyWrite.o
+ .bss           0x00000000        0x0 ../device/tty/ttyWrite.o
+ .stab          0x00000000      0x3c0 ../device/tty/ttyWrite.o
+                                0x4d4 (size before relaxing)
+ .text.ttyWrite
+                0x00000000       0x9c ../device/tty/ttyWrite.o
+ .comment       0x00000000       0x31 ../device/tty/ttyWrite.o
+ .ARM.attributes
+                0x00000000       0x32 ../device/tty/ttyWrite.o
+ .text          0x00000000        0x0 ../device/uart-arm-qemu/uartInit.o
+ .data          0x00000000        0x0 ../device/uart-arm-qemu/uartInit.o
+ .text          0x00000000        0x0 ../device/uart-arm-qemu/uartWrite.o
+ .data          0x00000000        0x0 ../device/uart-arm-qemu/uartWrite.o
+ .bss           0x00000000        0x0 ../device/uart-arm-qemu/uartWrite.o
+ .text          0x00000000        0x0 ../device/uart-arm-qemu/uartRead.o
+ .data          0x00000000        0x0 ../device/uart-arm-qemu/uartRead.o
+ .bss           0x00000000        0x0 ../device/uart-arm-qemu/uartRead.o
+ .text          0x00000000        0x0 ../device/uart-arm-qemu/uartPutc.o
+ .data          0x00000000        0x0 ../device/uart-arm-qemu/uartPutc.o
+ .bss           0x00000000        0x0 ../device/uart-arm-qemu/uartPutc.o
+ .text          0x00000000        0x0 ../device/uart-arm-qemu/uartGetc.o
+ .data          0x00000000        0x0 ../device/uart-arm-qemu/uartGetc.o
+ .bss           0x00000000        0x0 ../device/uart-arm-qemu/uartGetc.o
+ .text          0x00000000        0x0 ../device/uart-arm-qemu/uartInterrupt.o
+ .data          0x00000000        0x0 ../device/uart-arm-qemu/uartInterrupt.o
+ .bss           0x00000000        0x0 ../device/uart-arm-qemu/uartInterrupt.o
+ .text          0x00000000        0x0 ../device/uart-arm-qemu/kprintf.o
+ .data          0x00000000        0x0 ../device/uart-arm-qemu/kprintf.o
+ .bss           0x00000000        0x0 ../device/uart-arm-qemu/kprintf.o
+ .text.kinitputc
+                0x00000000        0x4 ../device/uart-arm-qemu/kprintf.o
+ .text          0x00000000        0x0 ../device/uart-arm-qemu/power.o
+ .data          0x00000000        0x0 ../device/uart-arm-qemu/power.o
+ .bss           0x00000000        0x0 ../device/uart-arm-qemu/power.o
+ .stab          0x00000000      0x444 ../device/uart-arm-qemu/power.o
+                                0x450 (size before relaxing)
+ .text.d2a_wait
+                0x00000000       0x14 ../device/uart-arm-qemu/power.o
+ .text.set_d2a  0x00000000       0xe8 ../device/uart-arm-qemu/power.o
+ .text.set_bluetooth
+                0x00000000       0x24 ../device/uart-arm-qemu/power.o
+ .comment       0x00000000       0x31 ../device/uart-arm-qemu/power.o
+ .ARM.attributes
+                0x00000000       0x32 ../device/uart-arm-qemu/power.o
  .text          0x00000000        0x0 ../apps/date.o
  .data          0x00000000       0xb8 ../apps/date.o
  .bss           0x00000000        0x4 ../apps/date.o
+ .stab          0x00000000      0x978 ../apps/date.o
+                                0xb40 (size before relaxing)
  .rodata        0x00000000       0xfc ../apps/date.o
  .text.get_datetime
                 0x00000000       0x24 ../apps/date.o
@@ -451,6 +622,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../apps/rdate.o
  .data          0x00000000        0x0 ../apps/rdate.o
  .bss           0x00000000        0x0 ../apps/rdate.o
+ .stab          0x00000000      0x630 ../apps/rdate.o
+                                0x84c (size before relaxing)
  .rodata        0x00000000       0x1c ../apps/rdate.o
  .text.getRdate
                 0x00000000      0x1ec ../apps/rdate.o
@@ -461,6 +634,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../mailbox/mailboxAlloc.o
  .data          0x00000000        0x0 ../mailbox/mailboxAlloc.o
  .bss           0x00000000        0x4 ../mailbox/mailboxAlloc.o
+ .stab          0x00000000      0x4a4 ../mailbox/mailboxAlloc.o
+                                0x60c (size before relaxing)
  .text.mailboxAlloc
                 0x00000000      0x244 ../mailbox/mailboxAlloc.o
  .comment       0x00000000       0x31 ../mailbox/mailboxAlloc.o
@@ -469,6 +644,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../mailbox/mailboxCount.o
  .data          0x00000000        0x0 ../mailbox/mailboxCount.o
  .bss           0x00000000        0x0 ../mailbox/mailboxCount.o
+ .stab          0x00000000      0x3b4 ../mailbox/mailboxCount.o
+                                0x528 (size before relaxing)
  .text.mailboxCount
                 0x00000000       0x90 ../mailbox/mailboxCount.o
  .comment       0x00000000       0x31 ../mailbox/mailboxCount.o
@@ -477,6 +654,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../mailbox/mailboxFree.o
  .data          0x00000000        0x0 ../mailbox/mailboxFree.o
  .bss           0x00000000        0x0 ../mailbox/mailboxFree.o
+ .stab          0x00000000      0x3f0 ../mailbox/mailboxFree.o
+                                0x558 (size before relaxing)
  .text.mailboxFree
                 0x00000000      0x138 ../mailbox/mailboxFree.o
  .comment       0x00000000       0x31 ../mailbox/mailboxFree.o
@@ -487,6 +666,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../mailbox/mailboxReceive.o
  .data          0x00000000        0x0 ../mailbox/mailboxReceive.o
  .bss           0x00000000        0x0 ../mailbox/mailboxReceive.o
+ .stab          0x00000000      0x3e4 ../mailbox/mailboxReceive.o
+                                0x558 (size before relaxing)
  .text.mailboxReceive
                 0x00000000      0x108 ../mailbox/mailboxReceive.o
  .comment       0x00000000       0x31 ../mailbox/mailboxReceive.o
@@ -495,6 +676,8 @@ Discarded input sections
  .text          0x00000000        0x0 ../mailbox/mailboxSend.o
  .data          0x00000000        0x0 ../mailbox/mailboxSend.o
  .bss           0x00000000        0x0 ../mailbox/mailboxSend.o
+ .stab          0x00000000      0x3d8 ../mailbox/mailboxSend.o
+                                0x54c (size before relaxing)
  .text.mailboxSend
                 0x00000000      0x100 ../mailbox/mailboxSend.o
  .comment       0x00000000       0x31 ../mailbox/mailboxSend.o
@@ -513,6 +696,13 @@ Discarded input sections
  .comment       0x00000000       0x31 ../lib/libxc.a(bzero.o)
  .ARM.attributes
                 0x00000000       0x32 ../lib/libxc.a(bzero.o)
+ .text          0x00000000        0x0 ../lib/libxc.a(ctype_.o)
+ .data          0x00000000        0x0 ../lib/libxc.a(ctype_.o)
+ .bss           0x00000000        0x0 ../lib/libxc.a(ctype_.o)
+ .rodata        0x00000000       0x81 ../lib/libxc.a(ctype_.o)
+ .comment       0x00000000       0x31 ../lib/libxc.a(ctype_.o)
+ .ARM.attributes
+                0x00000000       0x32 ../lib/libxc.a(ctype_.o)
  .text          0x00000000        0x0 ../lib/libxc.a(doprnt.o)
  .data          0x00000000        0x0 ../lib/libxc.a(doprnt.o)
  .bss           0x00000000        0x0 ../lib/libxc.a(doprnt.o)
@@ -557,364 +747,366 @@ Discarded input sections
 Memory Configuration
 
 Name             Origin             Length             Attributes
-flash            0x00000000         0x00020000
-ram              0x40000000         0x00010000
 *default*        0x00000000         0xffffffff
 
 Linker script and memory map
 
+                0x00010000                . = 0x10000
+                0x00010000                . = ALIGN (0x8)
 
-.text           0x00000000     0x5dcd
+.text           0x00010000     0x5c1d
  *(.text .text.*)
- .text          0x00000000      0x2a8 ../loader/platforms/arm-qemu/start.o
-                0x00000000                _start
-                0x000001fc                Reset_Handler
- *fill*         0x000002a8        0x8 00
- .text          0x000002b0       0x30 ../system/platforms/arm-qemu/ctxsw.o
-                0x000002b0                ctxsw
- .text          0x000002e0       0x10 ../system/platforms/arm-qemu/pause.o
-                0x000002e0                pause
- .text          0x000002f0       0x1c ../device/uart-fluke-bluetooth/usleep.o
-                0x000002f0                usleep
- .text.create   0x0000030c      0x38c ../system/platforms/arm-qemu/create.o
-                0x0000030c                create
- .text.thrnew   0x00000698       0xd0 ../system/platforms/arm-qemu/create.o
+ .text          0x00010000      0x2a8 ../loader/platforms/arm-qemu/start.o
+                0x00010000                _start
+                0x000101fc                Reset_Handler
+ *fill*         0x000102a8        0x8 00
+ .text          0x000102b0       0x30 ../system/platforms/arm-qemu/ctxsw.o
+                0x000102b0                ctxsw
+ .text          0x000102e0       0x1c ../device/uart-arm-qemu/usleep.o
+                0x000102e0                usleep
  .text.setup_pins
-                0x00000768       0x2c ../system/platforms/arm-qemu/debug.o
-                0x00000768                setup_pins
- .text.led_on   0x00000794       0x14 ../system/platforms/arm-qemu/debug.o
-                0x00000794                led_on
- .text.led_off  0x000007a8       0x14 ../system/platforms/arm-qemu/debug.o
-                0x000007a8                led_off
+                0x000102fc       0x2c ../system/platforms/arm-qemu/debug.o
+                0x000102fc                setup_pins
+ .text.led_on   0x00010328       0x14 ../system/platforms/arm-qemu/debug.o
+                0x00010328                led_on
+ .text.led_off  0x0001033c       0x14 ../system/platforms/arm-qemu/debug.o
+                0x0001033c                led_off
+ .text.debugret
+                0x00010350       0x1c ../system/platforms/arm-qemu/debugret.o
+                0x00010350                debugret
+ .text.create   0x0001036c      0x38c ../system/platforms/arm-qemu/create.o
+                0x0001036c                create
+ .text.thrnew   0x000106f8       0xd0 ../system/platforms/arm-qemu/create.o
  .text.SWI_Routine
-                0x000007bc        0x4 ../system/platforms/arm-qemu/handlers.o
-                0x000007bc                SWI_Routine
+                0x000107c8        0x4 ../system/platforms/arm-qemu/handlers.o
+                0x000107c8                SWI_Routine
  .text.UNDEF_Routine
-                0x000007c0        0x4 ../system/platforms/arm-qemu/handlers.o
-                0x000007c0                UNDEF_Routine
+                0x000107cc        0x4 ../system/platforms/arm-qemu/handlers.o
+                0x000107cc                UNDEF_Routine
  .text.FIQ_Routine
-                0x000007c4        0x4 ../system/platforms/arm-qemu/handlers.o
-                0x000007c4                FIQ_Routine
+                0x000107d0        0x4 ../system/platforms/arm-qemu/handlers.o
+                0x000107d0                FIQ_Routine
  .text.vic_enable_interrupts
-                0x000007c8       0x30 ../system/platforms/arm-qemu/interrupt.o
+                0x000107d4       0x30 ../system/platforms/arm-qemu/interrupt.o
  .text.vic_disable_interrupts
-                0x000007f8       0x30 ../system/platforms/arm-qemu/interrupt.o
- .text.enable   0x00000828       0x20 ../system/platforms/arm-qemu/interrupt.o
-                0x00000828                enable
- .text.disable  0x00000848       0x28 ../system/platforms/arm-qemu/interrupt.o
-                0x00000848                disable
- .text.restore  0x00000870       0x30 ../system/platforms/arm-qemu/interrupt.o
-                0x00000870                restore
+                0x00010804       0x30 ../system/platforms/arm-qemu/interrupt.o
+ .text.enable   0x00010834       0x20 ../system/platforms/arm-qemu/interrupt.o
+                0x00010834                enable
+ .text.disable  0x00010854       0x28 ../system/platforms/arm-qemu/interrupt.o
+                0x00010854                disable
+ .text.restore  0x0001087c       0x30 ../system/platforms/arm-qemu/interrupt.o
+                0x0001087c                restore
  .text.enable_irq
-                0x000008a0       0x30 ../system/platforms/arm-qemu/interrupt.o
-                0x000008a0                enable_irq
+                0x000108ac       0x30 ../system/platforms/arm-qemu/interrupt.o
+                0x000108ac                enable_irq
  .text.register_irq
-                0x000008d0       0x30 ../system/platforms/arm-qemu/interrupt.o
-                0x000008d0                register_irq
+                0x000108dc       0x30 ../system/platforms/arm-qemu/interrupt.o
+                0x000108dc                register_irq
  .text.irq_handled
-                0x00000900       0x10 ../system/platforms/arm-qemu/interrupt.o
-                0x00000900                irq_handled
+                0x0001090c       0x10 ../system/platforms/arm-qemu/interrupt.o
+                0x0001090c                irq_handled
  .text.platforminit
-                0x00000910       0xec ../system/platforms/arm-qemu/platforminit.o
-                0x00000910                platforminit
+                0x0001091c       0xec ../system/platforms/arm-qemu/platforminit.o
+                0x0001091c                platforminit
+ .text.print_uart0
+                0x00010a08       0x4c ../system/platforms/arm-qemu/stubs.o
+                0x00010a08                print_uart0
  .text._startup
-                0x000009fc      0x118 ../system/platforms/arm-qemu/stubs.o
-                0x000009fc                _startup
- .text.halt     0x00000b14        0x4 ../system/platforms/arm-qemu/stubs.o
-                0x00000b14                halt
+                0x00010a54       0xc4 ../system/platforms/arm-qemu/stubs.o
+                0x00010a54                _startup
+ .text.halt     0x00010b18        0x4 ../system/platforms/arm-qemu/stubs.o
+                0x00010b18                halt
  .text.irqmask_pack
-                0x00000b18       0x44 ../system/platforms/arm-qemu/vic.o
+                0x00010b1c       0x44 ../system/platforms/arm-qemu/vic.o
  .text.irqmask_interrupts_enabled
-                0x00000b5c       0x1c ../system/platforms/arm-qemu/vic.o
+                0x00010b60       0x1c ../system/platforms/arm-qemu/vic.o
  .text.vic_enable_interrupts
-                0x00000b78       0x30 ../system/platforms/arm-qemu/vic.o
+                0x00010b7c       0x30 ../system/platforms/arm-qemu/vic.o
  .text.vic_disable_interrupts
-                0x00000ba8       0x30 ../system/platforms/arm-qemu/vic.o
+                0x00010bac       0x30 ../system/platforms/arm-qemu/vic.o
  .text.vic_interrupts_enabled
-                0x00000bd8       0x34 ../system/platforms/arm-qemu/vic.o
+                0x00010bdc       0x34 ../system/platforms/arm-qemu/vic.o
  .text.vic_default
-                0x00000c0c       0x9c ../system/platforms/arm-qemu/vic.o
-                0x00000c0c                vic_default
+                0x00010c10       0x9c ../system/platforms/arm-qemu/vic.o
+                0x00010c10                vic_default
  .text.vic_init
-                0x00000ca8       0x1c ../system/platforms/arm-qemu/vic.o
-                0x00000ca8                vic_init
+                0x00010cac       0x1c ../system/platforms/arm-qemu/vic.o
+                0x00010cac                vic_init
  .text.vic_get_irqmask
-                0x00000cc4       0x38 ../system/platforms/arm-qemu/vic.o
-                0x00000cc4                vic_get_irqmask
+                0x00010cc8       0x38 ../system/platforms/arm-qemu/vic.o
+                0x00010cc8                vic_get_irqmask
  .text.vic_set_irqmask
-                0x00000cfc       0x60 ../system/platforms/arm-qemu/vic.o
-                0x00000cfc                vic_set_irqmask
+                0x00010d00       0x60 ../system/platforms/arm-qemu/vic.o
+                0x00010d00                vic_set_irqmask
  .text.vic_enable_irq
-                0x00000d5c       0x2c ../system/platforms/arm-qemu/vic.o
-                0x00000d5c                vic_enable_irq
+                0x00010d60       0x2c ../system/platforms/arm-qemu/vic.o
+                0x00010d60                vic_enable_irq
  .text.vic_register_irq
-                0x00000d88       0x54 ../system/platforms/arm-qemu/vic.o
-                0x00000d88                vic_register_irq
+                0x00010d8c       0x54 ../system/platforms/arm-qemu/vic.o
+                0x00010d8c                vic_register_irq
  .text.vic_interrupt_handled
-                0x00000ddc       0x18 ../system/platforms/arm-qemu/vic.o
-                0x00000ddc                vic_interrupt_handled
+                0x00010de0       0x18 ../system/platforms/arm-qemu/vic.o
+                0x00010de0                vic_interrupt_handled
  .text.timer_interrupt
-                0x00000df4       0xb4 ../system/platforms/arm-qemu/timer.o
-                0x00000df4                timer_interrupt
+                0x00010df8       0xb4 ../system/platforms/arm-qemu/timer.o
+                0x00010df8                timer_interrupt
  .text.timer_init
-                0x00000ea8       0x68 ../system/platforms/arm-qemu/timer.o
-                0x00000ea8                timer_init
- .text.partC    0x00000f10       0xe8 ../system/platforms/arm-qemu/mem.o
-                0x00000f10                partC
- .text.partB    0x00000ff8       0x5c ../system/platforms/arm-qemu/mem.o
-                0x00000ff8                partB
- .text.partA    0x00001054       0x5c ../system/platforms/arm-qemu/mem.o
-                0x00001054                partA
+                0x00010eac       0x68 ../system/platforms/arm-qemu/timer.o
+                0x00010eac                timer_init
+ .text.partC    0x00010f14       0xe8 ../system/platforms/arm-qemu/mem.o
+                0x00010f14                partC
+ .text.partB    0x00010ffc       0x5c ../system/platforms/arm-qemu/mem.o
+                0x00010ffc                partB
+ .text.partA    0x00011058       0x5c ../system/platforms/arm-qemu/mem.o
+                0x00011058                partA
  .text.findMemory
-                0x000010b0       0x7c ../system/platforms/arm-qemu/mem.o
-                0x000010b0                findMemory
- .text.tsThr1   0x0000112c       0x5c ../system/platforms/arm-qemu/test.o
+                0x000110b4       0x7c ../system/platforms/arm-qemu/mem.o
+                0x000110b4                findMemory
+ .text.tsThr1   0x00011130       0x5c ../system/platforms/arm-qemu/test.o
  .text.timesliceThreadTest
-                0x00001188       0xa8 ../system/platforms/arm-qemu/test.o
+                0x0001118c       0xa8 ../system/platforms/arm-qemu/test.o
  .text.semtest_high
-                0x00001230       0x40 ../system/platforms/arm-qemu/test.o
+                0x00011234       0x40 ../system/platforms/arm-qemu/test.o
  .text.semtest_low
-                0x00001270       0x40 ../system/platforms/arm-qemu/test.o
- .text.semtest  0x000012b0       0xc0 ../system/platforms/arm-qemu/test.o
+                0x00011274       0x40 ../system/platforms/arm-qemu/test.o
+ .text.semtest  0x000112b4       0xc0 ../system/platforms/arm-qemu/test.o
  .text.uartThread
-                0x00001370       0x20 ../system/platforms/arm-qemu/test.o
+                0x00011374       0x20 ../system/platforms/arm-qemu/test.o
  .text.uartTest
-                0x00001390       0x48 ../system/platforms/arm-qemu/test.o
+                0x00011394       0x48 ../system/platforms/arm-qemu/test.o
  .text.uart1_interrupt_handler
-                0x000013d8        0x4 ../system/platforms/arm-qemu/test.o
-                0x000013d8                uart1_interrupt_handler
+                0x000113dc        0x4 ../system/platforms/arm-qemu/test.o
+                0x000113dc                uart1_interrupt_handler
  .text.interruptTest
-                0x000013dc       0xc8 ../system/platforms/arm-qemu/test.o
- .text.irTest   0x000014a4       0xe8 ../system/platforms/arm-qemu/test.o
+                0x000113e0       0xc8 ../system/platforms/arm-qemu/test.o
+ .text.irTest   0x000114a8       0xe8 ../system/platforms/arm-qemu/test.o
  .text.timerTest
-                0x0000158c       0x70 ../system/platforms/arm-qemu/test.o
-                0x0000158c                timerTest
+                0x00011590       0x70 ../system/platforms/arm-qemu/test.o
+                0x00011590                timerTest
  .text.runSelectedProgram
-                0x000015fc      0x19c ../system/platforms/arm-qemu/test.o
-                0x000015fc                runSelectedProgram
+                0x00011600      0x19c ../system/platforms/arm-qemu/test.o
+                0x00011600                runSelectedProgram
  .text.programSwitch
-                0x00001798       0xc8 ../system/platforms/arm-qemu/test.o
-                0x00001798                programSwitch
+                0x0001179c       0xc8 ../system/platforms/arm-qemu/test.o
+                0x0001179c                programSwitch
  .text.nulluser
-                0x00001860      0x11c ../system/initialize.o
-                0x00001860                nulluser
- .text.sysinit  0x0000197c      0x460 ../system/initialize.o
- .text.enqueue  0x00001ddc      0x1b0 ../system/queue.o
-                0x00001ddc                enqueue
- .text.dequeue  0x00001f8c      0x158 ../system/queue.o
-                0x00001f8c                dequeue
- .text.kill     0x000020e4      0x1fc ../system/kill.o
-                0x000020e4                kill
- .text.ready    0x000022e0       0xe4 ../system/ready.o
-                0x000022e0                ready
- .text.resched  0x000023c4      0x230 ../system/resched.o
-                0x000023c4                resched
+                0x00011864      0x118 ../system/initialize.o
+                0x00011864                nulluser
+ .text.sysinit  0x0001197c      0x460 ../system/initialize.o
+ .text.enqueue  0x00011ddc      0x1b0 ../system/queue.o
+                0x00011ddc                enqueue
+ .text.dequeue  0x00011f8c      0x158 ../system/queue.o
+                0x00011f8c                dequeue
+ .text.kill     0x000120e4      0x1fc ../system/kill.o
+                0x000120e4                kill
+ .text.ready    0x000122e0       0xe4 ../system/ready.o
+                0x000122e0                ready
+ .text.resched  0x000123c4      0x230 ../system/resched.o
+                0x000123c4                resched
  .text.getfirst
-                0x000025f4       0xd0 ../system/getitem.o
-                0x000025f4                getfirst
- .text.getitem  0x000026c4      0x154 ../system/getitem.o
-                0x000026c4                getitem
- .text.queinit  0x00002818      0x184 ../system/queinit.o
-                0x00002818                queinit
- .text.insert   0x0000299c      0x26c ../system/insert.o
-                0x0000299c                insert
- .text.gettid   0x00002c08       0x14 ../system/gettid.o
-                0x00002c08                gettid
- .text.xdone    0x00002c1c       0x3c ../system/xdone.o
-                0x00002c1c                xdone
- .text.userret  0x00002c58       0x1c ../system/userret.o
-                0x00002c58                userret
- .text.clkinit  0x00002c74       0x34 ../system/clkinit.o
-                0x00002c74                clkinit
- .text.unsleep  0x00002ca8      0x1a8 ../system/unsleep.o
-                0x00002ca8                unsleep
+                0x000125f4       0xd0 ../system/getitem.o
+                0x000125f4                getfirst
+ .text.getitem  0x000126c4      0x154 ../system/getitem.o
+                0x000126c4                getitem
+ .text.queinit  0x00012818      0x184 ../system/queinit.o
+                0x00012818                queinit
+ .text.insert   0x0001299c      0x26c ../system/insert.o
+                0x0001299c                insert
+ .text.gettid   0x00012c08       0x14 ../system/gettid.o
+                0x00012c08                gettid
+ .text.xdone    0x00012c1c       0x3c ../system/xdone.o
+                0x00012c1c                xdone
+ .text.clkinit  0x00012c58       0x34 ../system/clkinit.o
+                0x00012c58                clkinit
+ .text.unsleep  0x00012c8c      0x1a8 ../system/unsleep.o
+                0x00012c8c                unsleep
  .text.semcreate
-                0x00002e50       0x8c ../system/semcreate.o
-                0x00002e50                semcreate
+                0x00012e34       0x8c ../system/semcreate.o
+                0x00012e34                semcreate
  .text.semalloc
-                0x00002edc       0xf8 ../system/semcreate.o
+                0x00012ec0       0xf8 ../system/semcreate.o
  .text.semcount
-                0x00002fd4       0x88 ../system/semcount.o
-                0x00002fd4                semcount
- .text.signal   0x0000305c       0xd4 ../system/signal.o
-                0x0000305c                signal
- .text.signaln  0x00003130      0x104 ../system/signaln.o
-                0x00003130                signaln
- .text.wait     0x00003234      0x118 ../system/wait.o
-                0x00003234                wait
- .text.memfree  0x0000334c      0x1a0 ../system/memfree.o
-                0x0000334c                memfree
- .text.stkget   0x000034ec      0x158 ../system/stkget.o
-                0x000034ec                stkget
- .text.send     0x00003644      0x134 ../system/send.o
-                0x00003644                send
- .text.getc     0x00003778       0x7c ../system/getc.o
-                0x00003778                getc
- .text.ioerr    0x000037f4        0xc ../system/ioerr.o
-                0x000037f4                ioerr
- .text.ionull   0x00003800        0xc ../system/ionull.o
-                0x00003800                ionull
- .text.putc     0x0000380c       0x8c ../system/putc.o
-                0x0000380c                putc
- .text.write    0x00003898       0x8c ../system/write.o
-                0x00003898                write
- .text.uartInit
-                0x00003924      0x1b4 ../device/uart-fluke-bluetooth/uartInit.o
-                0x00003924                uartInit
- .text.fluke_uart_reg_init
-                0x00003ad8       0x88 ../device/uart-fluke-bluetooth/uartInit.o
-                0x00003ad8                fluke_uart_reg_init
- .text.uartWrite
-                0x00003b60      0x244 ../device/uart-fluke-bluetooth/uartWrite.o
-                0x00003b60                uartWrite
- .text.uartRead
-                0x00003da4       0x78 ../device/uart-fluke-bluetooth/uartRead.o
-                0x00003da4                uartRead
- .text.uartPutc
-                0x00003e1c       0x3c ../device/uart-fluke-bluetooth/uartPutc.o
-                0x00003e1c                uartPutc
- .text.uart1_set_rts
-                0x00003e58       0x14 ../device/uart-fluke-bluetooth/uartGetc.o
-                0x00003e58                uart1_set_rts
- .text.uart1_clear_rts
-                0x00003e6c       0x14 ../device/uart-fluke-bluetooth/uartGetc.o
-                0x00003e6c                uart1_clear_rts
- .text.uartGetc
-                0x00003e80       0x60 ../device/uart-fluke-bluetooth/uartGetc.o
-                0x00003e80                uartGetc
- .text.uartInterrupt
-                0x00003ee0      0x458 ../device/uart-fluke-bluetooth/uartInterrupt.o
-                0x00003ee0                uartInterrupt
- .text.kputc    0x00004338       0x84 ../device/uart-fluke-bluetooth/kprintf.o
-                0x00004338                kputc
- .text.kgetc    0x000043bc       0x40 ../device/uart-fluke-bluetooth/kprintf.o
-                0x000043bc                kgetc
- .text.ksimpleterminal
-                0x000043fc       0x60 ../device/uart-fluke-bluetooth/kprintf.o
-                0x000043fc                ksimpleterminal
- .text.kprintf  0x0000445c       0x50 ../device/uart-fluke-bluetooth/kprintf.o
-                0x0000445c                kprintf
- .text.d2a_wait
-                0x000044ac       0x14 ../device/uart-fluke-bluetooth/power.o
-                0x000044ac                d2a_wait
- .text.set_d2a  0x000044c0       0xe8 ../device/uart-fluke-bluetooth/power.o
-                0x000044c0                set_d2a
- .text.set_bluetooth
-                0x000045a8       0x24 ../device/uart-fluke-bluetooth/power.o
-                0x000045a8                set_bluetooth
- .text.ledInit  0x000045cc       0xd4 ../device/led/ledInit.o
-                0x000045cc                ledInit
+                0x00012fb8       0x88 ../system/semcount.o
+                0x00012fb8                semcount
+ .text.signal   0x00013040       0xd4 ../system/signal.o
+                0x00013040                signal
+ .text.signaln  0x00013114      0x104 ../system/signaln.o
+                0x00013114                signaln
+ .text.wait     0x00013218      0x118 ../system/wait.o
+                0x00013218                wait
+ .text.memfree  0x00013330      0x1a0 ../system/memfree.o
+                0x00013330                memfree
+ .text.stkget   0x000134d0      0x158 ../system/stkget.o
+                0x000134d0                stkget
+ .text.send     0x00013628      0x134 ../system/send.o
+                0x00013628                send
+ .text.getc     0x0001375c       0x7c ../system/getc.o
+                0x0001375c                getc
+ .text.ioerr    0x000137d8        0xc ../system/ioerr.o
+                0x000137d8                ioerr
+ .text.ionull   0x000137e4        0xc ../system/ionull.o
+                0x000137e4                ionull
+ .text.putc     0x000137f0       0x8c ../system/putc.o
+                0x000137f0                putc
+ .text.write    0x0001387c       0x8c ../system/write.o
+                0x0001387c                write
+ .text.ledInit  0x00013908       0xd4 ../device/led/ledInit.o
+                0x00013908                ledInit
  .text.server_set_ir_emittors
-                0x000046a0       0xd4 ../device/led/ledInit.o
-                0x000046a0                server_set_ir_emittors
+                0x000139dc       0xd4 ../device/led/ledInit.o
+                0x000139dc                server_set_ir_emittors
  .text.ledWrite
-                0x00004774      0x270 ../device/led/ledWrite.o
-                0x00004774                ledWrite
+                0x00013ab0      0x270 ../device/led/ledWrite.o
+                0x00013ab0                ledWrite
+ .text.uartInit
+                0x00013d20      0x184 ../device/uart-arm-qemu/uartInit.o
+                0x00013d20                uartInit
+ .text.fluke_uart_reg_init
+                0x00013ea4       0x88 ../device/uart-arm-qemu/uartInit.o
+                0x00013ea4                fluke_uart_reg_init
+ .text.uartWrite
+                0x00013f2c      0x244 ../device/uart-arm-qemu/uartWrite.o
+                0x00013f2c                uartWrite
+ .text.uartRead
+                0x00014170       0x78 ../device/uart-arm-qemu/uartRead.o
+                0x00014170                uartRead
+ .text.uartPutc
+                0x000141e8       0x3c ../device/uart-arm-qemu/uartPutc.o
+                0x000141e8                uartPutc
+ .text.uart1_set_rts
+                0x00014224       0x14 ../device/uart-arm-qemu/uartGetc.o
+                0x00014224                uart1_set_rts
+ .text.uart1_clear_rts
+                0x00014238       0x14 ../device/uart-arm-qemu/uartGetc.o
+                0x00014238                uart1_clear_rts
+ .text.uartGetc
+                0x0001424c       0x60 ../device/uart-arm-qemu/uartGetc.o
+                0x0001424c                uartGetc
+ .text.uartInterrupt
+                0x000142ac      0x458 ../device/uart-arm-qemu/uartInterrupt.o
+                0x000142ac                uartInterrupt
+ .text.kputc    0x00014704       0x30 ../device/uart-arm-qemu/kprintf.o
+                0x00014704                kputc
+ .text.kgetc    0x00014734       0x40 ../device/uart-arm-qemu/kprintf.o
+                0x00014734                kgetc
+ .text.ksimpleterminal
+                0x00014774       0x60 ../device/uart-arm-qemu/kprintf.o
+                0x00014774                ksimpleterminal
+ .text.kprintf  0x000147d4       0x50 ../device/uart-arm-qemu/kprintf.o
+                0x000147d4                kprintf
  .text.mailboxInit
-                0x000049e4       0x98 ../mailbox/mailboxInit.o
-                0x000049e4                mailboxInit
- .text.main     0x00004a7c       0x38 ../system/main.o
-                0x00004a7c                main
- .text._prtl10  0x00004ab4       0x98 ../lib/libxc.a(doprnt.o)
- .text._doprnt  0x00004b4c      0x618 ../lib/libxc.a(doprnt.o)
-                0x00004b4c                _doprnt
- .text.printf   0x00005164       0x50 ../lib/libxc.a(printf.o)
-                0x00005164                printf
- .text.strncpy  0x000051b4       0x54 ../lib/libxc.a(strncpy.o)
-                0x000051b4                strncpy
- .text          0x00005208      0x148 /usr/local/lib/gcc/arm-none-eabi/4.6.3//libgcc.a(_divsi3.o)
-                0x00005208                __aeabi_idiv
-                0x00005208                __divsi3
-                0x00005330                __aeabi_idivmod
- .text          0x00005350        0x4 /usr/local/lib/gcc/arm-none-eabi/4.6.3//libgcc.a(_dvmd_tls.o)
-                0x00005350                __aeabi_ldiv0
-                0x00005350                __aeabi_idiv0
+                0x00014824       0x98 ../mailbox/mailboxInit.o
+                0x00014824                mailboxInit
+ .text.main     0x000148bc       0x38 ../system/main.o
+                0x000148bc                main
+ .text._prtl10  0x000148f4       0x98 ../lib/libxc.a(doprnt.o)
+ .text._doprnt  0x0001498c      0x618 ../lib/libxc.a(doprnt.o)
+                0x0001498c                _doprnt
+ .text.printf   0x00014fa4       0x50 ../lib/libxc.a(printf.o)
+                0x00014fa4                printf
+ .text.strncpy  0x00014ff4       0x54 ../lib/libxc.a(strncpy.o)
+                0x00014ff4                strncpy
+ .text          0x00015048      0x148 /usr/local/lib/gcc/arm-none-eabi/4.6.3//libgcc.a(_divsi3.o)
+                0x00015048                __aeabi_idiv
+                0x00015048                __divsi3
+                0x00015170                __aeabi_idivmod
+ .text          0x00015190        0x4 /usr/local/lib/gcc/arm-none-eabi/4.6.3//libgcc.a(_dvmd_tls.o)
+                0x00015190                __aeabi_ldiv0
+                0x00015190                __aeabi_idiv0
  *(.rodata .rodata.*)
- .rodata        0x00005354       0x20 ../system/platforms/arm-qemu/platforminit.o
- .rodata        0x00005374      0x1d8 ../system/platforms/arm-qemu/mem.o
- .rodata        0x0000554c      0x3c0 ../system/platforms/arm-qemu/test.o
- .rodata        0x0000590c      0x358 ../system/initialize.o
- .rodata        0x00005c64       0x2c ../system/xdone.o
- .rodata        0x00005c90      0x114 ../system/conf.o
-                0x00005cb4                devtab
+ .rodata        0x00015194       0x20 ../system/platforms/arm-qemu/platforminit.o
+ .rodata        0x000151b4        0xc ../system/platforms/arm-qemu/stubs.o
+ .rodata        0x000151c0      0x1d8 ../system/platforms/arm-qemu/mem.o
+ .rodata        0x00015398      0x3c0 ../system/platforms/arm-qemu/test.o
+ .rodata        0x00015758      0x358 ../system/initialize.o
+ .rodata        0x00015ab0       0x2c ../system/xdone.o
+ .rodata        0x00015adc        0x4 ../device/uart-arm-qemu/kprintf.o
+                0x00015adc                UART0DR
+ .rodata        0x00015ae0      0x114 ../system/conf.o
+                0x00015b04                devtab
  .rodata.str1.1
-                0x00005da4       0x29 ../lib/libxc.a(doprnt.o)
+                0x00015bf4       0x29 ../lib/libxc.a(doprnt.o)
  *(.glue_7 .glue_7t)
  .glue_7        0x00000000        0x0 linker stubs
  .glue_7t       0x00000000        0x0 linker stubs
-                0x00005dcd                _etext = .
+                0x00015c1d                _etext = .
 
-.vfp11_veneer   0x00005dd0        0x0
+.vfp11_veneer   0x00015c20        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x00005dd0        0x0
+.v4_bx          0x00015c20        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x00005dd0        0x0
+.iplt           0x00015c20        0x0
  .iplt          0x00000000        0x0 ../loader/platforms/arm-qemu/start.o
 
-.rel.dyn        0x00005dd0        0x0
+.rel.dyn        0x00015c20        0x0
  .rel.iplt      0x00000000        0x0 ../loader/platforms/arm-qemu/start.o
+                0x00015c20                . = ALIGN (0x8)
 
-.data           0x40000000       0x10 load address 0x00005dd0
-                0x40000000                _data = .
+.data           0x00015c20       0x10
+                0x00015c20                _data = .
  *(.data .data.*)
- .data          0x40000000        0x4 ../system/platforms/arm-qemu/vic.o
- .data          0x40000004        0x4 ../system/platforms/arm-qemu/timer.o
- .data          0x40000008        0x4 ../system/queinit.o
- .data          0x4000000c        0x4 ../device/led/ledInit.o
-                0x4000000c                use_emitters
-                0x40000010                _edata = .
+ .data          0x00015c20        0x4 ../system/platforms/arm-qemu/vic.o
+ .data          0x00015c24        0x4 ../system/platforms/arm-qemu/timer.o
+ .data          0x00015c28        0x4 ../system/queinit.o
+ .data          0x00015c2c        0x4 ../device/led/ledInit.o
+                0x00015c2c                use_emitters
+                0x00015c30                _edata = .
 
-.igot.plt       0x40000010        0x0 load address 0x00005de0
+.igot.plt       0x00015c30        0x0
  .igot.plt      0x00000000        0x0 ../loader/platforms/arm-qemu/start.o
+                0x00015c30                . = ALIGN (0x8)
 
-.bss            0x40000010     0x4720 load address 0x00005de0
-                0x40000010                _bss = .
+.bss            0x00015c30     0x4720
+                0x00015c30                _bss = .
  *(.bss .bss.*)
- .bss           0x40000010        0x4 ../system/platforms/arm-qemu/create.o
- .bss           0x40000014        0x8 ../system/platforms/arm-qemu/timer.o
-                0x40000014                ms_counter
-                0x40000018                ledon
- .bss           0x4000001c        0x4 ../system/platforms/arm-qemu/test.o
-                0x4000001c                numUART1Interrupts
- .bss           0x40000020     0x268c ../system/initialize.o
-                0x40000020                thrtab
-                0x400020f0                semtab
-                0x400025a0                readylist
-                0x400025a4                memlist
-                0x400025ac                bfptab
-                0x4000266c                thrcount
-                0x40002670                thrcurrent
-                0x40002674                memheap
-                0x40002678                cpuid
-                0x4000267c                platform
- .bss           0x400026ac      0xe40 ../system/queue.o
-                0x400026ac                quetab
- .bss           0x400034ec        0x4 ../system/resched.o
-                0x400034ec                resdefer
- .bss           0x400034f0        0xc ../system/clkinit.o
-                0x400034f0                clkticks
-                0x400034f4                clktime
-                0x400034f8                sleepq
- .bss           0x400034fc        0x4 ../system/semcreate.o
- .bss           0x40003500     0x1078 ../device/uart-fluke-bluetooth/uartInit.o
-                0x40003500                uarttab
- .bss           0x40004578       0x10 ../device/led/ledInit.o
-                0x40004578                ledtab
- .bss           0x40004588      0x1a8 ../mailbox/mailboxInit.o
-                0x40004588                mboxtab
-                0x4000472c                mboxtabsem
+ .bss           0x00015c30        0x4 ../system/platforms/arm-qemu/create.o
+ .bss           0x00015c34        0x8 ../system/platforms/arm-qemu/timer.o
+                0x00015c34                ms_counter
+                0x00015c38                ledon
+ .bss           0x00015c3c        0x4 ../system/platforms/arm-qemu/test.o
+                0x00015c3c                numUART1Interrupts
+ .bss           0x00015c40     0x268c ../system/initialize.o
+                0x00015c40                thrtab
+                0x00017d10                semtab
+                0x000181c0                readylist
+                0x000181c4                memlist
+                0x000181cc                bfptab
+                0x0001828c                thrcount
+                0x00018290                thrcurrent
+                0x00018294                memheap
+                0x00018298                cpuid
+                0x0001829c                platform
+ .bss           0x000182cc      0xe40 ../system/queue.o
+                0x000182cc                quetab
+ .bss           0x0001910c        0x4 ../system/resched.o
+                0x0001910c                resdefer
+ .bss           0x00019110        0xc ../system/clkinit.o
+                0x00019110                clkticks
+                0x00019114                clktime
+                0x00019118                sleepq
+ .bss           0x0001911c        0x4 ../system/semcreate.o
+ .bss           0x00019120       0x10 ../device/led/ledInit.o
+                0x00019120                ledtab
+ .bss           0x00019130     0x1078 ../device/uart-arm-qemu/uartInit.o
+                0x00019130                uarttab
+ .bss           0x0001a1a8      0x1a8 ../mailbox/mailboxInit.o
+                0x0001a1a8                mboxtab
+                0x0001a34c                mboxtabsem
  *(COMMON)
-                0x40004730                . = ALIGN (0x4)
-                0x40004730                _bss_end = .
-                0x40004730                _end = .
+                0x0001a350                . = ALIGN (0x8)
+                0x0001a350                _bss_end = .
+                0x0001b350                . = (. + 0x1000)
+                0x0001b350                stack_top = .
+                0x0001b350                _end = .
 LOAD ../loader/platforms/arm-qemu/start.o
 LOAD ../system/platforms/arm-qemu/ctxsw.o
 LOAD ../system/platforms/arm-qemu/pause.o
-LOAD ../device/uart-fluke-bluetooth/usleep.o
-LOAD ../system/platforms/arm-qemu/create.o
+LOAD ../device/uart-arm-qemu/usleep.o
 LOAD ../system/platforms/arm-qemu/debug.o
+LOAD ../system/platforms/arm-qemu/debugret.o
+LOAD ../system/platforms/arm-qemu/create.o
 LOAD ../system/platforms/arm-qemu/handlers.o
 LOAD ../system/platforms/arm-qemu/interrupt.o
 LOAD ../system/platforms/arm-qemu/platforminit.o
@@ -975,14 +1167,6 @@ LOAD ../system/write.o
 LOAD ../system/getdev.o
 LOAD ../system/debug.o
 LOAD ../system/tar.o
-LOAD ../device/uart-fluke-bluetooth/uartInit.o
-LOAD ../device/uart-fluke-bluetooth/uartWrite.o
-LOAD ../device/uart-fluke-bluetooth/uartRead.o
-LOAD ../device/uart-fluke-bluetooth/uartPutc.o
-LOAD ../device/uart-fluke-bluetooth/uartGetc.o
-LOAD ../device/uart-fluke-bluetooth/uartInterrupt.o
-LOAD ../device/uart-fluke-bluetooth/kprintf.o
-LOAD ../device/uart-fluke-bluetooth/power.o
 LOAD ../device/loopback/loopbackGetc.o
 LOAD ../device/loopback/loopbackClose.o
 LOAD ../device/loopback/loopbackOpen.o
@@ -993,6 +1177,22 @@ LOAD ../device/loopback/loopbackControl.o
 LOAD ../device/loopback/loopbackInit.o
 LOAD ../device/led/ledInit.o
 LOAD ../device/led/ledWrite.o
+LOAD ../device/tty/ttyControl.o
+LOAD ../device/tty/ttyOpen.o
+LOAD ../device/tty/ttyRead.o
+LOAD ../device/tty/ttyClose.o
+LOAD ../device/tty/ttyGetc.o
+LOAD ../device/tty/ttyInit.o
+LOAD ../device/tty/ttyPutc.o
+LOAD ../device/tty/ttyWrite.o
+LOAD ../device/uart-arm-qemu/uartInit.o
+LOAD ../device/uart-arm-qemu/uartWrite.o
+LOAD ../device/uart-arm-qemu/uartRead.o
+LOAD ../device/uart-arm-qemu/uartPutc.o
+LOAD ../device/uart-arm-qemu/uartGetc.o
+LOAD ../device/uart-arm-qemu/uartInterrupt.o
+LOAD ../device/uart-arm-qemu/kprintf.o
+LOAD ../device/uart-arm-qemu/power.o
 LOAD ../apps/date.o
 LOAD ../apps/rdate.o
 LOAD ../mailbox/mailboxAlloc.o
@@ -1015,122 +1215,119 @@ OUTPUT(xinu.elf elf32-littlearm)
  .ARM.attributes
                 0x00000016       0x16 ../system/platforms/arm-qemu/ctxsw.o
  .ARM.attributes
-                0x0000002c       0x16 ../system/platforms/arm-qemu/pause.o
+                0x0000002c       0x16 ../device/uart-arm-qemu/usleep.o
  .ARM.attributes
-                0x00000042       0x16 ../device/uart-fluke-bluetooth/usleep.o
+                0x00000042       0x32 ../system/platforms/arm-qemu/debug.o
  .ARM.attributes
-                0x00000058       0x32 ../system/platforms/arm-qemu/create.o
+                0x00000074       0x32 ../system/platforms/arm-qemu/debugret.o
  .ARM.attributes
-                0x0000008a       0x32 ../system/platforms/arm-qemu/debug.o
+                0x000000a6       0x32 ../system/platforms/arm-qemu/create.o
  .ARM.attributes
-                0x000000bc       0x32 ../system/platforms/arm-qemu/handlers.o
+                0x000000d8       0x32 ../system/platforms/arm-qemu/handlers.o
  .ARM.attributes
-                0x000000ee       0x32 ../system/platforms/arm-qemu/interrupt.o
+                0x0000010a       0x32 ../system/platforms/arm-qemu/interrupt.o
  .ARM.attributes
-                0x00000120       0x32 ../system/platforms/arm-qemu/platforminit.o
+                0x0000013c       0x32 ../system/platforms/arm-qemu/platforminit.o
  .ARM.attributes
-                0x00000152       0x32 ../system/platforms/arm-qemu/stubs.o
+                0x0000016e       0x32 ../system/platforms/arm-qemu/stubs.o
  .ARM.attributes
-                0x00000184       0x32 ../system/platforms/arm-qemu/vic.o
+                0x000001a0       0x32 ../system/platforms/arm-qemu/vic.o
  .ARM.attributes
-                0x000001b6       0x32 ../system/platforms/arm-qemu/timer.o
+                0x000001d2       0x32 ../system/platforms/arm-qemu/timer.o
  .ARM.attributes
-                0x000001e8       0x32 ../system/platforms/arm-qemu/mem.o
+                0x00000204       0x32 ../system/platforms/arm-qemu/mem.o
  .ARM.attributes
-                0x0000021a       0x32 ../system/platforms/arm-qemu/test.o
+                0x00000236       0x32 ../system/platforms/arm-qemu/test.o
  .ARM.attributes
-                0x0000024c       0x32 ../system/initialize.o
+                0x00000268       0x32 ../system/initialize.o
  .ARM.attributes
-                0x0000027e       0x32 ../system/queue.o
+                0x0000029a       0x32 ../system/queue.o
  .ARM.attributes
-                0x000002b0       0x32 ../system/kill.o
+                0x000002cc       0x32 ../system/kill.o
  .ARM.attributes
-                0x000002e2       0x32 ../system/ready.o
+                0x000002fe       0x32 ../system/ready.o
  .ARM.attributes
-                0x00000314       0x32 ../system/resched.o
+                0x00000330       0x32 ../system/resched.o
  .ARM.attributes
-                0x00000346       0x32 ../system/getitem.o
+                0x00000362       0x32 ../system/getitem.o
  .ARM.attributes
-                0x00000378       0x32 ../system/queinit.o
+                0x00000394       0x32 ../system/queinit.o
  .ARM.attributes
-                0x000003aa       0x32 ../system/insert.o
+                0x000003c6       0x32 ../system/insert.o
  .ARM.attributes
-                0x000003dc       0x32 ../system/gettid.o
+                0x000003f8       0x32 ../system/gettid.o
  .ARM.attributes
-                0x0000040e       0x32 ../system/xdone.o
+                0x0000042a       0x32 ../system/xdone.o
  .ARM.attributes
-                0x00000440       0x32 ../system/userret.o
+                0x0000045c       0x32 ../system/clkinit.o
  .ARM.attributes
-                0x00000472       0x32 ../system/clkinit.o
+                0x0000048e       0x32 ../system/unsleep.o
  .ARM.attributes
-                0x000004a4       0x32 ../system/unsleep.o
+                0x000004c0       0x32 ../system/semcreate.o
  .ARM.attributes
-                0x000004d6       0x32 ../system/semcreate.o
+                0x000004f2       0x32 ../system/semcount.o
  .ARM.attributes
-                0x00000508       0x32 ../system/semcount.o
+                0x00000524       0x32 ../system/signal.o
  .ARM.attributes
-                0x0000053a       0x32 ../system/signal.o
+                0x00000556       0x32 ../system/signaln.o
  .ARM.attributes
-                0x0000056c       0x32 ../system/signaln.o
+                0x00000588       0x32 ../system/wait.o
  .ARM.attributes
-                0x0000059e       0x32 ../system/wait.o
+                0x000005ba       0x32 ../system/memfree.o
  .ARM.attributes
-                0x000005d0       0x32 ../system/memfree.o
+                0x000005ec       0x32 ../system/stkget.o
  .ARM.attributes
-                0x00000602       0x32 ../system/stkget.o
+                0x0000061e       0x32 ../system/send.o
  .ARM.attributes
-                0x00000634       0x32 ../system/send.o
+                0x00000650       0x32 ../system/getc.o
  .ARM.attributes
-                0x00000666       0x32 ../system/getc.o
+                0x00000682       0x32 ../system/ioerr.o
  .ARM.attributes
-                0x00000698       0x32 ../system/ioerr.o
+                0x000006b4       0x32 ../system/ionull.o
  .ARM.attributes
-                0x000006ca       0x32 ../system/ionull.o
+                0x000006e6       0x32 ../system/putc.o
  .ARM.attributes
-                0x000006fc       0x32 ../system/putc.o
+                0x00000718       0x32 ../system/write.o
  .ARM.attributes
-                0x0000072e       0x32 ../system/write.o
+                0x0000074a       0x32 ../device/led/ledInit.o
  .ARM.attributes
-                0x00000760       0x32 ../device/uart-fluke-bluetooth/uartInit.o
+                0x0000077c       0x32 ../device/led/ledWrite.o
  .ARM.attributes
-                0x00000792       0x32 ../device/uart-fluke-bluetooth/uartWrite.o
+                0x000007ae       0x32 ../device/uart-arm-qemu/uartInit.o
  .ARM.attributes
-                0x000007c4       0x32 ../device/uart-fluke-bluetooth/uartRead.o
+                0x000007e0       0x32 ../device/uart-arm-qemu/uartWrite.o
  .ARM.attributes
-                0x000007f6       0x32 ../device/uart-fluke-bluetooth/uartPutc.o
+                0x00000812       0x32 ../device/uart-arm-qemu/uartRead.o
  .ARM.attributes
-                0x00000828       0x32 ../device/uart-fluke-bluetooth/uartGetc.o
+                0x00000844       0x32 ../device/uart-arm-qemu/uartPutc.o
  .ARM.attributes
-                0x0000085a       0x32 ../device/uart-fluke-bluetooth/uartInterrupt.o
+                0x00000876       0x32 ../device/uart-arm-qemu/uartGetc.o
  .ARM.attributes
-                0x0000088c       0x32 ../device/uart-fluke-bluetooth/kprintf.o
+                0x000008a8       0x32 ../device/uart-arm-qemu/uartInterrupt.o
  .ARM.attributes
-                0x000008be       0x32 ../device/uart-fluke-bluetooth/power.o
+                0x000008da       0x32 ../device/uart-arm-qemu/kprintf.o
  .ARM.attributes
-                0x000008f0       0x32 ../device/led/ledInit.o
+                0x0000090c       0x32 ../mailbox/mailboxInit.o
  .ARM.attributes
-                0x00000922       0x32 ../device/led/ledWrite.o
+                0x0000093e       0x32 ../system/conf.o
  .ARM.attributes
-                0x00000954       0x32 ../mailbox/mailboxInit.o
+                0x00000970       0x32 ../system/main.o
  .ARM.attributes
-                0x00000986       0x32 ../system/conf.o
+                0x000009a2       0x32 ../lib/libxc.a(doprnt.o)
  .ARM.attributes
-                0x000009b8       0x32 ../system/main.o
+                0x000009d4       0x32 ../lib/libxc.a(printf.o)
  .ARM.attributes
-                0x000009ea       0x32 ../lib/libxc.a(doprnt.o)
+                0x00000a06       0x32 ../lib/libxc.a(strncpy.o)
  .ARM.attributes
-                0x00000a1c       0x32 ../lib/libxc.a(printf.o)
+                0x00000a38       0x1a /usr/local/lib/gcc/arm-none-eabi/4.6.3//libgcc.a(_divsi3.o)
  .ARM.attributes
-                0x00000a4e       0x32 ../lib/libxc.a(strncpy.o)
- .ARM.attributes
-                0x00000a80       0x1a /usr/local/lib/gcc/arm-none-eabi/4.6.3//libgcc.a(_divsi3.o)
- .ARM.attributes
-                0x00000a9a       0x18 /usr/local/lib/gcc/arm-none-eabi/4.6.3//libgcc.a(_dvmd_tls.o)
+                0x00000a52       0x18 /usr/local/lib/gcc/arm-none-eabi/4.6.3//libgcc.a(_dvmd_tls.o)
 
 .comment        0x00000000       0x30
- .comment       0x00000000       0x30 ../system/platforms/arm-qemu/create.o
+ .comment       0x00000000       0x30 ../system/platforms/arm-qemu/debug.o
                                  0x31 (size before relaxing)
- .comment       0x00000000       0x31 ../system/platforms/arm-qemu/debug.o
+ .comment       0x00000000       0x31 ../system/platforms/arm-qemu/debugret.o
+ .comment       0x00000000       0x31 ../system/platforms/arm-qemu/create.o
  .comment       0x00000000       0x31 ../system/platforms/arm-qemu/handlers.o
  .comment       0x00000000       0x31 ../system/platforms/arm-qemu/interrupt.o
  .comment       0x00000000       0x31 ../system/platforms/arm-qemu/platforminit.o
@@ -1149,7 +1346,6 @@ OUTPUT(xinu.elf elf32-littlearm)
  .comment       0x00000000       0x31 ../system/insert.o
  .comment       0x00000000       0x31 ../system/gettid.o
  .comment       0x00000000       0x31 ../system/xdone.o
- .comment       0x00000000       0x31 ../system/userret.o
  .comment       0x00000000       0x31 ../system/clkinit.o
  .comment       0x00000000       0x31 ../system/unsleep.o
  .comment       0x00000000       0x31 ../system/semcreate.o
@@ -1165,22 +1361,127 @@ OUTPUT(xinu.elf elf32-littlearm)
  .comment       0x00000000       0x31 ../system/ionull.o
  .comment       0x00000000       0x31 ../system/putc.o
  .comment       0x00000000       0x31 ../system/write.o
- .comment       0x00000000       0x31 ../device/uart-fluke-bluetooth/uartInit.o
- .comment       0x00000000       0x31 ../device/uart-fluke-bluetooth/uartWrite.o
- .comment       0x00000000       0x31 ../device/uart-fluke-bluetooth/uartRead.o
- .comment       0x00000000       0x31 ../device/uart-fluke-bluetooth/uartPutc.o
- .comment       0x00000000       0x31 ../device/uart-fluke-bluetooth/uartGetc.o
- .comment       0x00000000       0x31 ../device/uart-fluke-bluetooth/uartInterrupt.o
- .comment       0x00000000       0x31 ../device/uart-fluke-bluetooth/kprintf.o
- .comment       0x00000000       0x31 ../device/uart-fluke-bluetooth/power.o
  .comment       0x00000000       0x31 ../device/led/ledInit.o
  .comment       0x00000000       0x31 ../device/led/ledWrite.o
+ .comment       0x00000000       0x31 ../device/uart-arm-qemu/uartInit.o
+ .comment       0x00000000       0x31 ../device/uart-arm-qemu/uartWrite.o
+ .comment       0x00000000       0x31 ../device/uart-arm-qemu/uartRead.o
+ .comment       0x00000000       0x31 ../device/uart-arm-qemu/uartPutc.o
+ .comment       0x00000000       0x31 ../device/uart-arm-qemu/uartGetc.o
+ .comment       0x00000000       0x31 ../device/uart-arm-qemu/uartInterrupt.o
+ .comment       0x00000000       0x31 ../device/uart-arm-qemu/kprintf.o
  .comment       0x00000000       0x31 ../mailbox/mailboxInit.o
  .comment       0x00000000       0x31 ../system/conf.o
  .comment       0x00000000       0x31 ../system/main.o
  .comment       0x00000000       0x31 ../lib/libxc.a(doprnt.o)
  .comment       0x00000000       0x31 ../lib/libxc.a(printf.o)
  .comment       0x00000000       0x31 ../lib/libxc.a(strncpy.o)
+
+.stab           0x00000000     0xe2d4
+ .stab          0x00000000      0x264 ../loader/platforms/arm-qemu/start.o
+ .stab          0x00000264       0x90 ../system/platforms/arm-qemu/ctxsw.o
+                                 0x9c (size before relaxing)
+ .stab          0x000002f4       0x6c ../device/uart-arm-qemu/usleep.o
+                                 0x78 (size before relaxing)
+ .stab          0x00000360      0x378 ../system/platforms/arm-qemu/debug.o
+                                0x444 (size before relaxing)
+ .stab          0x000006d8      0x2b8 ../system/platforms/arm-qemu/debugret.o
+                                0x2c4 (size before relaxing)
+ .stab          0x00000990      0x984 ../system/platforms/arm-qemu/create.o
+                                0x990 (size before relaxing)
+ .stab          0x00001314      0x33c ../system/platforms/arm-qemu/handlers.o
+                                0x348 (size before relaxing)
+ .stab          0x00001650      0x6cc ../system/platforms/arm-qemu/interrupt.o
+                                0x7c8 (size before relaxing)
+ .stab          0x00001d1c      0x48c ../system/platforms/arm-qemu/platforminit.o
+                                0x660 (size before relaxing)
+ .stab          0x000021a8      0x4bc ../system/platforms/arm-qemu/stubs.o
+                                0x6e4 (size before relaxing)
+ .stab          0x00002664      0x918 ../system/platforms/arm-qemu/vic.o
+                                0xaf8 (size before relaxing)
+ .stab          0x00002f7c      0x42c ../system/platforms/arm-qemu/timer.o
+                                0x5b8 (size before relaxing)
+ .stab          0x000033a8      0x618 ../system/platforms/arm-qemu/mem.o
+                                0x7d4 (size before relaxing)
+ .stab          0x000039c0      0xc90 ../system/platforms/arm-qemu/test.o
+                               0x11f4 (size before relaxing)
+ .stab          0x00004650      0x9fc ../system/initialize.o
+                                0xb94 (size before relaxing)
+ .stab          0x0000504c      0x4e0 ../system/queue.o
+                                0x678 (size before relaxing)
+ .stab          0x0000552c      0x468 ../system/kill.o
+                                0x624 (size before relaxing)
+ .stab          0x00005994      0x3c0 ../system/ready.o
+                                0x558 (size before relaxing)
+ .stab          0x00005d54      0x444 ../system/resched.o
+                                0x5dc (size before relaxing)
+ .stab          0x00006198      0x444 ../system/getitem.o
+                                0x60c (size before relaxing)
+ .stab          0x000065dc      0x390 ../system/queinit.o
+                                0x498 (size before relaxing)
+ .stab          0x0000696c      0x408 ../system/insert.o
+                                0x5a0 (size before relaxing)
+ .stab          0x00006d74      0x324 ../system/gettid.o
+                                0x4bc (size before relaxing)
+ .stab          0x00007098      0x384 ../system/xdone.o
+                                0x540 (size before relaxing)
+ .stab          0x0000741c      0x348 ../system/clkinit.o
+                                0x498 (size before relaxing)
+ .stab          0x00007764      0x42c ../system/unsleep.o
+                                0x5c4 (size before relaxing)
+ .stab          0x00007b90      0x480 ../system/semcreate.o
+                                0x5d0 (size before relaxing)
+ .stab          0x00008010      0x324 ../system/semcount.o
+                                0x450 (size before relaxing)
+ .stab          0x00008334      0x3cc ../system/signal.o
+                                0x564 (size before relaxing)
+ .stab          0x00008700      0x408 ../system/signaln.o
+                                0x5a0 (size before relaxing)
+ .stab          0x00008b08      0x408 ../system/wait.o
+                                0x5a0 (size before relaxing)
+ .stab          0x00008f10      0x4f8 ../system/memfree.o
+                                0x5e8 (size before relaxing)
+ .stab          0x00009408      0x468 ../system/stkget.o
+                                0x570 (size before relaxing)
+ .stab          0x00009870      0x444 ../system/send.o
+                                0x5dc (size before relaxing)
+ .stab          0x00009cb4      0x33c ../system/getc.o
+                                0x420 (size before relaxing)
+ .stab          0x00009ff0      0x2c4 ../system/ioerr.o
+                                0x378 (size before relaxing)
+ .stab          0x0000a2b4      0x2c4 ../system/ionull.o
+                                0x378 (size before relaxing)
+ .stab          0x0000a578      0x348 ../system/putc.o
+                                0x42c (size before relaxing)
+ .stab          0x0000a8c0      0x354 ../system/write.o
+                                0x438 (size before relaxing)
+ .stab          0x0000ac14      0x4f8 ../device/led/ledInit.o
+                                0x72c (size before relaxing)
+ .stab          0x0000b10c      0x5ac ../device/led/ledWrite.o
+                                0x6f0 (size before relaxing)
+ .stab          0x0000b6b8      0x594 ../device/uart-arm-qemu/uartInit.o
+                                0x744 (size before relaxing)
+ .stab          0x0000bc4c      0x51c ../device/uart-arm-qemu/uartWrite.o
+                                0x708 (size before relaxing)
+ .stab          0x0000c168      0x39c ../device/uart-arm-qemu/uartRead.o
+                                0x504 (size before relaxing)
+ .stab          0x0000c504      0x33c ../device/uart-arm-qemu/uartPutc.o
+                                0x4f8 (size before relaxing)
+ .stab          0x0000c840      0x408 ../device/uart-arm-qemu/uartGetc.o
+                                0x5c4 (size before relaxing)
+ .stab          0x0000cc48      0x6c0 ../device/uart-arm-qemu/uartInterrupt.o
+                                0x8e8 (size before relaxing)
+ .stab          0x0000d308      0x5ac ../device/uart-arm-qemu/kprintf.o
+                                0x840 (size before relaxing)
+ .stab          0x0000d8b4      0x384 ../mailbox/mailboxInit.o
+                                0x4d4 (size before relaxing)
+ .stab          0x0000dc38      0x2c4 ../system/conf.o
+                                0x444 (size before relaxing)
+ .stab          0x0000defc      0x3d8 ../system/main.o
+                                0x5b8 (size before relaxing)
+
+.stabstr        0x00000000     0x6288
+ .stabstr       0x00000000     0x6288 ../loader/platforms/arm-qemu/start.o
 
 .debug_frame    0x00000000       0x20
  .debug_frame   0x00000000       0x20 /usr/local/lib/gcc/arm-none-eabi/4.6.3//libgcc.a(_divsi3.o)

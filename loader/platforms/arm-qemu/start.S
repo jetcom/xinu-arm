@@ -42,7 +42,8 @@ _start:
 
 # Exception Vectors
 
-_vectors:       ldr     PC, Reset_Addr         
+_vectors:       
+                ldr     PC, Reset_Addr         
                 ldr     PC, Undef_Addr
                 ldr     PC, SWI_Addr
                 ldr     PC, PAbt_Addr
@@ -67,7 +68,7 @@ Reset_Handler:
 		for User mode.   Also each mode is setup with interrupts initially disabled. */
     			  
 		ldr   r0, =_end
-        add r0, r0, #UND_STACK_SIZE
+                add r0, r0, #UND_STACK_SIZE
    		msr   CPSR_c, #MODE_UND|I_BIT|F_BIT 	/* Undefined Instruction Mode  */
     		mov   sp, r0
     		add   r0, r0, #ABT_STACK_SIZE

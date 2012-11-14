@@ -14,8 +14,9 @@
 #include "uart.h"
 #include "power.h"
 #include "usleep.h"
-#include "fluke-uart.h"
+#include "qemu-uart.h"
 
+volatile unsigned int * const UART0DR = (unsigned int *)0x101f1000;
 void led_on( void );
 void led_off( void );
 
@@ -44,6 +45,9 @@ void kinitputc( void )
  */
 syscall kputc(device *devptr, uchar c)
 {
+  *UART0DR = (unsigned int)(c); /* Transmit char */
+  return;
+
   //return putc(SERIAL1, c); // just print it to the serial bluetooth connection for now
   //return uart1PutchCTS( c );
   struct uart_csreg * regptr;

@@ -18,8 +18,21 @@ extern void usleep(int microseconds);
 
 extern void *memheap;	/* declared in initialize.c */
 extern void *_bss_end;   /* declared by the loader */
+
+//volatile unsigned int * const UART0DR = (unsigned int *)0x101f1000;
+
+void print_uart0(const char *s) {
+ while(*s != '\0') { /* Loop until end of string */
+  kputc( NULL, *s );
+ //*UART0DR = (unsigned int)(*s); /* Transmit char */
+ s++; /* Next char */
+ }
+}
+
+
 void _startup( void )
 {
+  print_uart0("_startup()\n");
   int i;
 #if NDEVS && SERIAL1
     struct uart_csreg *uart1_regptr;
@@ -55,14 +68,6 @@ void _startup( void )
      * instead of devtab to get it for unknown reason.
      */
     uarttab[devtab[SERIAL1].minor].csr = uart1_regptr;
-
-    /* magic required to get the bluetooth to work */
-    usleep(100000);
-    for(i = 0; i< 512; i++)
-        kputc((device *)&devtab[SERIAL1], i);
-
-   usleep(100000);
-   set_bluetooth(255);
 
    usleep(1000);
 #endif /* NDEVS && SERIAL1 */

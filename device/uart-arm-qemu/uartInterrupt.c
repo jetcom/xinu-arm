@@ -10,7 +10,7 @@
 #include <device.h>
 #include <uart.h>
 #include <interrupt.h>
-#include "fluke-uart.h"
+#include "qemu-uart.h"
 
 extern int resdefer;
 

@@ -1,7 +1,7 @@
 # This Makefile contains rules to build files in the device/uart/ directory.
 
 # Name of this component (the directory this file is stored in)
-COMP = device/uart-fluke-bluetooth
+COMP = device/uart-arm-qemu
 
 # Source files for this component
 C_FILES = uartInit.c uartWrite.c uartRead.c uartPutc.c uartGetc.c uartInterrupt.c kprintf.c power.c #xinu.c driver.c

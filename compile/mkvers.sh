@@ -8,4 +8,4 @@ if [ -z "$USER" ]; then
 fi
 HOST=`hostname`
 VN=`cat vn`
-echo "(MIPS Xinu) #$VN ("$USER"@"$HOST") "`date` > version
+echo "(ARM Xinu) #$VN ("$USER"@"$HOST") "`date` > version

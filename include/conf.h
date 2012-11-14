@@ -53,7 +53,7 @@ extern const device devtab[]; /* one entry per device */
 
 #define BYTE_ORDER    LITTLE_ENDIAN
 
-// #define NTTY 1
+#define NTTY 1
 #define NLOOPBACK 0
 
 #define NTHREAD   100           /* number of user threads           */

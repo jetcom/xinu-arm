@@ -11,7 +11,7 @@
 #include <stddef.h>
 #include <uart.h>
 #include "uart.h"
-#include "fluke-uart.h"
+#include "qemu-uart.h"
 #include <device.h>
 #include <interrupt.h>
 

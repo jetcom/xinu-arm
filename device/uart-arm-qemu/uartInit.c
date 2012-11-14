@@ -1,7 +1,7 @@
 
 #include <uart.h>
 #include "uart.h"  // defining pinsel stuff
-#include "fluke-uart.h" 
+#include "qemu-uart.h" 
 #include <lpc210x.h> // constants
 #include <stdint.h>
 
@@ -13,7 +13,7 @@
 #include <stdlib.h>
 
 #define B_RTS (1 << 10) 
-// from fluke.h
+// from qemu.h
 
 struct uart uarttab[NUART];   // = 2 for the fluke
 
@@ -89,8 +89,8 @@ devcall uartInit(device * devptr)
      * initialized in fluke-specific _startup() because its
      * functioning is required by kprintf().
      */
-    if (devtab[SERIAL1].csr != devptr->csr)
-      fluke_uart_reg_init(devptr->csr, 38400);
+    /*if (devtab[SERIAL1].csr != devptr->csr)
+      fluke_uart_reg_init(devptr->csr, 38400);*/
 
     /* Enable processor handling of UART interrupt requests */
     // INTERRUPT STUFF here.. uncomment when that is working....
