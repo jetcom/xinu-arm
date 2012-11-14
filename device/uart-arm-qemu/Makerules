@@ -1,0 +1,12 @@
+# This Makefile contains rules to build files in the device/uart/ directory.
+
+# Name of this component (the directory this file is stored in)
+COMP = device/uart-fluke-bluetooth
+
+# Source files for this component
+C_FILES = uartInit.c uartWrite.c uartRead.c uartPutc.c uartGetc.c uartInterrupt.c kprintf.c power.c #xinu.c driver.c
+S_FILES = usleep.S
+
+# Add the files to the compile source path
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}
