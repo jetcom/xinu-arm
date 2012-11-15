@@ -230,6 +230,7 @@ static void interruptTest( void )
 #define IOCLR          (*((volatile unsigned long *) 0xE002800C))
 
 static void irTest( void ){
+#if 0
     //while(1){
         IOSET = IROUT1 | IROUT2 | IROUT3;
         int i;
@@ -244,16 +245,19 @@ static void irTest( void ){
     //}
     kprintf("Complete!!!!");
     
+#endif
 }
 
 void timerTest( void )
 {
+#if 0
   TIMER0_PR = 0x39;
   TIMER0_TCR = 1;
   int diff = TIMER0_TC;
   usleep(1000);
   diff = TIMER0_TC - diff;
   kprintf("Timer difference usleep(1000) is %d.\r\n", diff);
+#endif
 }
 
 bool runSelectedProgram(char c)
@@ -263,7 +267,7 @@ bool runSelectedProgram(char c)
     case 'a':
         /* A simple echo program: sends back the character (q to quit)
            that you type. */
-        ksimpleterminal();
+        //ksimpleterminal();
         return TRUE;
     case 'b':
       /* binki */

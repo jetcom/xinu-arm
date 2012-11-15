@@ -34,19 +34,6 @@ const device devtab[NDEVS] =
 	  (void *)uartInit, (void *)ionull, (void *)ionull,
 	  (void *)uartRead, (void *)uartWrite, (void *)ioerr,
 	  (void *)uartGetc, (void *)uartPutc, (void *)ionull,
-	  (void *)0x101f1000, (void *)uartInterrupt, 7 },
+	  (void *)0x101f1000, (void *)uartInterrupt, 7 }
 
-/* FRONTLED is led */
-	{ 2, 0, "FRONTLED",
-	  (void *)ledInit, (void *)ionull, (void *)ionull,
-	  (void *)ionull, (void *)ledWrite, (void *)ioerr,
-	  (void *)ionull, (void *)ionull, (void *)ioerr,
-	  (void *)0xe0028004, (void *)ioerr, 0 },
-
-/* BACKLED is led */
-	{ 3, 1, "BACKLED",
-	  (void *)ledInit, (void *)ionull, (void *)ionull,
-	  (void *)ionull, (void *)ledWrite, (void *)ioerr,
-	  (void *)ionull, (void *)ionull, (void *)ioerr,
-	  (void *)0xe0028004, (void *)ioerr, 0 }
 };

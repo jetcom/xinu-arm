@@ -4,7 +4,7 @@
 COMP = device/uart-ns16550
 
 # Source files for this component
-C_FILES = uartInit.c uartInterrupt.c uartPutc.c uartRead.c uartWrite.c uartGetc.c uartControl.c uartStat.c
+C_FILES = uartInit.c uartInterrupt.c uartPutc.c uartRead.c uartWrite.c uartGetc.c uartControl.c uartStat.c kprintf.c
 S_FILES = 
 
 # Add the files to the compile source path

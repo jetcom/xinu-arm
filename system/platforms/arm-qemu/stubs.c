@@ -5,9 +5,10 @@
 #include <lpc210x.h>
 #include <stdio.h>
 #include <uart.h>
-#include "../../../device/uart-fluke-bluetooth/fluke-uart.h"
+//#include "../../../device/uart-ns16550/ns16550.h"
+/*#include "../../../device/uart-fluke-bluetooth/fluke-uart.h"
 #include "../../../device/uart-fluke-bluetooth/power.h"
-#include "../../../device/uart-fluke-bluetooth/uart.h"
+#include "../../../device/uart-fluke-bluetooth/uart.h"*/
 
 /* Prototypes for debug Bluetooth functions, defined in
    device/uart-fluke-bluetooth/kprintf.c
@@ -32,7 +33,6 @@ void print_uart0(const char *s) {
 
 void _startup( void )
 {
-  print_uart0("_startup()\n");
   int i;
 #if NDEVS && SERIAL1
     struct uart_csreg *uart1_regptr;
@@ -55,21 +55,21 @@ void _startup( void )
      * sure old values of Bits 0-4 are masked out and set them
      * according to UART1-Pin-Selection.
      */
-    PINSEL0 = (PINSEL0 & ~UART1_PINMASK) | UART1_PINSEL;
+    //PINSEL0 = (PINSEL0 & ~UART1_PINMASK) | UART1_PINSEL;
     /* turn on CTS */
-    PINSEL0 = (PINSEL0 & ~UART1_CTS_PINMASK) | UART1_CTS_PINSEL;
+    //PINSEL0 = (PINSEL0 & ~UART1_CTS_PINMASK) | UART1_CTS_PINSEL;
 
     /* Actually configure the UART1's registers */
-    uart1_regptr = devtab[SERIAL1].csr;
-    fluke_uart_reg_init(uart1_regptr, 38400);
+    //uart1_regptr = devtab[SERIAL1].csr;
+   // fluke_uart_reg_init(uart1_regptr, 38400);
 
     /*
      * kprintf() needs to be informed of the CSR, it uses uarttab
      * instead of devtab to get it for unknown reason.
      */
-    uarttab[devtab[SERIAL1].minor].csr = uart1_regptr;
+    //uarttab[devtab[SERIAL1].minor].csr = uart1_regptr;
 
-   usleep(1000);
+  // usleep(1000);
 #endif /* NDEVS && SERIAL1 */
 
     nulluser();

@@ -42,7 +42,7 @@ extern const device devtab[]; /* one entry per device */
 #define NLED 2
 
 #define DEVMAXNAME 20
-#define NDEVS 4
+#define NDEVS 2
 
 
 
