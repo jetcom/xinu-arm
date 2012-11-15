@@ -199,7 +199,6 @@ static int sysinit(void)
     thrcurrent = NULLTHREAD;
 
     kprintf("&_end is 0x%x\n", &_end);
-    kprintf("NSEM is %d\n", NSEM);
 
     /* Initialize semaphores */
     for (i = 0; i < NSEM; i++)

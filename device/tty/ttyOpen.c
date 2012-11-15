@@ -28,6 +28,7 @@ devcall ttyOpen(device *devptr, va_list ap)
     dvnum = va_arg(ap, int);
     if (isbaddev(dvnum))
     {
+        kprintf("%s: %d: bad device: %d", __func__, __LINE__, dvnum );
         return SYSERR;
     }
 

@@ -50,7 +50,7 @@ struct centry
 
 extern const struct centry commandtab[];
                                      /**< table of commands             */
-extern ulong ncommand;               /**< number of commands in table   */
+extern const ulong ncommand;               /**< number of commands in table   */
 
 /* Function prototypes */
 thread shell(int, int, int);

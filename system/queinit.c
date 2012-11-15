@@ -15,7 +15,6 @@
 qid_typ queinit(void)
 {
     static int nextqid = NTHREAD;
-
                                           /**< next available quetab entry   */
     qid_typ q;
 

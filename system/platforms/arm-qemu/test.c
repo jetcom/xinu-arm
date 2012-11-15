@@ -295,20 +295,20 @@ bool runSelectedProgram(char c)
     case 'l':
         /* turn on the led */
         // ledInit(FRONTLED);  all inits are done from sysinit()
-        write(FRONTLED, 0, 1);
+        //write(FRONTLED, 0, 1);
         break;
     case 'o':
         /* turn off the led */
-        write(FRONTLED, 0, 0);
+        //write(FRONTLED, 0, 0);
         break;
     case 'L':
         /* turn on the back led */
         // ledInit(BACKLED);   all inits are done from sysinit()
-	    write(BACKLED, 0, 240);
+	 //   write(BACKLED, 0, 240);
         break;
     case 'O':
         /* turn off the back led */
-        write(BACKLED, 0, 0);
+        //write(BACKLED, 0, 0);
         break;
     case 'w':
       write(SERIAL1, "hello!", 6);

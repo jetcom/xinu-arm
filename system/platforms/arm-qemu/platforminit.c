@@ -50,8 +50,8 @@ int platforminit( void )
         }
     }        
 
-    strncpy(platform.name, "Fluke Thang", PLT_STRMAX);
-    platform.maxaddr = (void *)(0x40000000/*RAM*/ + 0x10000/*64k*/) /** \todo dynamically determine? */;
+    strncpy(platform.name, "ARM Qemu", PLT_STRMAX);
+    platform.maxaddr = (void *)(0x8000000/*RAM*/) /** \todo dynamically determine? */;
     platform.clkfreq = 20000 /** \todo dynamically determine? */;
     //    platform.uart_dll = 1337 /** \todo fixme */;
 

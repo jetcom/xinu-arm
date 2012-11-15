@@ -92,7 +92,7 @@ const struct centry commandtab[] = {
     {"?", FALSE, xsh_help}
 };
 
-ulong ncommand = sizeof(commandtab) / sizeof(struct centry);
+const ulong ncommand = sizeof(commandtab) / sizeof(struct centry);
 
 /**
  * The Xinu shell.  Provides an interface to execute commands.
@@ -119,7 +119,7 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     int hostname_strsz;         /* nvram hostname name size */
     device *devptr;             /* device pointer           */
 
-    printf( "Welcome to the shell!" );
+    printf( "Welcome to the shell!\n" );
 
     /* Enable interrupts */
     enable();

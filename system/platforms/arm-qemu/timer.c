@@ -9,7 +9,6 @@
 #include "timer.h"
 #include "interrupt.h"
 #include "vic.h"
-#include <led.h>
 
 // XINU interrupt handler in clkhandler.c
 void clkhandler( void ) __attribute__((interrupt("IRQ")));
@@ -25,18 +24,6 @@ int ledon = 0;
 void timer_interrupt( void ) __attribute__((interrupt("IRQ")));
 void timer_interrupt( void )
 {
-    ms_counter++;
-    if( ms_counter >= 1000 )
-    {
-	if( ledon )
-	    write( FRONTLED, 0, 1 );
-	else
-	    write( FRONTLED, 0, 0 );
-
-	ledon = !ledon;
-
-	ms_counter = 0;
-    }
 
     // Handle the timer interrupt.
     timer0->interrupt = MR0_INTERRUPT;

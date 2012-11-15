@@ -57,15 +57,6 @@ static struct vic *lpc_vic = (struct vic *) 0xFFFFF000;
 void vic_default( void ) __attribute__ ((interrupt("IRQ")));
 void vic_default( void )
 {
-    int i;
-
-    write( FRONTLED, 0, 0 );
-    for( i = 0; i < 1000; i++ );
-    write( FRONTLED, 0, 1 );
-    for( i = 0; i < 1000; i++ );
-
-    // This is unreachable, but good form.
-    lpc_vic->vect_addr = 0;
 }
 
 /**
