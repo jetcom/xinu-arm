@@ -91,10 +91,11 @@ Reset_Handler:
                 ldr     R1, =_etext
                 ldr     R2, =_data
                 ldr     R3, =_edata
-1:        	cmp     R2, R3
+/* TEB TODO: Figure out why this changes out alignment */
+/*1:        	cmp     R2, R3
                 ldrlo   R0, [R1], #4
                 strlo   R0, [R2], #4
-                blo     1b
+                blo     1b*/
 
 		/* Clear .bss section (Zero init)  */
                 mov     R0, #0

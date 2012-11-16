@@ -3,7 +3,6 @@ ENTRY(Reset_Handler)
 
 SECTIONS {
         . = 0x10000;
-        . = ALIGN(8);
 	.text   :
 	{
 		*(.text .text.*)     /* asm text, then C text                 */
@@ -12,7 +11,6 @@ SECTIONS {
 		_etext = . ;         /* provide _etext constant               */
 	} 
 
-        . = ALIGN(8);
 	.data   :
 	{
 		_data = . ;
@@ -20,18 +18,14 @@ SECTIONS {
 		_edata = . ;         /* end of data constant                  */
 	} 
 
-        . = ALIGN(8);
 	.bss    :
 	{
 		_bss = . ;           /* beginning of bss segment              */
 		*(.bss .bss.*)       /* asm and C bss                         */
 		*(COMMON)            /* extra sections that are common        */
 	}
-        . = ALIGN(8);
-
+        . = ALIGN(4);
 	_bss_end = .;
-        . = . + 0x1000; /* 4kb of stack */
-        stack_top = .;
 	_end = . ;           /* end of image constant                 */
 }
 

@@ -20,6 +20,7 @@ qid_typ queinit(void)
 
     if (nextqid > NQENT)
     {
+        kprintf("%s:%d: could not initialize queue. nextqid > NQENT\n");
         return SYSERR;
     }
     q = nextqid;

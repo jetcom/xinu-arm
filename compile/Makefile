@@ -6,7 +6,7 @@
 PLATFORM = arm-qemu
 #PLATFORM = fluke-arm 
 
-# DETAIL   = -DDETAIL
+DETAIL   = -DDETAIL
 
 include platforms/${PLATFORM}/platformVars
 

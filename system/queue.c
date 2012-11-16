@@ -48,6 +48,11 @@ tid_typ dequeue(qid_typ q)
 
     if (isbadqid(q))
     {
+        kprintf("%s:%d: isbadqid(%d) = TRUE!\n", __FILE__, __LINE__, q );
+        kprintf("               quehead(x) < 0 -> %d\n", quehead(q) < 0 );
+        kprintf("   quehead(x) != quetail(x)-1 -> %d\n", quehead(q) != ( quetail(q) - 1 ) );
+        kprintf("          quetail(x) >= NQENT -> %d\n", quetail(q) >= NQENT );
+    
         return SYSERR;
     }
     if (isempty(q))
