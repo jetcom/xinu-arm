@@ -44,7 +44,7 @@ _start:
 # Exception Vectors
 
 _vectors:       
-                ldr     PC, Reset_Addr         
+                b       Reset_Addr         
                 ldr     PC, Undef_Addr
                 ldr     PC, SWI_Addr
                 ldr     PC, PAbt_Addr
@@ -129,11 +129,24 @@ Reset_Handler:
                 b       _startup
 
 IRQ_Routine:
+       STMFD  sp!, {r0, r1}                  /* Store r0 and r1 */
+       LDR    r0, =0x10140000
+       LDR    pc, [r0, #0x30]     /* Discover source of interrupt */
+
+       /*
+        Scan r1 for source of interrupt & branch to relevant routine ISR
+        Interrupt service routine
+        Clear interrupt request
+       */
+       LDMFD  sp!, {r0, r1}                  /* Restore r0 and r1 */
+       SUBS   pc, r14, #4            
+
+/*
         sub lr, lr, #4
         str lr, [sp, #-4]!
         ldr lr, =0x10140000
         ldr pc, [lr, #0x30]
-
+*/
 
 
 .endfunc

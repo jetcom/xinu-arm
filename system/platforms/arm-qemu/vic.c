@@ -39,9 +39,6 @@ void vic_default( void )
  */
 void vic_init( void )
 {
-    int i;
-    lpc_vic->int_en_clear = 0xffffffff;
-
     /*
     uint32_t cellid = 0;
     for ( i = 0; i < 4; i++ )
@@ -72,13 +69,11 @@ void vic_init( void )
  */
 irqmask vic_get_irqmask( void )
 {
-    kprintf("vic_get_irqmask: %x\n", lpc_vic->int_enable );
     return lpc_vic->int_enable & 0xffffffff;
 }
 
 void vic_set_irqmask( irqmask im )
 {
-    kprintf("vic_set_irqmask: %x\n", im );
     if( irqmask_interrupts_enabled( im ) )
 	vic_enable_interrupts();
     else
@@ -126,6 +121,6 @@ irq_handler get_irq(int irq)
 
 void vic_interrupt_handled( void )
 {
-    lpc_vic->pl190_vect_addr = 0;
+    lpc_vic->pl190_vect_addr = 0xffffffff;
 }
 
