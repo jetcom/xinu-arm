@@ -3,6 +3,7 @@ ENTRY(Reset_Handler)
 
 SECTIONS {
         . = 0x10000;
+        . = ALIGN(4);
 	.text   :
 	{
 		*(.text .text.*)     /* asm text, then C text                 */

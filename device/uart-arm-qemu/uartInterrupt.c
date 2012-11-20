@@ -21,6 +21,7 @@ extern int resdefer;
 void uartInterrupt( void ) __attribute__ ((interrupt("IRQ")));
 void uartInterrupt( void )
 {
+    return;
   int i = 0;
   // DEBUG!!!
   for(i = 0; i< 5; i++)

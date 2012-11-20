@@ -6,6 +6,7 @@
  * keith.ohara@gatech.edu
  * April 2008
  * IPRE Fluke Firmware
+ * http://www.raspberrypi.org/phpBB3/viewtopic.php?t=23149&p=217231
  *
  ******************************************************************************/
 
@@ -48,8 +49,8 @@ _vectors:
                 ldr     PC, SWI_Addr
                 ldr     PC, PAbt_Addr
                 ldr     PC, DAbt_Addr
-                nop				/* Reserved Vector (holds Philips ISP checksum) */
-                ldr     PC, [PC,#-0xFF0]	/* see page 71 of "Insiders Guide to the Philips ARM7-Based Microcontrollers" by Trevor Martin  */
+                ldr     PC, unused_handler
+                ldr     PC, IRQ_Addr
                 ldr     PC, FIQ_Addr
 
 Reset_Addr:     .word   Reset_Handler		/* defined in this module below  */
@@ -58,9 +59,11 @@ SWI_Addr:       .word   SWI_Routine		/* defined in main.c  */
 PAbt_Addr:      .word   UNDEF_Routine		/* defined in main.c  */
 DAbt_Addr:      .word   UNDEF_Routine		/* defined in main.c  */
 FIQ_Addr:       .word   FIQ_Routine		/* defined in main.c  */
+IRQ_Addr:       .word   IRQ_Routine
+unused_handler: .word   UNDEF_Routine
                 .word   0			/* rounds the vectors and ISR addresses to 64 bytes total  */
 
-		.=.+0x1C0			/* skip past Philips ISP ram usage (all the way to 0x40000200) */
+		/*.=.+0x1C0			*//* skip past Philips ISP ram usage (all the way to 0x40000200) */
 
 # Reset Handler
 Reset_Handler:  
@@ -87,15 +90,27 @@ Reset_Handler:
     		msr   CPSR_c, #MODE_SYS|I_BIT|F_BIT 	/* User Mode */
     		mov   sp, r0
 
+/* TEB TODO: This will need to be revisted when we get a real memory map */
 		/* Copy .data section (Copy from ROM to RAM) */
-                ldr     R1, =_etext
+                /*ldr     R1, =_etext
                 ldr     R2, =_data
                 ldr     R3, =_edata
-/* TEB TODO: Figure out why this changes out alignment */
-/*1:        	cmp     R2, R3
+1:        	cmp     R2, R3
                 ldrlo   R0, [R1], #4
                 strlo   R0, [R2], #4
-                blo     1b*/
+                blo     1b
+*/
+
+
+/* relocate exception vectors */
+/* http://www.redacom.ch/software/arm_keil/docs_infopage/documents/arm_information/rvct_developer_guide.pdf */
+                MOV        r8, #0
+                ADR        r9, _vectors
+                LDMIA      r9!,{r0-r7}           /* Copy the vectors (8 words) */
+                STMIA      r8!,{r0-r7}
+                LDMIA      r9!,{r0-r7}           /* Copy the DCD'ed addresses*/
+                STMIA      r8!,{r0-r7}           /* (8 words again) */
+
 
 		/* Clear .bss section (Zero init)  */
                 mov     R0, #0
@@ -112,6 +127,14 @@ Reset_Handler:
 
 		/* Enter the C code  */
                 b       _startup
+
+IRQ_Routine:
+        sub lr, lr, #4
+        str lr, [sp, #-4]!
+        ldr lr, =0x10140000
+        ldr pc, [lr, #0x30]
+
+
 
 .endfunc
 .end

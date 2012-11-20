@@ -1,8 +1,12 @@
 /**
- * Driver for the LPC2106 clock.
+ * Driver for the SP804 clock.
  *
- * @author John Kloosterman for CS320 at Calvin College
- * @date April 26, 2012
+ * @author Travis Brown
+ * @date November 16, 2012
+ * References:
+ * http://infocenter.arm.com/help/topic/com.arm.doc.ddi0271d/DDI0271.pdf
+ * http://infocenter.arm.com/help/topic/com.arm.doc.ddi0287b/DDI0287B_arm926ejs_dev_chip_technical_reference_manual.pdf
+ * http://lxr.free-electrons.com/source/arch/arm/common/timer-sp.c?v=3.3#L90
  */
 
 #include <stddef.h>
@@ -13,20 +17,22 @@
 // XINU interrupt handler in clkhandler.c
 void clkhandler( void ) __attribute__((interrupt("IRQ")));
 
-static volatile struct lpc_timer *timer0 = (struct lpc_timer *) 0xE0004000;
-// static volatile struct lpc_timer *timer1 = (struct lpc_timer *) 0xE0008000;
+static volatile struct spc804_timer *timer0 = (struct spc804_timer *) 0x101E2000;
+static volatile struct spc804_timer_version *timer_version = (struct
+        spc804_timer_version *) 0x101E2FE0;
 
 /**
  * Interrupt handler that flashes the LED once a second.
  */
-int ms_counter = 0;
-int ledon = 0;
 void timer_interrupt( void ) __attribute__((interrupt("IRQ")));
+
 void timer_interrupt( void )
 {
+    timer0->int_clr = 1;
+    kprintf(">>> timer_interrupt!\n");
 
     // Handle the timer interrupt.
-    timer0->interrupt = MR0_INTERRUPT;
+//    timer0->interrupt = MR0_INTERRUPT;
     
     // Handle the VIC interrupt.
     irq_handled();
@@ -34,45 +40,28 @@ void timer_interrupt( void )
 
 void timer_init( void )
 {
-    /* Double-check the struct.
-    kprintf( "IR: %x, MCR: %x, CCR: %x, EMR: %x",
-	     &(timer0->interrupt),
-	     &(timer0->match_control),
-	     &(timer0->capture_control),
-	     &(timer0->external_match) );
-    */
+    int i ;
+    /* Double-check the struct.*/
+    /*kprintf( "load: %x, value: %x, ctrl: %x\n",
+	     &(timer0->load),
+	     &(timer0->value),
+	     &(timer0->ctrl));*/
 
     /*
-     * These values are from __ pg. 81.
-     * They purport to make the timer interrupt fire every 1ms.
-     */
+    for ( i = 0; i < 4; i++ )
+    {
+        kprintf("peripheralID[%d]: %02x\n", i, timer_version->peripheralID[i]
+                % 0xff);
+    }*/
+    disable_irq( VIC_TIMER0 );
+    timer0->ctrl &= ~TIMER_ENABLE;
 
-    // This is the "VPB Divider". It isn't clear exactly what that is.
-    // LPC2106 manual pg. 38
-    //
-    // It is necessary to set in order to know how many ticks per second
-    //  the pclk does.
+    timer0->load = 1<<14;
 
-//    volatile uint *vpb_div = (uint *) 0xE01FC100;
+    timer0->ctrl = ( TIMER_SIZE_MSK | TIMER_INT_EN | TIMER_MODE_PD );
 
-    // Set pclk to 30MHz.
-//    *vpb_div = 0x2;
-
-    // This is about right, eyeballing it before we get vpb_div working.
-    timer0->prescale = 1000;
-
-    // Set the match register so that an interrupt is fired every
-    //  millisecond.
-    timer0->match_0 = 1;
-
-    // Enable the interrupt on match, and reset the time counter.
-    timer0->match_control = MATCH_INTERRUPT_ON_MR0 | MATCH_RESET_ON_MR0;
-
-    // Enable timer.
-    timer0->timer_control = COUNTER_ENABLE;
-
-    // Add interrupt handler for the timer.
     register_irq( VIC_TIMER0, timer_interrupt );
+    timer0->ctrl |= ( TIMER_ENABLE );
     enable_irq( VIC_TIMER0 );
+    for( i = 0; i<10000000; i++ );
 }
-

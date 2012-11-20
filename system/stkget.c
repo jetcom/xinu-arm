@@ -30,6 +30,7 @@ void *stkget(uint nbytes)
     nbytes = (uint)roundmb(nbytes);
 
     im = disable();
+    kprintf("im: %x\n", im );
 
     prev = &memlist;
     next = memlist.next;

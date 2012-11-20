@@ -31,6 +31,8 @@
 //#include <watchdog.h>
 
 #include <device.h>
+#include "interrupt.h"
+#include "vic.h"
 
 
 #include "pl01x.h"
@@ -39,6 +41,14 @@
 
 #define IO_WRITE(addr, val) (*(volatile unsigned int *)(addr) = (val))
 #define IO_READ(addr) (*(volatile unsigned int *)(addr))
+
+void uart_interrupt( void ) __attribute__((interrupt("IRQ")));
+
+void uart_interrupt( void )
+{
+    irq_handled();
+}
+
 
 /*
  * Integrator AP has two UARTs, we use the first one, at 38400-8-N-1
@@ -129,7 +139,9 @@ devcall uartInit (device *devptr)
 	unsigned int divider;
 	unsigned int remainder;
 	unsigned int fraction;
-
+    
+        disable_irq( VIC_UART0 );
+        
 	/*
 	 ** First, disable everything.
 	 */

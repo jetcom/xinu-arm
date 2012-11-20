@@ -44,7 +44,7 @@ int platforminit( void )
             kprintf("Press @ to begin.\r\n");
         }
         i = (i+1)%100000;
-    	c = getc(SERIAL1);
+    	c = getc(SERIAL0);
         if (c == '@') {
             break;
         }

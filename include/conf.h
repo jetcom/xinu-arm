@@ -32,21 +32,17 @@ extern const device devtab[]; /* one entry per device */
 /* Device name definitions */
 
 #define SERIAL0     0       /* type uart     */
-#define SERIAL1     1       /* type uart     */
-#define DEVNULL     2       /* type null     */
-#define LOOP        3       /* type loopback */
-#define TTYLOOP     4       /* type tty      */
-#define CONSOLE     5       /* type tty      */
+#define DEVNULL     1       /* type null     */
+#define LOOP        2       /* type loopback */
 
 /* Control block sizes */
 
 #define NLOOPBACK 1
 #define NNULL 1
-#define NUART 2
-#define NTTY 2
+#define NUART 1
 
 #define DEVMAXNAME 20
-#define NDEVS 6
+#define NDEVS 3
 
 
 
@@ -74,7 +70,7 @@ extern const device devtab[]; /* one entry per device */
 // XXX: is an analogous constant defined already?
 // This is used in uartInit.c
 #define FLUKE_ARM 1
-//#define MAIN_HEAD extern int (void);
-//#define MAIN_CALL programSwitch();
+#define MAIN_HEAD extern int programSwitch(void);
+#define MAIN_CALL programSwitch();
 
 #endif /* _CONF_H_ */

@@ -175,22 +175,19 @@ static void uartTest( void )
 /*
  * Interrupt testing.
  */
-int numUART1Interrupts = 0;
-#define UART1_IIR      (*((volatile unsigned char *) 0xE0010008))
-void uart1_interrupt_handler( void ) __attribute__ ((interrupt("IRQ")));
-void uart1_interrupt_handler( void )
+int numGPIO0Interrupts = 0;
+void uart0_interrupt_handler( void ) __attribute__ ((interrupt("IRQ")));
+void uart0_interrupt_handler( void )
 {
-  /*   
+    disable();
     int id;
 
-    numUART1Interrupts++;
+    numGPIO0Interrupts++;
 
     // Handle the interrupt. Apparently reading this value is enough.
-    id = UART1_IIR;
-
     // Tell the VIC we've handled the interrupt.
     irq_handled();
- */
+    enable();
 }
 
 static void interruptTest( void )
@@ -207,17 +204,20 @@ static void interruptTest( void )
 	    vic_get_irqmask() );
 
     // UART 1 interrupt
-    restore( irqm );
-    register_irq( 7, uart1_interrupt_handler );
-    enable_irq( 7 );
-    kprintf("Enabled UART1 interrupt. Interrupt mask: %x\r\n", vic_get_irqmask() );
+    //restore( irqm );
 
-    for( ;; )
+    register_irq( VIC_UART0, uart0_interrupt_handler );
+    enable_irq( VIC_GPIO0 );
+    //kprintf("Enabled UART0 interrupt. Interrupt mask: %x\r\n", vic_get_irqmask() );
+
+    
+    for( i =0; i < 10; i++)
     {
         // busy-wait
-        for( i = 0; i < 100000; i++ );
+        int j = 0;
+        for( j = 0; j < 100000000; j++ );
 
-        kprintf( "UART1 interrupts: %d\r\n", numUART1Interrupts );
+        kprintf( "GPIO0 interrupts: %d\r\n", numGPIO0Interrupts );
     }
 }
 
@@ -311,7 +311,7 @@ bool runSelectedProgram(char c)
         //write(BACKLED, 0, 0);
         break;
     case 'w':
-      write(SERIAL1, "hello!", 6);
+      kprintf("hello!\n");
       break;
     case 't':
       timerTest();
@@ -327,6 +327,7 @@ int programSwitch( void )
     int i = 0;
     char c = NULL;
 
+    enable();
     while (1) {
         if (i == 0) {
             kprintf("Press the key to start your program.\r\n");
@@ -334,7 +335,7 @@ int programSwitch( void )
         i = (i + 1) % 100000;
 	//	led_off();
 	//	c = read(SERIAL1,1);
-	c = getc(SERIAL1);
+	c = getc(SERIAL0);
 
         if (runSelectedProgram(c)) {
             break;
