@@ -56,8 +56,8 @@ _vectors:
 Reset_Addr:     .word   Reset_Handler		/* defined in this module below  */
 Undef_Addr:     .word   UNDEF_Routine		/* defined in main.c  */
 SWI_Addr:       .word   SWI_Routine		/* defined in main.c  */
-PAbt_Addr:      .word   UNDEF_Routine		/* defined in main.c  */
-DAbt_Addr:      .word   UNDEF_Routine		/* defined in main.c  */
+PAbt_Addr:      .word   PAbt_Routine		/* defined in main.c  */
+DAbt_Addr:      .word   DAbt_Routine		/* defined in main.c  */
 FIQ_Addr:       .word   FIQ_Routine		/* defined in main.c  */
 IRQ_Addr:       .word   IRQ_Routine
 unused_handler: .word   UNDEF_Routine
@@ -127,6 +127,39 @@ Reset_Handler:
 
 		/* Enter the C code  */
                 b       _startup
+
+/*
+0x18    LDR pc,    [pc, #-0xff0]    ;  Load Vector into PC
+;  .......................................................
+
+vector_handler
+       ;  Code to enable interrupt nesting
+       STMFD r13!, {r12, r14}      ;  stack lr_irq and r12 [plus other regs used below, if appropriate]
+       MRS r12, spsr               ;  Copy spsr into r12...
+       STMFD r13!, {r12}           ;  and save to stack
+
+;  Read from VICIRQStatus to determine the source of the interrupt
+       MSR cpsr_c, #0x1f           ;  Switch to SYS mode, re-enable IRQ
+       STMFD r13!, {r0-r3, r14}    ;  stack lr_sys and r0-r3
+
+;  Interrupt service routine...
+;  NOTE: ADS 1.2 requires preservation of 8-byte stack alignment with respect to all external
+;  interfaces. See ADS 1.2 Developer Guide - Section 2.3.3
+;  ...
+       BL 2nd_level_handler        ;  this corrupts lr_sys and r0-r3
+;  ...
+
+;  Add code to clear the interrupt source;  Code to exit handler
+       LDMFD r13!, {r0-r3, r14}     ;  unstack lr_sys and r0-r3
+       MSR cpsr_c, #0x92            ;  Disable IRQ, and return to IRQ mode
+       LDMFD r13!, {r12}            ;  unstack r12...
+       MSR spsr_cxsf, r12           ;  and restore spsr...
+       LDMFD r13!, {r12, r14}       ;  unstack registers
+       LDR r1, =VectorAddr
+       STR r0, [r1]                 ;  Acknowledge VIRQ serviced
+       SUBS pc, lr, #4              ;  Return from ISR
+*/
+
 
 IRQ_Routine:
        STMFD  sp!, {r0, r1}                  /* Store r0 and r1 */
