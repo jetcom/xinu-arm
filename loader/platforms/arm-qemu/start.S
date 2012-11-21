@@ -50,7 +50,7 @@ _vectors:
                 ldr     PC, PAbt_Addr
                 ldr     PC, DAbt_Addr
                 ldr     PC, unused_handler
-                ldr     PC, IRQ_Addr
+                LDR     PC, IRQ_Addr
                 ldr     PC, FIQ_Addr
 
 Reset_Addr:     .word   Reset_Handler		/* defined in this module below  */
@@ -128,58 +128,39 @@ Reset_Handler:
 		/* Enter the C code  */
                 b       _startup
 
-/*
-0x18    LDR pc,    [pc, #-0xff0]    ;  Load Vector into PC
-;  .......................................................
+vector_handler:
+       /*  Code to enable interrupt nesting */
+       STMFD r13!, {r12, r14}      /*  stack lr_irq and r12 [plus other regs used below, if appropriate] */
+       MRS r12, spsr               /*  Copy spsr into r12... */
+       STMFD r13!, {r12}           /*  and save to stack */
 
-vector_handler
-       ;  Code to enable interrupt nesting
-       STMFD r13!, {r12, r14}      ;  stack lr_irq and r12 [plus other regs used below, if appropriate]
-       MRS r12, spsr               ;  Copy spsr into r12...
-       STMFD r13!, {r12}           ;  and save to stack
+/*  Read from VICIRQStatus to determine the source of the interrupt */
+       MSR cpsr_c, #0x1f           /*  Switch to SYS mode, re-enable IRQ */
+       STMFD r13!, {r0-r3, r14}    /*  stack lr_sys and r0-r3 */
 
-;  Read from VICIRQStatus to determine the source of the interrupt
-       MSR cpsr_c, #0x1f           ;  Switch to SYS mode, re-enable IRQ
-       STMFD r13!, {r0-r3, r14}    ;  stack lr_sys and r0-r3
-
-;  Interrupt service routine...
-;  NOTE: ADS 1.2 requires preservation of 8-byte stack alignment with respect to all external
-;  interfaces. See ADS 1.2 Developer Guide - Section 2.3.3
-;  ...
-       BL 2nd_level_handler        ;  this corrupts lr_sys and r0-r3
-;  ...
-
-;  Add code to clear the interrupt source;  Code to exit handler
-       LDMFD r13!, {r0-r3, r14}     ;  unstack lr_sys and r0-r3
-       MSR cpsr_c, #0x92            ;  Disable IRQ, and return to IRQ mode
-       LDMFD r13!, {r12}            ;  unstack r12...
-       MSR spsr_cxsf, r12           ;  and restore spsr...
-       LDMFD r13!, {r12, r14}       ;  unstack registers
-       LDR r1, =VectorAddr
-       STR r0, [r1]                 ;  Acknowledge VIRQ serviced
-       SUBS pc, lr, #4              ;  Return from ISR
+/* Interrupt service routine..
+   NOTE: ADS 1.2 requires preservation of 8-byte stack alignment with respect to all external
+   interfaces. See ADS 1.2 Developer Guide - Section 2.3.3
 */
+
+       mov  lr,     pc 
+       LDR  r0,     =0x10140000
+       LDR  pc,     [r0,#0x30]        /*  this corrupts lr_sys and r0-r3 */
+
+/*  Add code to clear the interrupt source;  Code to exit handler */
+       LDMFD r13!, {r0-r3, r14}     /*  unstack lr_sys and r0-r3 */
+       MSR cpsr_c, #0x92            /*  Disable IRQ, and return to IRQ mode */
+       LDMFD r13!, {r12}            /*  unstack r12... */
+       MSR spsr_cxsf, r12           /*  and restore spsr... */
+       LDMFD r13!, {r12, r14}       /*  unstack registers */
+       LDR r1, =0x1014030
+       STR r0, [r1]                 /*  Acknowledge VIRQ serviced */
+       SUBS pc, lr, #4              /*  Return from ISR */
 
 
 IRQ_Routine:
-       STMFD  sp!, {r0, r1}                  /* Store r0 and r1 */
        LDR    r0, =0x10140000
        LDR    pc, [r0, #0x30]     /* Discover source of interrupt */
-
-       /*
-        Scan r1 for source of interrupt & branch to relevant routine ISR
-        Interrupt service routine
-        Clear interrupt request
-       */
-       LDMFD  sp!, {r0, r1}                  /* Restore r0 and r1 */
-       SUBS   pc, r14, #4            
-
-/*
-        sub lr, lr, #4
-        str lr, [sp, #-4]!
-        ldr lr, =0x10140000
-        ldr pc, [lr, #0x30]
-*/
 
 
 .endfunc

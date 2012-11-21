@@ -15,6 +15,8 @@
 extern void usleep( int );
 extern void ksimpleterminal( void );
 extern void findMemory( void );
+extern ulong clkticks;
+extern ulong clktime;
 
 /* Timer 0 */
 #define TIMER0_IR      (*((volatile unsigned long *) 0xE0004000))
@@ -248,6 +250,15 @@ static void irTest( void ){
 #endif
 }
 
+void clockTest( void )
+{
+    kprintf("clkticks: %d\n", clkticks );
+    kprintf("clktime: %d\n", clktime );
+    sleep(2);
+    kprintf("clkticks: %d\n", clkticks );
+    kprintf("clktime: %d\n", clktime );
+}
+
 void timerTest( void )
 {
 #if 0
@@ -264,6 +275,9 @@ bool runSelectedProgram(char c)
 {
   //    int i = 0;
     switch (c) {
+    case 'c':
+        clockTest();
+        break;
     case 'a':
         /* A simple echo program: sends back the character (q to quit)
            that you type. */

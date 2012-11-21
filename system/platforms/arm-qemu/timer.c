@@ -21,20 +21,20 @@ static volatile struct spc804_timer *timer0 = (struct spc804_timer *) 0x101E2000
 static volatile struct spc804_timer_version *timer_version = (struct
         spc804_timer_version *) 0x101E2FE0;
 
-int ms_counter = 0;
 /**
  * Interrupt handler that flashes the LED once a second.
  */
 void timer_interrupt( void ) __attribute__((interrupt("IRQ")));
 
+int timerInterrupts = 0;
 void timer_interrupt( void )
 {
     /* TEB: This causes us to crash after the 2nd interrupt. Why?! */
-    ms_counter++;
-    if ( ms_counter >= 1000 )
+    static int ms_counter = 0;
+    if ( ms_counter++ >= 100  )
     {
         ms_counter = 0;
-    }*/ 
+    } 
     // Handle the VIC interrupt.
     timer0->int_clr = 1;
     irq_handled();
@@ -59,11 +59,12 @@ void timer_init( void )
     timer0->ctrl &= ~TIMER_ENABLE;
 
     // Need to set pclk
-    timer0->load = 300;
+    timer0->load = 60000;
 
     timer0->ctrl = ( TIMER_SIZE_MSK | TIMER_INT_EN | TIMER_MODE_PD );
+    //timer0->ctrl |= TIMER_PRS_MSK & (3 << 3);
 
-    register_irq( VIC_TIMER0, timer_interrupt );
+    register_irq( VIC_TIMER0, clkhandler );
     timer0->ctrl |= ( TIMER_ENABLE );
     enable_irq( VIC_TIMER0 );
 }

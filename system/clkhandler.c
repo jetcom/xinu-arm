@@ -11,6 +11,7 @@
 #include <clock.h>
 #include <thread.h>
 #include <platform.h>
+#include "timer.h"
 
 void wakeup(void);
 syscall resched(void);
@@ -20,6 +21,7 @@ syscall resched(void);
  * Wakes sleeping threads if necessary.
  */
 #ifdef FLUKE_ARM
+static volatile struct spc804_timer *timer0 = (struct spc804_timer *) 0x101E2000;
 interrupt clkhandler( void ) __attribute__( ( interrupt( "IRQ" ) ) );
 #endif
 
@@ -33,7 +35,7 @@ interrupt clkhandler(void)
     clkticks++;
 
     /* Update global second counter. */
-    if (CLKTICKS_PER_SEC == clkticks)
+    if (CLKTICKS_PER_SEC >= clkticks)
     {
         clktime++;
         clkticks = 0;
@@ -49,4 +51,7 @@ interrupt clkhandler(void)
     {
         resched();
     }
+
+    timer0->int_clr = 1;
+    irq_handled();
 }
