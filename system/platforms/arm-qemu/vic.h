@@ -25,6 +25,7 @@ typedef enum
     VIC_UART1       = 13,
     VIC_UART2       = 14,
     VIC_SCI         = 15, // Smart Card Interface
+#if 0
     VIC_CLCD        = 16, // CLCD controller
     VIC_DMA         = 17,
     VIC_PWRFAIL     = 18, // Power failure
@@ -48,6 +49,7 @@ typedef enum
     // 11 is reserved
     VIC_EINT1       = 15,
     VIC_EINT2       = 16
+#endif
 } vic_source_t;
 
 struct vic
@@ -96,6 +98,7 @@ void vic_enable_irq( int irq );
 void vic_disable_irq( int irq );
 void vic_register_irq( vic_source_t irq, irq_handler handler );
 void vic_interrupt_handled( void );
+int vic_in_interrupt( void );
 
 /**
  * Encodes whether interupts are enabled or not into
@@ -110,10 +113,19 @@ void vic_interrupt_handled( void );
  */
 #define INTERRUPTS_ENABLED 1
 #define INTERRUPTS_DISABLED 0
-//#define IRQMASK_ENABLED_BIT (0x10000)
+#define IRQMASK_ENABLED_BIT (0x10000)
 static inline irqmask irqmask_pack( int interrupts_enabled, irqmask mask )
 {
-    return mask & 0xffffffff;
+    irqmask true_mask = mask & 0xffff;
+
+    if ( interrupts_enabled )
+    {
+        return true_mask | IRQMASK_ENABLED_BIT;
+    }
+    else
+    {
+        return true_mask;
+    }
 }
 
 
@@ -123,7 +135,7 @@ static inline irqmask irqmask_pack( int interrupts_enabled, irqmask mask )
  */
 static inline int irqmask_interrupts_enabled( irqmask mask )
 {
-    return mask;
+    return mask & IRQMASK_ENABLED_BIT;
 }
 
 /**

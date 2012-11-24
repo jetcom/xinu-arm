@@ -35,14 +35,12 @@ void clkinit(void)
             platform.clkfreq, CLKTICKS_PER_SEC);
 #endif
 
-#ifdef FLUKE_ARM
     timer_init();
-#else
+
     /* register clock interrupt */
     register_irq(IRQ_TIMER, clkhandler);
     enable_irq(IRQ_TIMER);
     clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
-#endif
 }
 
 #endif                          /* RTCLOCK */

@@ -40,6 +40,12 @@ void timer_interrupt( void )
     irq_handled();
 }
 
+void timer_reset_interrupt(void)
+{
+    timer0->int_clr = 1;
+    irq_handled();
+}
+
 void timer_init( void )
 {
     int i ;

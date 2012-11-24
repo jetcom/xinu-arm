@@ -13,6 +13,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+void timer_reset_interrupt(); 
+
 struct spc804_timer
 {
     uint32_t  load;

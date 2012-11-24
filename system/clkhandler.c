@@ -27,9 +27,7 @@ interrupt clkhandler( void ) __attribute__( ( interrupt( "IRQ" ) ) );
 
 interrupt clkhandler(void)
 {
-#ifndef FLUKE_ARM
     clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
-#endif
 
     /* Another clock tick passes. */
     clkticks++;
@@ -51,7 +49,4 @@ interrupt clkhandler(void)
     {
         resched();
     }
-
-    timer0->int_clr = 1;
-    irq_handled();
 }

@@ -51,6 +51,7 @@ _vectors:
                 ldr     PC, DAbt_Addr
                 ldr     PC, unused_handler
                 LDR     PC, IRQ_Addr
+
                 ldr     PC, FIQ_Addr
 
 Reset_Addr:     .word   Reset_Handler		/* defined in this module below  */
@@ -142,10 +143,11 @@ vector_handler:
    NOTE: ADS 1.2 requires preservation of 8-byte stack alignment with respect to all external
    interfaces. See ADS 1.2 Developer Guide - Section 2.3.3
 */
-
-       mov  lr,     pc 
-       LDR  r0,     =0x10140000
-       LDR  pc,     [r0,#0x30]        /*  this corrupts lr_sys and r0-r3 */
+       /*  this corrupts lr_sys and r0-r3 */
+       LDR    r1, =0x10140000
+       ldr    r0, [r1, #0x30]     /* Discover source of interrupt */
+       mov    lr, pc
+       bx     r0
 
 /*  Add code to clear the interrupt source;  Code to exit handler */
        LDMFD r13!, {r0-r3, r14}     /*  unstack lr_sys and r0-r3 */
@@ -153,14 +155,16 @@ vector_handler:
        LDMFD r13!, {r12}            /*  unstack r12... */
        MSR spsr_cxsf, r12           /*  and restore spsr... */
        LDMFD r13!, {r12, r14}       /*  unstack registers */
-       LDR r1, =0x1014030
+       LDR    r1, =0x10140000
+       ldr    r0, [r1, #0x30]     
+       LDR r1, =0x10140030
        STR r0, [r1]                 /*  Acknowledge VIRQ serviced */
        SUBS pc, lr, #4              /*  Return from ISR */
 
 
 IRQ_Routine:
-       LDR    r0, =0x10140000
-       LDR    pc, [r0, #0x30]     /* Discover source of interrupt */
+       LDR    r1, =0x10140000
+       ldr    pc, [r1, #0x30]     /* Discover source of interrupt */
 
 
 .endfunc

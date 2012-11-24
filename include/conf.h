@@ -61,7 +61,7 @@ extern const device devtab[]; /* one entry per device */
 #define NVRAM     FALSE          /* now have nvram support           */
 #define SB_BUS    FALSE         /* Silicon Backplane support        */
 #define GPIO      TRUE          /* General-purpose I/O (leds)       */
-#define IRQ_TIMER IRQ_HW5       /* timer IRQ is wired to hardware 5 */
+#define IRQ_TIMER 4              /* timer0 IRQ is wired to VIC 4    */
 //#define UHEAP_SIZE 8*1024*1024  /* size of memory for user threads  */
 #define USE_TLB   FALSE         /* make use of TLB                  */
 #define USE_TAR   TRUE          /* enable data archives             */
@@ -69,7 +69,6 @@ extern const device devtab[]; /* one entry per device */
 
 // XXX: is an analogous constant defined already?
 // This is used in uartInit.c
-#define FLUKE_ARM 1
 #define MAIN_HEAD extern int programSwitch(void);
 #define MAIN_CALL programSwitch();
 

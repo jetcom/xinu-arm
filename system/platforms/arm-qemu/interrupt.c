@@ -49,6 +49,8 @@ irqmask disable( void )
  */
 irqmask restore( irqmask im ) 
 {
+    // We *ALWAYS* need to re-enable interrupts and the clock
+    //TEB: im |= 0x10010;
     irqmask im_pre = vic_get_irqmask();
 
     vic_set_irqmask( im );
@@ -83,6 +85,12 @@ void irq_handled( void )
 {
     vic_interrupt_handled();
 }
+
+int in_interrupt( void )
+{
+    return vic_in_interrupt();
+}
+
 
 /**
  * Example of how to correctly define an IRQ handler,

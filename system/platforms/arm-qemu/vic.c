@@ -69,7 +69,7 @@ void vic_init( void )
  */
 irqmask vic_get_irqmask( void )
 {
-    return lpc_vic->int_enable & 0xffffffff;
+    return irqmask_pack( vic_interrupts_enabled(), lpc_vic->int_enable );
 }
 
 void vic_set_irqmask( irqmask im )
@@ -124,3 +124,7 @@ void vic_interrupt_handled( void )
     lpc_vic->pl190_vect_addr = 0xffffffff;
 }
 
+int vic_in_interrupt()
+{
+    return lpc_vic->pl190_vect_addr != 0;
+}

@@ -136,10 +136,8 @@ void uartInterrupt( void )
         }
     }
 
-    //#ifdef FLUKE_ARM
     // Tell the VIC that the interrupt was handled.
     irq_handled();
-    //#endif
 
     if (--resdefer > 0)
     {

@@ -341,7 +341,6 @@ int programSwitch( void )
     int i = 0;
     char c = NULL;
 
-    enable();
     while (1) {
         if (i == 0) {
             kprintf("Press the key to start your program.\r\n");
