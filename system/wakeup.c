@@ -20,6 +20,8 @@ void wakeup(void)
     {
         ready(dequeue(sleepq), RESCHED_NO);
     }
+}
 
-    resched();
+void testFn()
+{
 }

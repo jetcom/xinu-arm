@@ -27,6 +27,16 @@ ctxsw:
     str sp, [a1, #0]
     /* load incoming stack pointer                                 */
     ldr sp, [a2, #0]
+
+    /* TEB: Re-enable interrupts and clear the timer interrupt */ 
+    mrs r0, cpsr
+    bic r0, r0, #0x80
+    msr cpsr_c, r0
+
+    ldr r1, =0x1014000C 
+    mov r0, #1
+    STR r0, [r1]
+
     /* restore callee-save ("non-volatile") registers              */
     ldmfd sp!, {v1, v2, v3, v4, v5, v6, v7, v8}
     /* restore address registers */

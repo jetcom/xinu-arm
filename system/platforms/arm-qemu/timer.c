@@ -68,9 +68,13 @@ void timer_init( void )
     timer0->load = 60000;
 
     timer0->ctrl = ( TIMER_SIZE_MSK | TIMER_INT_EN | TIMER_MODE_PD );
+    timer0->ctrl |= ( TIMER_ENABLE );
+    // Registration should happen in clkinit
+    enable_irq( VIC_TIMER0 );
+
     //timer0->ctrl |= TIMER_PRS_MSK & (3 << 3);
 
-    register_irq( VIC_TIMER0, clkhandler );
-    timer0->ctrl |= ( TIMER_ENABLE );
-    enable_irq( VIC_TIMER0 );
+    //register_irq( VIC_TIMER0, clkhandler );
+//    register_irq( VIC_TIMER0, timer_interrupt );
+    //enable_irq( VIC_TIMER0 );
 }

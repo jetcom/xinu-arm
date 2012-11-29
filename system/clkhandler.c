@@ -20,10 +20,8 @@ syscall resched(void);
  * Clock handler updates timer registers and system time.
  * Wakes sleeping threads if necessary.
  */
-#ifdef FLUKE_ARM
 static volatile struct spc804_timer *timer0 = (struct spc804_timer *) 0x101E2000;
-interrupt clkhandler( void ) __attribute__( ( interrupt( "IRQ" ) ) );
-#endif
+interrupt clkhandler( void );
 
 interrupt clkhandler(void)
 {
@@ -43,10 +41,13 @@ interrupt clkhandler(void)
     /* If key reaches zero, call wakeup.              */
     if (nonempty(sleepq) && (--firstkey(sleepq) <= 0))
     {
-        wakeup();
+        wakeup(); // This no longer does a resched() call. See note below
     }
-    else
-    {
-        resched();
-    }
+
+    timer0->int_clr = 1;
+    irq_handled();
+
+    // resched() is called from start.S since we need to restore our interrupt
+    // context before doing a ctxsw()
 }
+

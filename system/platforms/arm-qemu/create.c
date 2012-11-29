@@ -72,6 +72,10 @@ tid_typ create(void *procaddr, uint ssize, int priority,
     thrptr->memlist.next = NULL;
     thrptr->memlist.length = 0;
 
+    //TEB: this is hardcoded for ARM
+    //This is to enable the timer interrupt
+    thrptr->intmask = 0x10010;
+
     /* set up default file descriptors */
     /** \todo When the CONSOLE stuff works on fluke-arm, we need to reenable stdio for threads. */
 #if 0

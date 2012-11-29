@@ -10,13 +10,16 @@
  *
  ******************************************************************************/
 
+#define S_FRAME_SIZE 72
+#define S_PC    60
+
 /* Stack Sizes */
 .set  UND_STACK_SIZE, 0x00000004		/* stack for "undefined instruction" interrupts is 4 bytes  */
 .set  ABT_STACK_SIZE, 0x00000004		/* stack for "abort" interrupts is 4 bytes                  */
 .set  FIQ_STACK_SIZE, 0x00000004		/* stack for "FIQ" interrupts  is 4 bytes         	    */
-.set  IRQ_STACK_SIZE, 0X000000A0		/* stack for "IRQ" normal interrupts is 4 bytes    	    */
+.set  IRQ_STACK_SIZE, 0X00000200		/* stack for "IRQ" normal interrupts is 4 bytes    	    */
 .set  SVC_STACK_SIZE, 0x00000004		/* stack for "SVC" supervisor mode is 4 bytes  		    */
-.set  SYS_STACK_SIZE, 0x00002000        /* stack for "SYS" (user) mode is 8192 bytes (nulluser task/thread) */
+.set  SYS_STACK_SIZE, 0x00002000                /* stack for "SYS" (user) mode is 8192 bytes (nulluser task/thread) */
 
 
 /* Standard definitions of Mode bits and Interrupt (I & F) flags in PSRs (program status registers) */
@@ -31,11 +34,11 @@
 .set  I_BIT, 0x80               		/* when I bit is set, IRQ is disabled (program status registers) */
 .set  F_BIT, 0x40               		/* when F bit is set, FIQ is disabled (program status registers) */
 
-
 .text
 .arm
 
 .global Reset_Handler
+.global IRQ_STACK_START
 .global _start
 .func   _start
 
@@ -129,43 +132,52 @@ Reset_Handler:
 		/* Enter the C code  */
                 b       _startup
 
-vector_handler:
-       /*  Code to enable interrupt nesting */
-       STMFD r13!, {r12, r14}      /*  stack lr_irq and r12 [plus other regs used below, if appropriate] */
-       MRS r12, spsr               /*  Copy spsr into r12... */
-       STMFD r13!, {r12}           /*  and save to stack */
 
-/*  Read from VICIRQStatus to determine the source of the interrupt */
-       MSR cpsr_c, #0x1f           /*  Switch to SYS mode, re-enable IRQ */
-       STMFD r13!, {r0-r3, r14}    /*  stack lr_sys and r0-r3 */
-
-/* Interrupt service routine..
-   NOTE: ADS 1.2 requires preservation of 8-byte stack alignment with respect to all external
-   interfaces. See ADS 1.2 Developer Guide - Section 2.3.3
-*/
-       /*  this corrupts lr_sys and r0-r3 */
-       LDR    r1, =0x10140000
-       ldr    r0, [r1, #0x30]     /* Discover source of interrupt */
-       mov    lr, pc
-       bx     r0
-
-/*  Add code to clear the interrupt source;  Code to exit handler */
-       LDMFD r13!, {r0-r3, r14}     /*  unstack lr_sys and r0-r3 */
-       MSR cpsr_c, #0x92            /*  Disable IRQ, and return to IRQ mode */
-       LDMFD r13!, {r12}            /*  unstack r12... */
-       MSR spsr_cxsf, r12           /*  and restore spsr... */
-       LDMFD r13!, {r12, r14}       /*  unstack registers */
-       LDR    r1, =0x10140000
-       ldr    r0, [r1, #0x30]     
-       LDR r1, =0x10140030
-       STR r0, [r1]                 /*  Acknowledge VIRQ serviced */
-       SUBS pc, lr, #4              /*  Return from ISR */
-
-
+IRQ_STACK_START:.word   _end+0x4+0x4+0x4+0x200
 IRQ_Routine:
-       LDR    r1, =0x10140000
-       ldr    pc, [r1, #0x30]     /* Discover source of interrupt */
 
+        .macro  irq_save_user_regs
+        sub     sp, sp, #S_FRAME_SIZE
+        stmia   sp, {r0 - r12}                  @ Calling r0-r12
+        @ !!!! R8 NEEDS to be saved !!!! a reserved stack spot would be good.
+        add     r8, sp, #S_PC
+        stmdb   r8, {sp, lr}^           @ Calling SP, LR
+        str     lr, [r8, #0]            @ Save calling PC
+        mrs     r6, spsr
+        str     r6, [r8, #4]            @ Save CPSR
+        str     r0, [r8, #8]            @ Save OLD_R0
+        mov     r0, sp
+        .endm
+
+        .macro  irq_restore_user_regs
+        ldmia   sp, {r0 - lr}^                  @ Calling r0 - lr
+        mov     r0, r0
+        ldr     lr, [sp, #S_PC]                 @ Get PC
+        add     sp, sp, #S_FRAME_SIZE
+        subs    pc, lr, #4              @ return & move spsr_svc into cpsr
+        .endm
+
+        .macro get_irq_stack                    @ setup IRQ stack
+         ldr     sp, IRQ_STACK_START
+        .endm
+
+
+       get_irq_stack
+       irq_save_user_regs 
+       LDR    r0, =0x10140000
+       LDR    r1, [r0, #0x30] /* Discover source of interrupt */
+       blx    r1
+
+       ldmia   sp, {r0 - lr}^                  @ Calling r0 - lr
+       mov     r0, r0
+       ldr     lr, [sp, #S_PC]                 @ Get PC
+       add     sp, sp, #S_FRAME_SIZE
+       subs    lr, lr, #4
+        
+       irq_save_user_regs
+       bl resched
+       irq_restore_user_regs
+       /* and this is where we call resched() */
 
 .endfunc
 .end
