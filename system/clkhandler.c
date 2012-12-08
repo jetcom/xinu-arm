@@ -25,6 +25,10 @@ interrupt clkhandler( void );
 
 interrupt clkhandler(void)
 {
+    //DEBUG
+    //kprintf("Timer went off\n");
+
+    /* Reset the timer to fire again */
     clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
 
     /* Another clock tick passes. */
@@ -44,6 +48,7 @@ interrupt clkhandler(void)
         wakeup(); // This no longer does a resched() call. See note below
     }
 
+    /* Acknowledge and clear the interrupt */
     timer0->int_clr = 1;
     irq_handled();
 
