@@ -133,51 +133,32 @@ Reset_Handler:
                 b       _startup
 
 
-IRQ_STACK_START:.word   _end+0x4+0x4+0x4+0x200
 IRQ_Routine:
 
-        .macro  irq_save_user_regs
-        sub     sp, sp, #S_FRAME_SIZE
-        stmia   sp, {r0 - r12}                  @ Calling r0-r12
-        @ !!!! R8 NEEDS to be saved !!!! a reserved stack spot would be good.
-        add     r8, sp, #S_PC
-        stmdb   r8, {sp, lr}^           @ Calling SP, LR
-        str     lr, [r8, #0]            @ Save calling PC
-        mrs     r6, spsr
-        str     r6, [r8, #4]            @ Save CPSR
-        str     r0, [r8, #8]            @ Save OLD_R0
-        mov     r0, sp
-        .endm
+       stmfd  r13!, {r12, r14}   /* stack lr_irq and r12 */
+       mrs    r12, spsr          /* copy spsr into r12 */
+       stmfd  r13!, {r12}        /* save to stack */
 
-        .macro  irq_restore_user_regs
-        ldmia   sp, {r0 - lr}^                  @ Calling r0 - lr
-        mov     r0, r0
-        ldr     lr, [sp, #S_PC]                 @ Get PC
-        add     sp, sp, #S_FRAME_SIZE
-        subs    pc, lr, #4              @ return & move spsr_svc into cpsr
-        .endm
+       /* Determine source of ISR */
+       /*msr cpsr_c, #0x1f  */      /* Switch to SYS mode and re-enable IRQs */
+       stmfd r13!, {r0-r3, r14} /* stack lr_sys and r0-r3 */
 
-        .macro get_irq_stack                    @ setup IRQ stack
-         ldr     sp, IRQ_STACK_START
-        .endm
-
-
-       get_irq_stack
-       irq_save_user_regs 
        LDR    r0, =0x10140000
        LDR    r1, [r0, #0x30] /* Discover source of interrupt */
        blx    r1
 
-       ldmia   sp, {r0 - lr}^                  @ Calling r0 - lr
-       mov     r0, r0
-       ldr     lr, [sp, #S_PC]                 @ Get PC
-       add     sp, sp, #S_FRAME_SIZE
-       subs    lr, lr, #4
-        
-       irq_save_user_regs
-       bl resched
-       irq_restore_user_regs
-       /* and this is where we call resched() */
+       LDMFD r13!, {r0-r3, r14} /* unstack lr_sys and r0-r3 */
+       MSR cpsr_c, #0x92        /* disable IRQ, and return to IRQ mode */
+       LDMFD r13!, {r12}        /* unstack r12... */
+       MSR spsr_cxsf, r12       /* and restore spsr... */
+       LDMFD r13!, {r12, r14}   /* unstack registers */
+
+       /* This is the responsibility of the C IRQ-Handler */
+#if 0
+       LDR r1, =0x10140030
+       STR r0, [r1]             /* Acknowledge Vectored IRQ has been serviced */
+#endif
+       SUBS pc, lr, #4          /* Return from ISR */
 
 .endfunc
 .end

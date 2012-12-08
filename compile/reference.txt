@@ -1,0 +1,3 @@
+http://infocenter.arm.com/help/topic/com.arm.doc.ddi0181e/DDI0181.pdf
+http://infocenter.arm.com/help/topic/com.arm.doc.ddi0273a/DDI0273.pdf
+http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0290g/I27695.htmlhttp://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.faqs/3677.html

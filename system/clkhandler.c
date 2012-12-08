@@ -41,13 +41,13 @@ interrupt clkhandler(void)
     /* If key reaches zero, call wakeup.              */
     if (nonempty(sleepq) && (--firstkey(sleepq) <= 0))
     {
-        wakeup(); // This no longer does a resched() call. See note below
+        wakeup(); // This no longer does a resched() call since we need to
+                  // clear our interrupts before doing a resched()
     }
 
     timer0->int_clr = 1;
     irq_handled();
 
-    // resched() is called from start.S since we need to restore our interrupt
-    // context before doing a ctxsw()
+    resched();
 }
 
