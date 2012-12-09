@@ -10,6 +10,7 @@
 //#include <kernel.h>
 #include <device.h>
 #include <stdarg.h>
+#include <stdint.h>
 
 #ifndef _LED_H_
 #define _LED_H_
@@ -46,9 +47,6 @@ extern struct led ledtab[];
 #define IROUT1      (1 << 13)
 #define IROUT2      (1 << 19)
 #define IROUT3      (1 << 20)
-
-typedef unsigned char uint8_t;
-typedef unsigned int uint32_t;
 
 
 /* Prototypes for led function calls */
