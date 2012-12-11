@@ -35,8 +35,6 @@ void clkinit(void)
             platform.clkfreq, CLKTICKS_PER_SEC);
 #endif
 
-    timer_init();
-
     /* register clock interrupt */
     register_irq(IRQ_TIMER, clkhandler);
     enable_irq(IRQ_TIMER);
