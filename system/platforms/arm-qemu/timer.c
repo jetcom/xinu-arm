@@ -15,7 +15,7 @@
 #include "vic.h"
 
 // XINU interrupt handler in clkhandler.c
-void clkhandler( void ) __attribute__((interrupt("IRQ")));
+void clkhandler( void ) ;
 
 static volatile struct spc804_timer *timer0 = (struct spc804_timer *) 0x101E2000;
 static volatile struct spc804_timer_version *timer_version = (struct
@@ -24,7 +24,6 @@ static volatile struct spc804_timer_version *timer_version = (struct
 /**
  * Interrupt handler that flashes the LED once a second.
  */
-void timer_interrupt( void ) __attribute__((interrupt("IRQ")));
 
 int timerInterrupts = 0;
 void timer_interrupt( void )
@@ -48,7 +47,6 @@ void timer_reset_interrupt(void)
 
 void timer_init( void )
 {
-    int i ;
     /* Double-check the struct.*/
     /*kprintf( "load: %x, value: %x, ctrl: %x\n",
 	     &(timer0->load),
@@ -69,8 +67,9 @@ void timer_init( void )
 
     timer0->ctrl = ( TIMER_SIZE_MSK | TIMER_INT_EN | TIMER_MODE_PD );
     timer0->ctrl |= ( TIMER_ENABLE );
+
     // Registration should happen in clkinit
-    enable_irq( VIC_TIMER0 );
+    //enable_irq( VIC_TIMER0 );
 
     //timer0->ctrl |= TIMER_PRS_MSK & (3 << 3);
 

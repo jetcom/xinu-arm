@@ -12,6 +12,7 @@
 #include <thread.h>
 #include <platform.h>
 #include "timer.h"
+#include "conf.h"
 
 void wakeup(void);
 syscall resched(void);

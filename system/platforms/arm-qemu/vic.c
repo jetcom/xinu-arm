@@ -29,7 +29,6 @@
  *  something went wrong, since the interrupt will just keep
  *  firing.
  */
-void vic_default( void ) __attribute__ ((interrupt("IRQ")));
 void vic_default( void )
 {
 }
@@ -78,6 +77,8 @@ void vic_set_irqmask( irqmask im )
 	vic_enable_interrupts();
     else
 	vic_disable_interrupts();
+
+    im &= 0xffff;
 
     lpc_vic->int_enable = im;
     lpc_vic->int_en_clear = ~im;

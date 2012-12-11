@@ -94,9 +94,8 @@ int in_interrupt( void )
 
 /**
  * Example of how to correctly define an IRQ handler,
- *  from the Fluke firmware.
+ *  from the  firmware.
  */
-void an_interrupt_handler( void ) __attribute__ ((interrupt("IRQ")));
 void an_interrupt_handler( void )
 {
 

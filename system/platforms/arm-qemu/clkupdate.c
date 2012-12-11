@@ -2,6 +2,7 @@
 #include "timer.h"
 #include "interrupt.h"
 #include "vic.h"
+#include "conf.h"
 
 static volatile struct spc804_timer *timer0 = (struct spc804_timer *) 0x101E2000;
 static volatile struct spc804_timer_version *timer_version = (struct
@@ -9,8 +10,19 @@ static volatile struct spc804_timer_version *timer_version = (struct
 
 void clkupdate( ulong cycles )
 {
+   static bool initialized = FALSE;
+   if ( !initialized ) 
+   {
+       initialized = TRUE;
+   }
+   else
+   {
+       return;
+   }
+
+
    //disable our out interrupt vector while we work on the registers
-   disable_irq( VIC_TIMER0 );
+   disable_irq( IRQ_TIMER );
 
    //disable the timer
    timer0->ctrl &= ~TIMER_ENABLE;
@@ -28,7 +40,7 @@ void clkupdate( ulong cycles )
    timer0->ctrl |= ( TIMER_ENABLE );
 
    // Registration should have already happened in clkinit, just enable our interrupt vector
-   enable_irq( VIC_TIMER0 );
+   enable_irq( IRQ_TIMER );
 
    //timer0->ctrl |= TIMER_PRS_MSK & (3 << 3);
    //register_irq( VIC_TIMER0, clkhandler );

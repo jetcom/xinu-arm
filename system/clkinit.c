@@ -12,6 +12,7 @@
 #include <interrupt.h>
 #include <clock.h>
 #include <queue.h>
+#include "conf.h"
 
 #if RTCLOCK
 ulong clkticks = 0;           /** ticks per second downcounter         */
@@ -36,6 +37,8 @@ void clkinit(void)
 #endif
 
     /* register clock interrupt */
+    //timer_init();
+
     register_irq(IRQ_TIMER, clkhandler);
     enable_irq(IRQ_TIMER);
     clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
