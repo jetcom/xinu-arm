@@ -1,7 +1,11 @@
 %{
+#include "y.tab.h"
 extern int linectr;
 extern int brkcount;
 int skipping;
+char *verbatim_out = NULL;
+int verbatim_out_strlen = 0;
+size_t verbatim_out_bufsize = BUFSIZ;
 %}
 OCT 0[0-7]*
 DEC [1-9][0-9]*
@@ -11,8 +15,31 @@ ID [a-z_A-Z][a-z_A-Z0-9]*
 "/*"      { skipping = 1;                     }
 "*/"      { skipping = 0;                     }
 "%%"      { if (! skipping)
+                /*
+                 * If we have seen the second set of '%%' tokens, prepare to
+                 * copy the rest of the config file into config.h verbatim.
+                 *
+                 * Dump the verbatim section of the config file into
+                 * 'verbatim_out'.
+                 */
                 if (++brkcount == 2)
-                { return 0; /* EOF */ }
+                {
+                    verbatim_out = malloc(verbatim_out_bufsize);
+                    char c;
+                    while( (c = input()) != EOF )
+                    {
+                        if( (verbatim_out_strlen + 1) >= verbatim_out_bufsize)
+                        {
+                            verbatim_out_bufsize += BUFSIZ;
+                            verbatim_out =
+                                realloc( verbatim_out, verbatim_out_bufsize );
+                        }
+                        verbatim_out[verbatim_out_strlen++] = c;
+                    }
+                    verbatim_out[verbatim_out_strlen] = '\0';
+
+                    return EOF;
+                }
                 else
                 { return DEFBRK; }            }
 ":"       { if (! skipping) return COLON;     }
