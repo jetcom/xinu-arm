@@ -18,7 +18,7 @@ MAIN_SRC  = ../system/main.c
 TOPDIR    = ..
 LIBDIR    = ${TOPDIR}/lib
 
-LIBGCC?=-L/usr/local/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/ -lgcc
+LIBGCC := $(shell $(CC) -print-libgcc-file-name)
 
 # Default make target is in platformVars file.
 
