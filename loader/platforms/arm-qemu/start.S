@@ -134,30 +134,42 @@ Reset_Handler:
 
 
 IRQ_Routine:
+	/* Use 'lr' to get into system mode, use 'r0' to get out. */
+	push	{r0,lr}
 
-       stmfd  r13!, {r12, r14}   /* stack lr_irq and r12 */
-       mrs    r12, spsr          /* copy spsr into r12 */
-       stmfd  r13!, {r12}        /* save to stack */
+	/* Switch to system mode */
+	mrs	lr, cpsr
+	bic	lr, lr, #0x1F	@ Clear the processor mode bits
+	orr	lr, lr, #MODE_SYS	@ Set the mode to system
+	msr	cpsr, lr
 
-       /* Determine source of ISR */
-       /*msr cpsr_c, #0x1f  */      /* Switch to SYS mode and re-enable IRQs */
-       stmfd r13!, {r0-r3, r14} /* stack lr_sys and r0-r3 */
+	/* Now that we're in system mode, store the registers on the user
+	 * stack. */
+	push	{r0 - lr}
 
+       /* Call the ISR */
        LDR    r0, =0x10140000
        LDR    r1, [r0, #0x30] /* Discover source of interrupt */
        blx    r1
-
-       LDMFD r13!, {r0-r3, r14} /* unstack lr_sys and r0-r3 */
-       MSR cpsr_c, #0x92        /* disable IRQ, and return to IRQ mode */
-       LDMFD r13!, {r12}        /* unstack r12... */
-       MSR spsr_cxsf, r12       /* and restore spsr... */
-       LDMFD r13!, {r12, r14}   /* unstack registers */
 
        /* This is the responsibility of the C IRQ-Handler */
 #if 0
        LDR r1, =0x10140030
        STR r0, [r1]             /* Acknowledge Vectored IRQ has been serviced */
 #endif
+
+	/* Restore the system mode registers. */
+	pop	{r0 - lr}
+
+	/* Enable interrupts and switch back to IRQ mode to use sp_isr again. */
+	mrs	r0, cpsr
+	bic	r0, r0, #0x1F	@ Clear the processor mode bits
+	bic	r0, r0, #I_BIT	@ Clear interrupt bit
+	orr	r0, r0, #MODE_IRQ	@ Set the mode to IRQ
+	msr	cpsr, r0
+
+	/* Restore used registers and return. */
+	pop	{r0,lr}
        SUBS pc, lr, #4          /* Return from ISR */
 
 .endfunc
