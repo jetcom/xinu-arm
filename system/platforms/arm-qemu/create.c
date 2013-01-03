@@ -14,8 +14,10 @@
 /**
  * Context record offsets
  */
-/** context record size in words */
-#define CONTEXT_WORDS (14)
+
+/** Number of registers saved in a context. (sp is the only register not saved
+ * in a context; it is saved in a '(struct thrent)->stkptr'). */
+#define CONTEXT_WORDS (15)
 /** context record size in bytes       */
 #define CONTEXT (CONTEXT_WORDS * sizeof(intptr_t))
 
