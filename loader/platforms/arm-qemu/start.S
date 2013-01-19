@@ -134,18 +134,34 @@ Reset_Handler:
 
 
 IRQ_Routine:
-	/* Use 'lr' to get into system mode, use 'r0' to get out. */
-	push	{r0,lr}
+	/*
+	 * With pipelining on ARM, the PC is 2 instructions (8 bytes) ahead of
+	 * where we're currently executing. Usually the 'bl' instruction will
+	 * subtract 4 from the PC before storing it in LR, but since we came in
+	 * here via an exception we must do it ourselves.
+	 */
+	sub	lr, lr, #4
 
-	/* Switch to system mode */
-	mrs	lr, cpsr
-	bic	lr, lr, #0x1F	@ Clear the processor mode bits
-	orr	lr, lr, #MODE_SYS	@ Set the mode to system
-	msr	cpsr, lr
+	/* Store lr_irq on the user stack */
+	push	{r0}
+	sub	sp, sp, #4
+	stmia	sp, {sp}^		@ Grab sp_usr
+	ldmfd	sp, {r0}		@ And load it into r0
+	add	sp, sp, #4
 
-	/* Now that we're in system mode, store the registers on the user
-	 * stack. */
-	push	{r0 - lr}
+	sub	r0, r0, #4
+	stmia	r0, {lr}		@ Store lr_irq
+	pop	{r0}
+
+	msr	cpsr, #MODE_SYS|I_BIT	@ Switch to sysmode, keep irq disabled
+
+	/*
+	 * When we saved the lr_irq earlier, we weren't able to modify the user
+	 * mode stack pointer. Now we can adjust sp_usr to account for what is
+	 * effectively a 'push {lr_irq}'.
+	 */
+	sub	sp, sp, #4		@ Make room for lr_irq
+	push	{r0-r3,r12,r14}		@ Push APCS registers
 
        /* Call the ISR */
        LDR    r0, =0x10140000
@@ -158,19 +174,31 @@ IRQ_Routine:
        STR r0, [r1]             /* Acknowledge Vectored IRQ has been serviced */
 #endif
 
-	/* Restore the system mode registers. */
-	pop	{r0 - lr}
+	pop	{r0-r3,r12,r14}		@ Push APCS registers
 
-	/* Enable interrupts and switch back to IRQ mode to use sp_isr again. */
-	mrs	r0, cpsr
-	bic	r0, r0, #0x1F	@ Clear the processor mode bits
-	bic	r0, r0, #I_BIT	@ Clear interrupt bit
-	orr	r0, r0, #MODE_IRQ	@ Set the mode to IRQ
-	msr	cpsr, r0
+	/*
+	 * Prematurely 'pop' lr_irq off here, since we can't modify sp_usr in
+	 * IRQ mode when we really do restore lr_irq.
+	 */
+	add	sp, sp, #4
 
-	/* Restore used registers and return. */
-	pop	{r0,lr}
-       SUBS pc, lr, #4          /* Return from ISR */
+	/* Enable interrupts and switch back to IRQ mode to use sp_irq again. */
+	msr	cpsr, #MODE_IRQ|I_BIT
+
+	/* Load lr_irq from the user stack */
+	push	{r0}
+	sub	sp, sp, #4
+	stmia	sp, {sp}^		@ Grab sp_usr
+	ldmfd	sp, {r0}		@ And load it into r0
+	add	sp, sp, #4
+
+	sub	r0, r0, #4		@ Undo the premature add from earlier
+	ldmfd	r0, {lr}
+	add	r0, r0, #4		@ nop
+	pop	{r0}
+
+	/* Restore cpsr and return. */
+	subs	pc, lr, #0		@ Special ISR return instruction
 
 .endfunc
 .end
