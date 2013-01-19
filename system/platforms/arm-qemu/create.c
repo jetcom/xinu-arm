@@ -41,7 +41,7 @@ tid_typ create(void *procaddr, uint ssize, int priority,
     tid_typ tid;                /* stores new thread id               */
     va_list ap;                 /* points to list of var args         */
     int pads;                   /* padding entries in record.         */
-    intptr_t i;
+    uint32_t i;
     void INITRET(void);
     irqmask im;
 
@@ -132,15 +132,25 @@ tid_typ create(void *procaddr, uint ssize, int priority,
      */
     saddr[CONTEXT_WORDS - 2] = (intptr_t)INITRET;
 
-    /* place arguments into activation record */
+    /*
+     * Pass arguments to new processes.
+     *
+     * The ARM Procedure Call Standard (APCS) specifies that the first 4
+     * arguments be passed via r0-r3 (aka v1-v4). Additional arguments are
+     * located on the stack at ((argnum-4) * 4) * SP (i.e. argument 5 is at
+     * [sp, #0], 6 is at [sp, #4] and so on...) from the perspective of the
+     * callee.
+     */
     va_start(ap, nargs);
-    for (i = 0; i < 4 && i < nargs; i++)
+    /* Store the first four arguments in the first 4 registers */
+    for( i = 0; i < 4 && i < nargs; i++ )
     {
-        saddr[CONTEXT_WORDS - 6 + i] = va_arg(ap, intptr_t);
+        saddr[i] = va_arg(ap, intptr_t);
     }
-    for (; i < nargs; i++)
+    /* Store the remaining arguments on the stack */
+    for( i = 4; i < nargs; i++ )
     {
-        savargs[i - 4] = va_arg(ap, intptr_t);
+        *savargs++ = va_arg(ap, intptr_t);
     }
     va_end(ap);
 

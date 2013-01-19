@@ -67,7 +67,7 @@ static void thr3(int a, int b, int c, int d, int e, int f, int g, int h, int j, 
 static int thr2(int a, int b, int c, int d, int e, int f, int g, int h, int j, int z)
 {
     int i;
-    kprintf("%d, %d, %d, %d, %d, %d, %d, %d, %d, %d\r\n", a, b, c, d, e, f, g, h, j, z);
+    kprintf("thr2(%d, %d, %d, %d, %d, %d, %d, %d, %d, %d)\r\n", a, b, c, d, e, f, g, h, j, z);
     thr3(a, b, c, d, e, f, g, h, j, z);
     for (i = 0; i < 10; i++)
     {
@@ -75,7 +75,7 @@ static int thr2(int a, int b, int c, int d, int e, int f, int g, int h, int j, i
         yield();
     }
     thr3(a, b, c, d, e, f, g, h, j, z);
-    kprintf("%d, %d, %d, %d, %d, %d, %d, %d, %d, %d\r\n", a, b, c, d, e, f, g, h, j, z);
+    kprintf("thr2(%d, %d, %d, %d, %d, %d, %d, %d, %d, %d)\r\n", a, b, c, d, e, f, g, h, j, z);
     return 0;
 }
 
@@ -99,7 +99,7 @@ static void threadTest(void)
  */
 static int tsThr1(const char* id)
 {
-    int i, j;
+    int i=0, j;
     while (TRUE)
     {
         for (j = 0; j < 1000000; j++)
