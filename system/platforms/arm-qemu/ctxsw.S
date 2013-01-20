@@ -30,11 +30,6 @@ ctxsw:
 	 *     called in.
 	 */
 
-	/*
-	 * TODO: The ldr instructions to get the arguments might not be needed.
-	 * I'll have to take another look at the calling conventions.
-	 */
-
 	/* Store all registers. */
 	/* We save lr twice because new processes can branch two ways:
 	 * - proceed to their first instruction, via pc.
@@ -55,12 +50,10 @@ ctxsw:
 
 	/* Save sp to location given in argument 1, but only if the address is
 	 * non-null. */
-	ldr	r0, [sp, #8]		@ Grab the address
 	cmp	r0, #0			@ Null address?
 	strne	sp, [r0, #0]		@ Nope, store it!
 
 	/* Restore all of the registers, for the new thread. */
-	ldr	r1, [sp, #12]
 	cmp	r1, #0
 	/* TODO: If there is no new stack pointer, we should consider panicking
 	 * here.  For now, if the new stack isn't valid, we'll just not change
