@@ -6,7 +6,7 @@ COMP = system/platforms/arm-qemu
 # Source files for this component
 
 # Important system components
-S_FILES = ctxsw.S pause.S
+S_FILES = ctxsw.S pause.S halt.S
 C_FILES = debug.c debugret.c create.c debug.c handlers.c interrupt.c platforminit.c stubs.c vic.c timer.c clkupdate.c irq.c
 
 PDIR = $(TOPDIR)/$(COMP)

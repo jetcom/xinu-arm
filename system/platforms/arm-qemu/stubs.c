@@ -74,5 +74,3 @@ void _startup( void )
 
     nulluser();
 }
-
-void halt(void) {}
