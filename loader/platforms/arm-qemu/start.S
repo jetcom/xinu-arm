@@ -180,8 +180,8 @@ IRQ_Routine:
 	pop	{r0-r3,r12,r14}		@ Push APCS registers
 
 	/*
-	 * Prematurely 'pop' lr_irq off here, since we can't modify sp_usr in
-	 * IRQ mode when we really do restore lr_irq and SPSR.
+	 * Prematurely 'pop' here, since we can't modify sp_usr in IRQ mode when we
+	 * really do restore lr_irq and SPSR.
 	 */
 	add	sp, sp, #8
 
