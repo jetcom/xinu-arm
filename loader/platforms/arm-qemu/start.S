@@ -142,7 +142,7 @@ IRQ_Routine:
 	 */
 	sub	lr, lr, #4
 
-	/* Store lr_irq on the user stack */
+	/* Store lr_irq and the SPSR on the user stack */
 	push	{r0}
 	sub	sp, sp, #4
 	stmia	sp, {sp}^		@ Grab sp_usr
@@ -151,16 +151,19 @@ IRQ_Routine:
 
 	sub	r0, r0, #4
 	stmia	r0, {lr}		@ Store lr_irq
+	mrs	lr, spsr
+	sub	r0, r0, #4
+	stmia	r0, {lr}		@ Store the spsr
 	pop	{r0}
 
 	msr	cpsr, #MODE_SYS|I_BIT	@ Switch to sysmode, keep irq disabled
 
 	/*
-	 * When we saved the lr_irq earlier, we weren't able to modify the user
-	 * mode stack pointer. Now we can adjust sp_usr to account for what is
-	 * effectively a 'push {lr_irq}'.
+	 * When we saved the lr_irq and the SPSR earlier, we weren't able to
+	 * modify the user mode stack pointer. Now we can adjust sp_usr to
+	 * account for what is effectively a 'push {spsr,lr_irq}'.
 	 */
-	sub	sp, sp, #4		@ Make room for lr_irq
+	sub	sp, sp, #8		@ Make room for lr_irq and SPSR
 	push	{r0-r3,r12,r14}		@ Push APCS registers
 
        /* Call the ISR */
@@ -178,9 +181,9 @@ IRQ_Routine:
 
 	/*
 	 * Prematurely 'pop' lr_irq off here, since we can't modify sp_usr in
-	 * IRQ mode when we really do restore lr_irq.
+	 * IRQ mode when we really do restore lr_irq and SPSR.
 	 */
-	add	sp, sp, #4
+	add	sp, sp, #8
 
 	/* Enable interrupts and switch back to IRQ mode to use sp_irq again. */
 	msr	cpsr, #MODE_IRQ|I_BIT
@@ -192,8 +195,11 @@ IRQ_Routine:
 	ldmfd	sp, {r0}		@ And load it into r0
 	add	sp, sp, #4
 
-	sub	r0, r0, #4		@ Undo the premature add from earlier
+	sub	r0, r0, #8		@ Undo the premature add from earlier
 	ldmfd	r0, {lr}
+	msr	spsr_cxsf, lr		@ Restore spsr
+	add	r0, r0, #4
+	ldmfd	r0, {lr}		@ Restore lr_isr
 	add	r0, r0, #4		@ nop
 	pop	{r0}
 
