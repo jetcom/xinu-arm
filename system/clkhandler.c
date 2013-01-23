@@ -36,7 +36,7 @@ interrupt clkhandler(void)
     clkticks++;
 
     /* Update global second counter. */
-    if (CLKTICKS_PER_SEC >= clkticks)
+    if (clkticks >= CLKTICKS_PER_SEC)
     {
         clktime++;
         clkticks = 0;
