@@ -60,6 +60,7 @@ int resched(void)
   asm("mtc0 %0, $10": :"r"(asid));
 #endif
 
+    restore(thrnew->intmask);
     ctxsw(&throld->stkptr, &thrnew->stkptr);
 
     /* old thread returns here when resumed */

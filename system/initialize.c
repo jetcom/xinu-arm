@@ -135,9 +135,9 @@ int nulluser(void)
 
     while (TRUE)
     {
-#ifndef DEBUG
+//#ifndef DEBUG
         pause();
-#endif /* DEBUG */
+//#endif /* DEBUG */
     }
     return OK;
 }

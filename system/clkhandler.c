@@ -11,6 +11,8 @@
 #include <clock.h>
 #include <thread.h>
 #include <platform.h>
+#include "timer.h"
+#include "conf.h"
 
 void wakeup(void);
 syscall resched(void);
@@ -19,21 +21,22 @@ syscall resched(void);
  * Clock handler updates timer registers and system time.
  * Wakes sleeping threads if necessary.
  */
-#ifdef FLUKE_ARM
-interrupt clkhandler( void ) __attribute__( ( interrupt( "IRQ" ) ) );
-#endif
+static volatile struct spc804_timer *timer0 = (struct spc804_timer *) 0x101E2000;
+interrupt clkhandler( void );
 
 interrupt clkhandler(void)
 {
-#ifndef FLUKE_ARM
+    //DEBUG
+    //kprintf("Timer went off\n");
+
+    /* Reset the timer to fire again */
     clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
-#endif
 
     /* Another clock tick passes. */
     clkticks++;
 
     /* Update global second counter. */
-    if (CLKTICKS_PER_SEC == clkticks)
+    if (CLKTICKS_PER_SEC >= clkticks)
     {
         clktime++;
         clkticks = 0;
@@ -43,10 +46,14 @@ interrupt clkhandler(void)
     /* If key reaches zero, call wakeup.              */
     if (nonempty(sleepq) && (--firstkey(sleepq) <= 0))
     {
-        wakeup();
+        wakeup(); // This no longer does a resched() call since we need to
+                  // clear our interrupts before doing a resched()
     }
-    else
-    {
-        resched();
-    }
+
+    /* Acknowledge and clear the interrupt */
+    timer0->int_clr = 1;
+    irq_handled();
+
+    resched();
 }
+

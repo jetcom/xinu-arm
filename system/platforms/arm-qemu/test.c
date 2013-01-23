@@ -15,6 +15,8 @@
 extern void usleep( int );
 extern void ksimpleterminal( void );
 extern void findMemory( void );
+extern ulong clkticks;
+extern ulong clktime;
 
 /* Timer 0 */
 #define TIMER0_IR      (*((volatile unsigned long *) 0xE0004000))
@@ -65,7 +67,7 @@ static void thr3(int a, int b, int c, int d, int e, int f, int g, int h, int j, 
 static int thr2(int a, int b, int c, int d, int e, int f, int g, int h, int j, int z)
 {
     int i;
-    kprintf("%d, %d, %d, %d, %d, %d, %d, %d, %d, %d\r\n", a, b, c, d, e, f, g, h, j, z);
+    kprintf("thr2(%d, %d, %d, %d, %d, %d, %d, %d, %d, %d)\r\n", a, b, c, d, e, f, g, h, j, z);
     thr3(a, b, c, d, e, f, g, h, j, z);
     for (i = 0; i < 10; i++)
     {
@@ -73,7 +75,7 @@ static int thr2(int a, int b, int c, int d, int e, int f, int g, int h, int j, i
         yield();
     }
     thr3(a, b, c, d, e, f, g, h, j, z);
-    kprintf("%d, %d, %d, %d, %d, %d, %d, %d, %d, %d\r\n", a, b, c, d, e, f, g, h, j, z);
+    kprintf("thr2(%d, %d, %d, %d, %d, %d, %d, %d, %d, %d)\r\n", a, b, c, d, e, f, g, h, j, z);
     return 0;
 }
 
@@ -97,7 +99,7 @@ static void threadTest(void)
  */
 static int tsThr1(const char* id)
 {
-    int i, j;
+    int i=0, j;
     while (TRUE)
     {
         for (j = 0; j < 1000000; j++)
@@ -175,22 +177,19 @@ static void uartTest( void )
 /*
  * Interrupt testing.
  */
-int numUART1Interrupts = 0;
-#define UART1_IIR      (*((volatile unsigned char *) 0xE0010008))
-void uart1_interrupt_handler( void ) __attribute__ ((interrupt("IRQ")));
-void uart1_interrupt_handler( void )
+int numGPIO0Interrupts = 0;
+void uart0_interrupt_handler( void ) __attribute__ ((interrupt("IRQ")));
+void uart0_interrupt_handler( void )
 {
-  /*   
+    disable();
     int id;
 
-    numUART1Interrupts++;
+    numGPIO0Interrupts++;
 
     // Handle the interrupt. Apparently reading this value is enough.
-    id = UART1_IIR;
-
     // Tell the VIC we've handled the interrupt.
     irq_handled();
- */
+    enable();
 }
 
 static void interruptTest( void )
@@ -207,17 +206,20 @@ static void interruptTest( void )
 	    vic_get_irqmask() );
 
     // UART 1 interrupt
-    restore( irqm );
-    register_irq( 7, uart1_interrupt_handler );
-    enable_irq( 7 );
-    kprintf("Enabled UART1 interrupt. Interrupt mask: %x\r\n", vic_get_irqmask() );
+    //restore( irqm );
 
-    for( ;; )
+    register_irq( VIC_UART0, uart0_interrupt_handler );
+    enable_irq( VIC_GPIO0 );
+    //kprintf("Enabled UART0 interrupt. Interrupt mask: %x\r\n", vic_get_irqmask() );
+
+    
+    for( i =0; i < 10; i++)
     {
         // busy-wait
-        for( i = 0; i < 100000; i++ );
+        int j = 0;
+        for( j = 0; j < 100000000; j++ );
 
-        kprintf( "UART1 interrupts: %d\r\n", numUART1Interrupts );
+        kprintf( "GPIO0 interrupts: %d\r\n", numGPIO0Interrupts );
     }
 }
 
@@ -248,6 +250,15 @@ static void irTest( void ){
 #endif
 }
 
+void clockTest( void )
+{
+    kprintf("clkticks: %d\n", clkticks );
+    kprintf("clktime: %d\n", clktime );
+    sleep(2);
+    kprintf("clkticks: %d\n", clkticks );
+    kprintf("clktime: %d\n", clktime );
+}
+
 void timerTest( void )
 {
 #if 0
@@ -264,6 +275,9 @@ bool runSelectedProgram(char c)
 {
   //    int i = 0;
     switch (c) {
+    case 'c':
+        clockTest();
+        break;
     case 'a':
         /* A simple echo program: sends back the character (q to quit)
            that you type. */
@@ -311,7 +325,7 @@ bool runSelectedProgram(char c)
         //write(BACKLED, 0, 0);
         break;
     case 'w':
-      write(SERIAL1, "hello!", 6);
+      kprintf("hello!\n");
       break;
     case 't':
       timerTest();
@@ -334,7 +348,7 @@ int programSwitch( void )
         i = (i + 1) % 100000;
 	//	led_off();
 	//	c = read(SERIAL1,1);
-	c = getc(SERIAL1);
+	c = getc(SERIAL0);
 
         if (runSelectedProgram(c)) {
             break;

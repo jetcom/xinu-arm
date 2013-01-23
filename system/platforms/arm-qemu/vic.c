@@ -1,49 +1,24 @@
 /**
- * The LPC2106 Vectored Interrupt Controller driver.
+ * 
+ * ARM PrimeCell™ Vectored Interrupt Controller (PL190/PL192)
+
+ * PL190: http://infocenter.arm.com/help/topic/com.arm.doc.ddi0181e/DDI0181.pdf
+ * PL192: http://infocenter.arm.com/help/topic/com.arm.doc.ddi0273a/DDI0273.pdf
+
+ * Also useful: * http://lxr.free-electrons.com/source/arch/arm/mach-versatile/include/mach/platform.h#L207
  *
- * @author John Kloosterman for CS320 at Calvin College,
- *   based on Fluke firmware code.
- * @date April 17, 2012
+ * @author Travis Brown
+ * @date November 16, 2012
  */
 
 #include <stddef.h>
 #include <led.h>
 #include "vic.h"
 
-/*
- * See LPC2016 manual page 62
- */
-struct vic
-{
-    uint irq_status;
-    uint fiq_status;
-    uint raw_intr;
-    uint int_select;
-    uint int_enable;
-    uint int_en_clear;
-    uint soft_int;
-    uint soft_int_clear;
-    uint protection;  // 0xFFFF F020
-
-    uint reserved_0[0x3];
-
-    void *vect_addr;// 0xFFFF F030
-    void *def_vect_addr; // 0xFFFF F034 
-
-    uint reserved_1[0x32]; // 0x33 = 0xCC / 4 bytes per word
-
-    void *vect_addrs[16]; // 0xFFFF F100
-
-    uint reserved_2[0x30];
-
-    uint vect_cntls[16]; // 0xFFFF F200 
-};
-
 
 /**
  * The VIC device
  */
-static struct vic *lpc_vic = (struct vic *) 0xFFFFF000;
 // int vic_next_slot = 0;
 
 /**
@@ -54,7 +29,6 @@ static struct vic *lpc_vic = (struct vic *) 0xFFFFF000;
  *  something went wrong, since the interrupt will just keep
  *  firing.
  */
-void vic_default( void ) __attribute__ ((interrupt("IRQ")));
 void vic_default( void )
 {
 }
@@ -64,19 +38,27 @@ void vic_default( void )
  */
 void vic_init( void )
 {
-/*
-    kprintf( "vect_addr: %x, vect_addrs: %x, vect_cntls: %x\r\n",
-	     &(lpc_vic->vect_addr),
+    /*
+    uint32_t cellid = 0;
+    for ( i = 0; i < 4; i++ )
+    {
+        cellid |= (( lpc_vic->peripheralID[i] & 0xff ) << (8*i));
+    }
+       uint vendor = (cellid >> 12 ) & 0xff;
+       kprintf("cellid: %x\n", cellid );
+    kprintf("vendor: %x\n", vendor );*/
+
+    
+    /*
+    kprintf( "vect_addr: %x,  vect_addrs: %x, vect_cntls: %x\r\n",
+             &(lpc_vic->pl190_vect_addr),
 	     &(lpc_vic->vect_addrs[0]),
-	     &(lpc_vic->vect_cntls[0]) );
-*/
+	     &(lpc_vic->vect_cntls[0]) );*/
+
+
 
     // Set the default interrupt handler to do nothing
-    lpc_vic->def_vect_addr = vic_default;
-
-    // Allow the LPC2106's interrupts to contribute to IRQ.
-    // There are 16 LPC2106 interrupts, so allow the first 16
-    // interrupts to fire.
+    lpc_vic->pl190_def_vect_addr = vic_default;
 }
 
 /**
@@ -96,6 +78,8 @@ void vic_set_irqmask( irqmask im )
     else
 	vic_disable_interrupts();
 
+    im &= 0xffff;
+
     lpc_vic->int_enable = im;
     lpc_vic->int_en_clear = ~im;
 }
@@ -104,7 +88,8 @@ void vic_enable_irq( int irq )
 {
     // We don't have to worry about ORing, because
     //  only 1-bits have effect.
-    lpc_vic->int_enable = 1 << irq;
+    lpc_vic->int_enable = 1 << irq;     // Enable our interrupt
+    //lpc_vic->int_select = 1 << irq;     // Select FIQ
 }
 
 void vic_disable_irq( int irq )
@@ -115,15 +100,19 @@ void vic_disable_irq( int irq )
     lpc_vic->int_en_clear = 1 << irq;
 }
 
-// There are 16 slots for 16 interrupts.
+// There are 32 slots for 32 interrupts.
 void vic_register_irq( vic_source_t irq, irq_handler handler )
 {
-    lpc_vic->vect_addrs[irq] = handler;
+    lpc_vic->int_en_clear = 1 << irq;       // Disable the interrupt
+    lpc_vic->vect_addrs[irq] = handler;     // Set vector address
+    lpc_vic->vect_cntls[irq] = irq | 0x20;  // Enable interrupt source
+    kprintf("lpc_vic->vect_ctrls[irq]: 0x%x\n",  lpc_vic->vect_cntls[irq] );
+
 
     // Bit 5 needs to be set to 1 to enable the interrupt. (Hex 0x20)
-    // Bits 0-4 are the priority. The VIC doesn't like having 2 with the
+    // Bits 0-4 are the source. The VIC doesn't like having 2 with the
     //  same priority, so we use the slot number.
-    lpc_vic->vect_cntls[irq] = irq | 0x20;
+    //lpc_vic->vect_cntls[irq] = irq | 0x20;
 }
 
 irq_handler get_irq(int irq)
@@ -133,5 +122,10 @@ irq_handler get_irq(int irq)
 
 void vic_interrupt_handled( void )
 {
-    lpc_vic->vect_addr = 0;
+    lpc_vic->pl190_vect_addr = 0xffffffff;
+}
+
+int vic_in_interrupt()
+{
+    return lpc_vic->pl190_vect_addr != 0;
 }

@@ -34,5 +34,6 @@ irqmask disable_irq( int irq );
 void register_irq( int irq, irq_handler handler );
 irq_handler get_irq(int irq);
 void irq_handled( void );
+int in_interrupt( void );
 
 #endif                          /* _INTERRUPT_H_ */

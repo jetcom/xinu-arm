@@ -44,7 +44,7 @@ int platforminit( void )
             kprintf("Press @ to begin.\r\n");
         }
         i = (i+1)%100000;
-    	c = getc(SERIAL1);
+    	c = getc(SERIAL0);
         if (c == '@') {
             break;
         }
@@ -52,7 +52,7 @@ int platforminit( void )
 
     strncpy(platform.name, "ARM Qemu", PLT_STRMAX);
     platform.maxaddr = (void *)(0x8000000/*RAM*/) /** \todo dynamically determine? */;
-    platform.clkfreq = 20000 /** \todo dynamically determine? */;
+    platform.clkfreq = 64000 /** \todo dynamically determine? */;
     //    platform.uart_dll = 1337 /** \todo fixme */;
 
 

@@ -62,7 +62,7 @@ syscall kprintf(char *fmt, ...)
 va_list ap;
 
     va_start(ap, fmt);
-    _doprnt(fmt, ap, (int (*)(int, int))kputc, (int)&devtab[SERIAL1]);
+    _doprnt(fmt, ap, (int (*)(int, int))kputc, (int)&devtab[SERIAL0]);
     va_end(ap);
   
     return OK;

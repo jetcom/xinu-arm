@@ -12,6 +12,7 @@
 #include <interrupt.h>
 #include <clock.h>
 #include <queue.h>
+#include "conf.h"
 
 #if RTCLOCK
 ulong clkticks = 0;           /** ticks per second downcounter         */
@@ -35,14 +36,12 @@ void clkinit(void)
             platform.clkfreq, CLKTICKS_PER_SEC);
 #endif
 
-#ifdef FLUKE_ARM
-    timer_init();
-#else
     /* register clock interrupt */
+    //timer_init();
+
     register_irq(IRQ_TIMER, clkhandler);
     enable_irq(IRQ_TIMER);
     clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
-#endif
 }
 
 #endif                          /* RTCLOCK */

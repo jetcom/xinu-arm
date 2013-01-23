@@ -6,6 +6,7 @@
 
 thread spin(void)
 {
+#ifdef IRQ_HW0
     int i;
     for (i = IRQ_HW0; i <= IRQ_HW5; i++)
     {
@@ -16,6 +17,7 @@ thread spin(void)
 
     while (TRUE)
         ;
+#endif
 
     return OK;
 }
