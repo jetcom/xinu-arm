@@ -18,8 +18,6 @@ MAIN_SRC  = ../system/main.c
 TOPDIR    = ..
 LIBDIR    = ${TOPDIR}/lib
 
-LIBGCC := $(shell $(CC) -print-libgcc-file-name)
-
 # Default make target is in platformVars file.
 
 ###########################

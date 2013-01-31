@@ -22,6 +22,8 @@ OBJCOPY  = ${CROSS_COMPILER}objcopy
 MAKEDEP  = gcc -M -MG
 CP = ${OBJCOPY}
 
+LIBGCC := $(shell $(CC) -print-libgcc-file-name)
+
 DOCGEN   = doxygen
 
 # DETAIL   = -DDETAIL

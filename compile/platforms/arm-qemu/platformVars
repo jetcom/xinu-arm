@@ -14,7 +14,6 @@ BINFILE = xinu.bin
 
 CHOST = arm-none-eabi
 CROSS_COMPILER = ${CHOST}-
-LIBGCC?=-L/usr/local/lib/gcc/${CHOST}/4.6.3/ -lgcc
 
 CC       = ${CROSS_COMPILER}gcc
 CPP      = ${CROSS_COMPILER}cpp
@@ -24,6 +23,8 @@ AR       = ${CROSS_COMPILER}ar
 OBJCOPY  = ${CROSS_COMPILER}objcopy
 MAKEDEP  = gcc -M -MG
 CP = ${OBJCOPY}
+
+LIBGCC := $(shell $(CC) -print-libgcc-file-name)
 
 DOCGEN   = doxygen
 
