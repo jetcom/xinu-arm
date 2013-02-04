@@ -1,0 +1,148 @@
+		/* initialize uart (poorly) */
+		//AUX_ENABLES = 1
+		ldr   r0, AUX_ENABLES
+		ldr   r1, ONE
+		str   r1, [r0, #0]
+		//AUX_MU_IER_REG = 0
+		ldr   r0, AUX_MU_IER_REG
+		ldr   r1, ZERO
+		str   r1, [r0, #0]
+		//AUX_MU_CNTL_REG = 0
+		ldr   r0, AUX_MU_CNTL_REG
+		ldr   r1, ZERO
+		str   r1, [r0, #0]
+		//AUX_MU_LCR_REG = 3
+		ldr   r0, AUX_MU_LCR_REG
+		ldr   r1, THREE
+		str   r1, [r0, #0]
+		//AUX_MU_MCR_REG = 0
+		ldr   r0, AUX_MU_MCR_REG
+		ldr   r1, ZERO
+		str   r1, [r0, #0]
+		//AUX_MU_IER_REG = 0
+		ldr   r0, AUX_MU_IER_REG
+		ldr   r1, ZERO
+		str   r1, [r0, #0]
+		//AUX_MU_IIR_REG = 0xC6
+		ldr   r0, AUX_MU_IIR_REG
+		ldr   r1, CSIX
+		str   r1, [r0, #0]
+		//AUX_MU_BAUD_REG = 270
+		ldr   r0, AUX_MU_BAUD_REG
+		ldr   r1, TWOSEVENTY
+		str   r1, [r0, #0]
+
+		//GPFSEL1 &= ~(7<<12)
+		ldr   r0, GPFSEL1
+		ldr   r1, [r0, #0]
+		ldr   r2, GPFSEL1_MASK1
+		and   r1, r1, r2
+		str   r1, [r0, #0]
+		//GPFSEL1 |= (2<<12)
+		ldr   r0, GPFSEL1
+		ldr   r1, [r0, #0]
+		ldr   r2, GPFSEL1_MASK2
+		orr   r1, r1, r2
+		str   r1, [r0, #0]
+
+		//GPPUD = 0
+		ldr   r0, GPPUD
+		ldr   r1, ZERO
+		str   r1, [r0, #0]
+		//for(ra=0;ra<150;ra++) dummy(ra);
+		ldr   r0, ONEFIFTY
+wait1:		bl    dummy
+		subs  r0, r0, #1
+		bne   wait1
+		//GPPUDCLK0 = (1<<14)
+		ldr   r0, GPPUDCLK0
+		ldr   r1, GPPUDCLK0_MASK1
+		str   r1, [r0, #0]
+		//for(ra=0;ra<150;ra++) dummy(ra);
+		ldr   r0, ONEFIFTY
+wait2:		bl    dummy
+		subs  r0, r0, #1
+		bne   wait2
+		//GPPUDCLK0 = 0
+		ldr   r0, GPPUDCLK0
+		ldr   r1, ZERO
+		str   r1, [r0, #0]
+
+		//AUX_MU_CNTL_REG = 2
+		ldr   r0, AUX_MU_CNTL_REG
+		ldr   r1, TWO
+		str   r1, [r0, #0]
+
+		//AUX_MU_IO_REG = '?'
+		ldr   r0, AUX_MU_IO_REG
+		ldr   r1, TESTCHAR
+		str   r1, [r0, #0]
+
+		b done
+
+dummy:
+		bx lr
+
+.align  2
+GPFSEL1:
+        .word   0x20200004
+GPSET0:
+        .word   0x2020001C
+GPCLR0:
+        .word   0x20200028
+GPPUD:
+        .word   0x20200094
+ONEFIFTY:
+	.word	0x00000096 //150
+GPPUDCLK0:
+        .word   0x20200098
+
+AUX_ENABLES:
+        .word   0x20215004
+AUX_MU_IO_REG:
+        .word   0x20215040
+AUX_MU_IER_REG:
+        .word   0x20215044
+AUX_MU_IIR_REG:
+        .word   0x20215048
+AUX_MU_LCR_REG:
+        .word   0x2021504C
+AUX_MU_MCR_REG:
+        .word   0x20215050
+AUX_MU_LSR_REG:
+        .word   0x20215054
+AUX_MU_MSR_REG:
+        .word   0x20215058
+AUX_MU_SCRATCH:
+        .word   0x2021505C
+AUX_MU_CNTL_REG:
+        .word   0x20215060
+AUX_MU_STAT_REG:
+        .word   0x20215064
+AUX_MU_BAUD_REG:
+        .word   0x20215068
+
+ONE:
+	.word	0x00000001
+ZERO:
+	.word	0x00000000
+THREE:
+	.word	0x00000003
+CSIX:
+	.word	0x000000C6
+TWOSEVENTY:
+	.word	0x0000010E //270
+GPFSEL1_MASK1:
+	.word	0xFFFF8FFF //~(7<<12)
+GPFSEL1_MASK2:
+	.word	0x00002000 //(2<<12)
+GPPUDCLK0_MASK1:
+	.word	0x00004000 //(1<<14)
+TWO:
+	.word	0x00000002
+AUXMULSR_MASK1:
+	.word	0x00000020
+TESTCHAR:
+	.word	0x0000003F //'?'
+
+done:

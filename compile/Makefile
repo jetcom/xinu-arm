@@ -3,7 +3,8 @@
 #
 #  $Id: Makefile 2132 2009-11-17 23:22:38Z brylow $
 
-PLATFORM = arm-qemu
+PLATFORM = raspberry-pi
+#PLATFORM = arm-qemu
 #PLATFORM = fluke-arm 
 
 DETAIL   = -DDETAIL
@@ -17,6 +18,8 @@ MAIN_SRC  = ../system/main.c
 
 TOPDIR    = ..
 LIBDIR    = ${TOPDIR}/lib
+
+LIBGCC := $(shell $(CC) -print-libgcc-file-name)
 
 # Default make target is in platformVars file.
 

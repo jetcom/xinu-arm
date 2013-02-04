@@ -1,0 +1,74 @@
+#
+#  Platform-specific Makefile definitions for the
+#  Embedded Xinu operating system.
+#
+#  Raspberry Pi ARM platform.
+#
+#  $Id: platformVars 2132 2009-11-17 23:22:38Z brylow $
+
+PLATFORM = raspberry-pi
+
+HEXFILE = xinu.hex
+BINFILE = xinu.bin
+
+
+CHOST = arm-none-eabi
+CROSS_COMPILER = ${CHOST}-
+LIBGCC?=-L/usr/local/lib/gcc/${CHOST}/4.6.3/ -lgcc
+
+CC       = ${CROSS_COMPILER}gcc
+CPP      = ${CROSS_COMPILER}cpp
+LD       = ${CROSS_COMPILER}ld
+AS       = ${CROSS_COMPILER}as
+AR       = ${CROSS_COMPILER}ar
+OBJCOPY  = ${CROSS_COMPILER}objcopy
+MAKEDEP  = gcc -M -MG
+CP = ${OBJCOPY}
+
+DOCGEN   = doxygen
+
+# DETAIL   = -DDETAIL
+
+DEFS     =
+INCLUDE  = -I../include -I../system/platforms/${PLATFORM}
+
+#flag for producing GDB debug information
+BUGFLAG = -gstabs+
+
+# C compilation flags
+CFLAGS = -O0 -Wall -Wstrict-prototypes -Wno-trigraphs    \
+       -nostdinc -fno-builtin -fno-strict-aliasing -fno-common \
+        -fomit-frame-pointer -fno-pic -ffunction-sections \
+        ${DEBUG} ${INCLUDE} ${DETAIL} ${DEFS} -c
+
+# Assembler flags
+ASFLAGS  = ${INCLUDE} ${DEBUG}
+
+# Loader flags
+LDFLAGS   = -static --gc-sections -Map xinu.map -T platforms/${PLATFORM}/ld.script # $(LIBGCC)
+
+# Objcopy flags
+OCFLAGS  = -I binary -O elf32-littlemips -B mips
+
+CPFLAGS = -O ihex
+
+# Embedded Xinu components to build into kernel image
+APPCOMPS  = apps mailbox #test #shell  test network # mem
+
+DEVICES = loopback uart-bcm2835miniuart #tty #uart-ns16550 #uart-arm-qemu raw tty #uart-ns16550
+#DEVICES = loopback uart-pl01x #tty #uart-ns16550 #uart-arm-qemu raw tty #uart-ns16550
+#DEVICES = loopback led tty uart-ns16550 #uart-arm-qemu raw tty #uart-ns16550
+# bcmbus bcm4713 flash \
+#		ethloop loopback raw tty uart-ns16550 \
+#		udp tcp http telnet
+DEVCOMPS  = ${DEVICES:%=device/%}
+
+all: ${BINFILE} ${HEXFILE}
+
+${BINFILE}: xinu.elf
+	${CP} -O binary $^ $@ 
+
+${HEXFILE}: xinu.elf
+	${CP} ${CPFLAGS} xinu.elf xinu.hex
+
+        
