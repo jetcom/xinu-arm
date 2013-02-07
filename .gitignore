@@ -5,6 +5,19 @@
 *.bin
 *.a
 
+# Generated Source Files #
+##########################
+compile/config/config
+compile/config/lex.yy.c
+compile/config/lex.yy.h
+compile/config/y.tab.c
+compile/config/y.tab.h
+compile/version
+compile/vn
+compile/xinu.map
+include/conf.h
+system/conf.c
+
 # Compiled source #
 ###################
 *.com
