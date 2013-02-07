@@ -10,6 +10,10 @@
  *
  ******************************************************************************/
 
+#include <platform-local.h>
+/* Vectored Interrupt Controller */
+#include <pl190.h>
+
 #define S_FRAME_SIZE 72
 #define S_PC    60
 
@@ -167,13 +171,13 @@ IRQ_Routine:
 	push	{r0-r3,r12,r14}		@ Push APCS registers
 
        /* Call the ISR */
-       LDR    r0, =0x10140000
-       LDR    r1, [r0, #0x30] /* Discover source of interrupt */
+       LDR    r0, =VIC_BASE_ADDRESS
+       LDR    r1, [r0, #VIC_VEC_ADDR] /* Discover source of interrupt */
        blx    r1
 
        /* This is the responsibility of the C IRQ-Handler */
 #if 0
-       LDR r1, =0x10140030
+       LDR r1, =(VIC_BASE_ADDRESS + VIC_VEC_ADDR)
        STR r0, [r1]             /* Acknowledge Vectored IRQ has been serviced */
 #endif
 
