@@ -14,6 +14,6 @@
 .type halt, %function
 
 halt:
-	msr cpsr, #(PSR_I_BIT & PSR_F_BIT)	@ Diable interrupts
+	msr cpsr, #(PSR_I_BIT | PSR_F_BIT)	@ Diable interrupts
 	wfi
 	b halt
