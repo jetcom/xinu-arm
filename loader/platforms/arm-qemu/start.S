@@ -136,6 +136,22 @@ Reset_Handler:
 		/* Enter the C code  */
                 b       _startup
 
+.type panic_no_isr, %function
+/*
+ * Panic, since the the ISR that the VIC has given us is null.
+ */
+panic_no_isr:
+	ldr	r1, [r0, #VIC_IRQ_STATUS]
+	ldr	r0, panic_no_isr_str_ptr
+	mov	r2, #0
+	bl	kprintf
+	b	halt
+.section	.rodata
+panic_no_isr_str:
+	.asciz "Panic: Null interrupt handler! VIC_IRQ_STATUS: 0x%x\n"
+.text
+panic_no_isr_str_ptr:	.word	panic_no_isr_str
+
 
 IRQ_Routine:
 	/*
@@ -173,6 +189,8 @@ IRQ_Routine:
        /* Call the ISR */
        LDR    r0, =VIC_BASE_ADDRESS
        LDR    r1, [r0, #VIC_VEC_ADDR] /* Discover source of interrupt */
+       cmp    r1, #0
+       beq    panic_no_isr
        blx    r1
 
        /* This is the responsibility of the C IRQ-Handler */
