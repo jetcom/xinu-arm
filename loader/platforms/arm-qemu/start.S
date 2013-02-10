@@ -190,6 +190,26 @@ IRQ_Routine:
        LDR    r0, =VIC_BASE_ADDRESS
        LDR    r1, [r0, #VIC_VEC_ADDR] /* Discover source of interrupt */
        cmp    r1, #0
+
+#if    QEMU_VIC_WORKAROUND
+       /* Workaround for QEMU bug.
+        * In some versions of QEMU, the VIC has an off-by-one error and gives
+        * us a null ISR. This determines the source of the interrupt and
+        * manually uses the VIC's jump table in memory to find the right ISR.
+        */
+       ldreq  r2, [r0, #VIC_IRQ_STATUS]
+       /* FIXME: Do the proper way of determining what IRQ to call. That is,
+        * shifting, anding and comparing. */
+       subeq  r2, r2, #1
+       clzeq  r3, r2
+       moveq  r2, #32
+       subeq  r3, r2, r3
+       moveq  r4, #4
+       muleq  r3, r4, r3
+       addeq  r3, r3, #VIC_VECT_ADDR_BASE
+       ldreq    r1, [r0, r3]
+       cmpeq    r1, #0
+#endif /* End QEMU VIC workaround */
        beq    panic_no_isr
        blx    r1
 
