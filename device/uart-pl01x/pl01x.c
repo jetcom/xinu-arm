@@ -140,12 +140,12 @@ devcall uartInit (device *devptr)
 	unsigned int remainder;
 	unsigned int fraction;
     
-        disable_irq( VIC_UART0 );
+        disable_irq( devptr->irq );
         
 	/*
 	 ** First, disable everything.
 	 */
-	IO_WRITE (port[CONSOLE_PORT] + UART_PL011_CR, 0x0);
+	IO_WRITE ((devptr->csr) + UART_PL011_CR, 0x0);
 
 	/*
 	 ** Set baud rate
@@ -159,19 +159,19 @@ devcall uartInit (device *devptr)
 	temp = (8 * remainder) / baudRate;
 	fraction = (temp >> 1) + (temp & 1);
 
-	IO_WRITE (port[CONSOLE_PORT] + UART_PL011_IBRD, divider);
-	IO_WRITE (port[CONSOLE_PORT] + UART_PL011_FBRD, fraction);
+	IO_WRITE ((devptr->csr) + UART_PL011_IBRD, divider);
+	IO_WRITE ((devptr->csr) + UART_PL011_FBRD, fraction);
 
 	/*
 	 ** Set the UART to be 8 bits, 1 stop bit, no parity, fifo enabled.
 	 */
-	IO_WRITE (port[CONSOLE_PORT] + UART_PL011_LCRH,
+	IO_WRITE ((devptr->csr) + UART_PL011_LCRH,
 		  (UART_PL011_LCRH_WLEN_8 | UART_PL011_LCRH_FEN));
 
 	/*
 	 ** Finally, enable the UART
 	 */
-	IO_WRITE (port[CONSOLE_PORT] + UART_PL011_CR,
+	IO_WRITE ((devptr->csr) + UART_PL011_CR,
 		  (UART_PL011_CR_UARTEN | UART_PL011_CR_TXE |
 		   UART_PL011_CR_RXE));
 
@@ -187,7 +187,7 @@ devcall uartRead( device *devptr, void *buf, uint len )
     uchar *buffer = buf;
     for( i = 0; i < len; i++ )
     {
-        buffer[i] = pl01x_getc (CONSOLE_PORT);
+        buffer[i] = pl01x_getc (devptr->num);
     }
     return OK;
 }
@@ -198,7 +198,7 @@ devcall uartWrite( device *devptr, void *buf, uint len )
     uchar *buffer = buf;
     for( i = 0; i < len; i++ )
     {
-        pl01x_putc (CONSOLE_PORT, *buffer);
+        pl01x_putc (devptr->num, *buffer);
     }
     return OK;
 }
@@ -206,14 +206,14 @@ devcall uartWrite( device *devptr, void *buf, uint len )
 devcall uartGetc( device *devptr )
 {
     uchar ch = 0;
-    ch = pl01x_getc (CONSOLE_PORT);
+    ch = pl01x_getc (devptr->num);
     return ch;
 
 }
 
 devcall uartPutc( device *devptr, char ch )
 {
-    pl01x_putc( CONSOLE_PORT, ch );
+    pl01x_putc( devptr->num, ch );
     return OK;
 }
 
