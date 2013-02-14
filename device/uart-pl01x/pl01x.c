@@ -31,7 +31,7 @@
 //#include <watchdog.h>
 
 #include <device.h>
-#include "interrupt.h"
+#include <platform-local.h>
 #include "vic.h"
 
 
@@ -58,8 +58,8 @@ void uart_interrupt( void )
 #define CONSOLE_PORT 0
 #define baudRate 38400
 
-#define CONFIG_SYS_SERIAL0 0x101F1000
-#define CONFIG_SYS_SERIAL1 0x101F2000
+#define CONFIG_SYS_SERIAL0 UART0_BASE_ADDRESS
+#define CONFIG_SYS_SERIAL1 UART1_BASE_ADDRESS
 #define CONFIG_PL011_SERIAL 
 #define CONFIG_PL011_CLOCK 24000000
 
