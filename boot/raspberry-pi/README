@@ -1,0 +1,9 @@
+The files contained in this directory are required to get the Raspberry Pi to boot.
+
+Here are descriptions of what the files do:
+	bootcode.bin - GPU firmware
+	start.elf - GPU firmware
+	LICENCE.broadcom - license for the GPU firmware
+	config.txt - GPU and ARM configuration
+
+To set up the SD card: simply format the card as FAT32 and copy these files plus an ARM binary file named kernel.img to it.

@@ -1,0 +1,21 @@
+# Don't delay before loading the code.
+boot_delay=0
+boot_delay_ms=0
+
+# Configure the serial port.
+init_uart_baud=9600
+init_uart_clock=3000000
+
+# Load and run code starting at the same address our QMEU system does.
+# By default, the GPU in the Pi will try to boot the ARM at 0x8000.
+kernel_address=0x00010000
+
+# Clocking options.
+# WARNING: Changing these may effect the timing of ARM peripheral devices.
+arm_freq=700
+gpu_freq=250
+core_freq=250
+sdram_freq=400
+arm_freq_min=700
+core_freq_min=250
+sdram_freq_min=400
