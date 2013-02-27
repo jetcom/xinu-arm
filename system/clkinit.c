@@ -42,6 +42,8 @@ void clkinit(void)
     register_irq(IRQ_TIMER, clkhandler);
     enable_irq(IRQ_TIMER);
     clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
+    
+    kprintf("Made it past timer init");
 }
 
 #endif                          /* RTCLOCK */
