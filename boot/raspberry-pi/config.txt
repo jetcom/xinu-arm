@@ -3,7 +3,7 @@ boot_delay=0
 boot_delay_ms=0
 
 # Configure the serial port.
-init_uart_baud=9600
+init_uart_baud=115200
 init_uart_clock=3000000
 
 # Load and run code starting at the same address our QMEU system does.
