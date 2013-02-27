@@ -1,0 +1,15 @@
+# This Makefile contains rules to build files in the loader/ directory.
+
+# Name of this component (the directory this file is stored in)
+COMP = loader/platforms/${PLATFORM}
+
+# Source files for this component
+C_FILES = 
+S_FILES = start.S
+
+# Grab an interrupt controller
+INCLUDE += -I../device/interrupt-controller
+
+# Add the files to the compile source path
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}

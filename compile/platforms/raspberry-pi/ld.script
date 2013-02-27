@@ -1,0 +1,32 @@
+OUTPUT_ARCH(arm)
+ENTRY(Reset_Handler)
+
+SECTIONS {
+        . = 0x10000;
+        . = ALIGN(4);
+	.text   :
+	{
+		*(.text .text.*)     /* asm text, then C text                 */
+		*(.rodata .rodata.*) /* asm and C read-only data              */
+		*(.glue_7 .glue_7t)  /* mystery sections                      */
+		_etext = . ;         /* provide _etext constant               */
+	} 
+
+	.data   :
+	{
+		_data = . ;
+		*(.data .data.*)     /* asm and C data                        */
+		_edata = . ;         /* end of data constant                  */
+	} 
+
+	.bss    :
+	{
+		_bss = . ;           /* beginning of bss segment              */
+		*(.bss .bss.*)       /* asm and C bss                         */
+		*(COMMON)            /* extra sections that are common        */
+	}
+        . = ALIGN(4);
+	_bss_end = .;
+	_end = . ;           /* end of image constant                 */
+}
+
