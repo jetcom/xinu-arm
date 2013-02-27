@@ -11,7 +11,9 @@
 #include <clock.h>
 #include <thread.h>
 #include <platform.h>
+#ifdef FLUKE_ARM
 #include "timer.h"
+#endif
 #include "conf.h"
 
 void wakeup(void);
@@ -21,7 +23,9 @@ syscall resched(void);
  * Clock handler updates timer registers and system time.
  * Wakes sleeping threads if necessary.
  */
+#ifdef FLUKE_ARM
 static volatile struct spc804_timer *timer0 = (struct spc804_timer *) 0x101E2000;
+#endif
 interrupt clkhandler( void );
 
 interrupt clkhandler(void)
@@ -50,9 +54,11 @@ interrupt clkhandler(void)
                   // clear our interrupts before doing a resched()
     }
 
+    #ifdef FLUKE_ARM
     /* Acknowledge and clear the interrupt */
     timer0->int_clr = 1;
     irq_handled();
+    #endif
 
     resched();
 }
