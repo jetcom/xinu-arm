@@ -19,8 +19,10 @@ ulong clkticks = 0;           /** ticks per second downcounter         */
 ulong clktime = 0;            /** current time in seconds              */
 qid_typ sleepq;               /** queue of sleeping processes          */
 
+#ifdef FLUKE_ARM
 // in systems/fluke-arm/timer.c
 void timer_init( void );
+#endif
 
 /**
  * Initialize the clock and sleep queue.  This function is called at startup.
@@ -36,14 +38,14 @@ void clkinit(void)
             platform.clkfreq, CLKTICKS_PER_SEC);
 #endif
 
+#ifdef FLUKE_ARM
     /* register clock interrupt */
     //timer_init();
+#endif
 
     register_irq(IRQ_TIMER, clkhandler);
     enable_irq(IRQ_TIMER);
     clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
-    
-    kprintf("Made it past timer init");
 }
 
 #endif                          /* RTCLOCK */
