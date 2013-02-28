@@ -52,16 +52,19 @@ int platforminit( void )
             kprintf("Press @ to begin.\r\n");
         }
         i = (i+1)%100000;
-    	c = getc(SERIAL0);
-        if (c == '@') {
+    	c = kgetc(SERIAL0);
+        //if (c == '@') { //DEBUG - bypass this because getc doesn't seem to work yet
             break;
-        }
+        //}
     }
 
+    //fill in the platform information struct (from include/platform.h)
     strncpy(platform.name, "Raspberry Pi", PLT_STRMAX);
-    platform.maxaddr = (void *)(0x8000000/*RAM*/) /** \todo dynamically determine? */;
-    platform.clkfreq = 64000 /** \todo dynamically determine? */;
-    //    platform.uart_dll = 1337 /** \todo fixme */;
+    strncpy(platform.family, "ARM", PLT_STRMAX);
+    platform.maxaddr = (void *)(0x8000000/*128MB of RAM*/) /** \todo dynamically determine? */;
+    platform.clkfreq = 1000000 /*we have a 1Mhz input clock to the system timer*/ /** \todo dynamically determine? */;
+    //platform.uart_dll = 1337 /*Divisor Latch Low Byte, not useful?*/ /** \todo fixme */;
+    //platform.uart_irqnum = 0; /*UART IRQ number? Not read anywhere.*/
 
 
     return OK;
