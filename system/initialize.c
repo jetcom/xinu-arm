@@ -30,6 +30,7 @@
 #include <syscall.h>
 #include <safemem.h>
 
+#include <uart.h> //DEBUG
 
 
 /* Linker provides start and end of image */
@@ -72,10 +73,10 @@ void programSwitch( void );
  */
 int nulluser(void)
 {
+    platforminit();
+
     kprintf(VERSION);
     kprintf("\r\r\n\n");
-
-    platforminit();
 
 #ifdef DETAIL
     /* Output detected platform. */
@@ -123,7 +124,7 @@ int nulluser(void)
     kprintf("\r\n");
 
 #ifdef CONSOLE
-    open(CONSOLE, SERIAL0);
+    open(CONSOLE, SERIAL0); //TODO: this doesn't work on the Raspberry Pi
 #endif /* CONSOLE */
 
     /* enable interrupts here */
@@ -198,7 +199,7 @@ static int sysinit(void)
     thrptr->memlist.length = 0;
     thrcurrent = NULLTHREAD;
 
-    kprintf("&_end is 0x%x\n", &_end);
+    kprintf("&_end is 0x%x\r\n", &_end);
 
     /* Initialize semaphores */
     for (i = 0; i < NSEM; i++)
@@ -209,7 +210,7 @@ static int sysinit(void)
         semptr->queue = queinit();
     }
 
-    kprintf("NPOOL is %d\n", NPOOL);
+    kprintf("NPOOL is %d\r\n", NPOOL);
 
     /* Initialize buffer pools */
     for (i = 0; i < NPOOL; i++)
@@ -232,7 +233,7 @@ static int sysinit(void)
     clkinit();
 #endif                          /* RTCLOCK */
 
-#ifdef UHEAP_SIZE
+#ifdef UHEAP_SIZE //NOTE, false on PI
     /* Initialize user memory manager */
     userheap = stkget(UHEAP_SIZE);
     if (SYSERR != (int)userheap)
@@ -250,19 +251,19 @@ static int sysinit(void)
     userheap = NULL;
 #endif                          /* UHEAP_SIZE */
 
-#if USE_TLB
+#if USE_TLB //NOTE, false on PI
     /* initialize TLB */
     tlbInit();
     /* register system call handler */
     exceptionVector[EXC_SYS] = syscall_entry;
 #endif                          /* USE_TLB */
 
-#if NMAILBOX
+#if NMAILBOX //NOTE, true on PI
     /* intialize mailboxes */
     mailboxInit();
 #endif
 
-#if NDEVS
+#if NDEVS //NOTE, nonzero on PI
     for (i = 0; i < NDEVS; i++)
     {
         if (!isbaddev(i))
@@ -272,6 +273,7 @@ static int sysinit(void)
         }
     }
 #endif
+
 #if 0
 #if NVRAM
     nvramInit();
@@ -285,6 +287,7 @@ static int sysinit(void)
     gpioLEDOn(GPIO_LED_CISCOWHT);
 #endif
 #endif
+
     kprintf("done with sysinit()\r\n");
 
     return OK;
