@@ -54,11 +54,11 @@ devcall uartInit(device *devptr)
     uartptr->ocount = 0;
     uartptr->oidle = 1;
 
-    /* Disable the UART before configuring it */
-    regptr->cr = 0;
-
     /* Wait for the UART to stop transmitting or receiving */
     while(regptr->fr & PL011_FR_BUSY){}
+
+    /* Disable the UART before configuring it */
+    regptr->cr = 0;
 
     /* Flush the transmit FIFO */
     regptr->lcrh &= ~(PL011_LCRH_FEN);
