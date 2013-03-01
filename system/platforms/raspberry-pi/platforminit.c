@@ -38,7 +38,7 @@ int platforminit( void )
     GPIOPULLOF(15);
 
     //initialize the VIC
-    vic_init();
+    vic_init(); //NOTE redundant since initilialize.c?
 
     /*
      * Go into an infinite loop waiting for user to type the @ sign.
@@ -52,10 +52,10 @@ int platforminit( void )
             kprintf("Press @ to begin.\r\n");
         }
         i = (i+1)%100000;
-    	c = kgetc(SERIAL0);
-        //if (c == '@') { //DEBUG - bypass this because getc doesn't seem to work yet
+    	c = kgetc(&devtab[SERIAL0]);
+        if (c == '@') {
             break;
-        //}
+        }
     }
 
     //fill in the platform information struct (from include/platform.h)
