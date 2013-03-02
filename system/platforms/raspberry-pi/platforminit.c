@@ -20,6 +20,10 @@ extern struct platform platform;        /* Platform specific configuration */
 
 //void kinitputc( void );
 
+//NOTE on the Raspberry Pi, we rely on the GPU to have initialized the PL011
+//properly so that we can do kprintf since we don't actually initialize it
+//until the latter part of sysinit()
+
 /**
  * Determines and stores all platform specific information.
  * @return OK if everything is determined successfully
@@ -38,7 +42,7 @@ int platforminit( void )
     GPIOPULLOF(15);
 
     //initialize the VIC
-    vic_init(); //NOTE redundant since initilialize.c?
+    vic_init();
 
     /*
      * Go into an infinite loop waiting for user to type the @ sign.
@@ -52,10 +56,9 @@ int platforminit( void )
             kprintf("Press @ to begin.\r\n");
         }
         i = (i+1)%100000;
-    	c = kgetc(&devtab[SERIAL0]);
-        if (c == '@') {
+        //if (c == '@') { //DEBUG (I'm tired of pressing @ :) )
             break;
-        }
+        //}
     }
 
     //fill in the platform information struct (from include/platform.h)
