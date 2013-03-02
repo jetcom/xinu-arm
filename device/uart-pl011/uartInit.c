@@ -80,15 +80,11 @@ devcall uartInit(device *devptr)
     regptr->ibrd = PL011_BAUD_INT(115200);
     regptr->fbrd = PL011_BAUD_FRAC(115200);
 
-    /* 8 bit, No Parity, 1 Stop, Disable FIFOs for now */
+    /* 8 bit, No Parity, 1 Stop, Disable FIFOs*/
     regptr->lcrh = (PL011_LCRH_WLEN_8BIT);
 
     /* Enable interrupts */
     regptr->imsc = (PL011_IMSC_TXIM | PL011_IMSC_RXIM);
-
-    /* Enable UART FIFOs, clear and set interrupt trigger level       */
-    regptr->lcrh |= PL011_LCRH_FEN;
-    regptr->ifls = (PL011_IFLS_RXIFLSEL_SEVENEIGHTHS | PL011_IFLS_TXIFLSEL_EIGHTH);
 
     /* Now that we're done configureing, enable UART */
     regptr->cr = ((PL011_CR_RXE) | (PL011_CR_TXE) | (PL011_CR_UARTEN));

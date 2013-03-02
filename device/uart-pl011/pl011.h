@@ -148,7 +148,14 @@ struct uart_csreg
 #define PL011_ICR_CTSMIC (1<<1)  //CTS interrupt clear
 #define PL011_ICR_RIMIC  (1<<0)  //RI interrupt clear
 
-#define PL011_FIFO_LEN   8       /**< During testing on a Raspberry Pi, I could only send 8. */
+/*During testing on a Raspberry Pi, I could only send 8 characters.
+  FIFOs are disabled (check uartInit()) bcause it seems that you can't
+  independantly enable the TX and RX FIFOs. Having a TX FIFO is nice
+  since that means fewer interrupts, but an RX FIFO means that we
+  won't respond to each individual character received, which is bad
+  for interactivity.
+*/
+#define PL011_FIFO_LEN   1
 
 #define PL011_BAUD_INT(x) (3000000 / (16 * (x)))
 #define PL011_BAUD_FRAC(x) (int)((((3000000.0 / (16.0 * (x)))-PL011_BAUD_INT(x))*64.0)+0.5) //9600 baud may be slightly off with this calcualtion
