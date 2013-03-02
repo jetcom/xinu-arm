@@ -16,6 +16,9 @@
 #endif
 #include "conf.h"
 
+//DEBUG
+#include "platforms/raspberry-pi/gpio.h"
+
 void wakeup(void);
 syscall resched(void);
 
@@ -30,11 +33,15 @@ interrupt clkhandler( void );
 
 interrupt clkhandler(void)
 {
-    //DEBUG
-    //kprintf("Timer went off\n");
+    if(GPIOREAD(16)){ //DEBUG
+        GPIOCLR(16);
+    }else{
+        GPIOSET(16);
+    }
 
     /* Reset the timer to fire again */
-    clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
+    //clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
+    clkupdate(1000000); //DEBUG
 
     /* Another clock tick passes. */
     clkticks++;
