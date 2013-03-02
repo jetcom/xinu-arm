@@ -41,9 +41,7 @@ interrupt uartInterrupt(void)
         }
 
         /* Check raw interrupt status register */
-        //iir = regptr->iir;
         ris = regptr->ris;
-        //if (iir & UART_IIR_IRQ) //if there is no interrupt
         if (ris == 0) //if there is no interrupt
         {
             continue;
@@ -52,7 +50,6 @@ interrupt uartInterrupt(void)
         //handle whatever interrupt occurred
         if(ris & PL011_RIS_TXRIS){ //if the transmitter FIFO ran out
             uartptr->oirq++; //increment output IRQ count
-            //lsr = regptr->lsr;  /* Read from LSR to clear interrupt */
             regptr->icr |= PL011_ICR_TXIC; //clear transmitter interrupt
             count = 0;
             if (uartptr->ocount > 0) //if we have bytes in the buffer
@@ -65,14 +62,12 @@ interrupt uartInterrupt(void)
                     regptr->buffer = uartptr->out[uartptr->ostart]; //write a character to the FIFO
                     uartptr->ostart = (uartptr->ostart + 1) % UART_OBLEN;
                 }
-                //while ((count < UART_FIFO_LEN) && (uartptr->ocount > 0));
                 while ((count < PL011_FIFO_LEN) && (uartptr->ocount > 0));
             }
 
             if (count)
             {
                 uartptr->cout += count;
-                //signaln(uartptr->osema, count);
             }
             /* If no characters were written, set the output idle flag. */
             else
@@ -82,8 +77,7 @@ interrupt uartInterrupt(void)
         }else if(ris & PL011_RIS_RXRIS){ //if the receiver FIFO is full
             uartptr->iirq++; //increment input IRQ count
             count = 0;
-            //while (regptr->lsr & UART_LSR_DR) //while there's data in the receive FIFO
-            while ((regptr->fr & PL011_FR_RXFE) != 0) //while the receive FIFO is not empty
+            while ((regptr->fr & PL011_FR_RXFE) == 0) //while the receive FIFO is not empty
             {
                 c = regptr->buffer; //get a character from the FIFO
                 if (uartptr->icount < UART_IBLEN)
