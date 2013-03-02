@@ -45,7 +45,8 @@ void clkinit(void)
 
     register_irq(IRQ_TIMER, clkhandler);
     enable_irq(IRQ_TIMER);
-    clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
+    //clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
+    clkupdate(1000000); //DEBUG
 }
 
 #endif                          /* RTCLOCK */
