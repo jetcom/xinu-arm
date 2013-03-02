@@ -33,15 +33,8 @@ interrupt clkhandler( void );
 
 interrupt clkhandler(void)
 {
-    if(GPIOREAD(16)){ //DEBUG
-        GPIOCLR(16);
-    }else{
-        GPIOSET(16);
-    }
-
     /* Reset the timer to fire again */
-    //clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
-    clkupdate(1000000); //DEBUG
+    clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
 
     /* Another clock tick passes. */
     clkticks++;
