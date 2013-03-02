@@ -119,7 +119,7 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     int hostname_strsz;         /* nvram hostname name size */
     device *devptr;             /* device pointer           */
 
-    printf( "Welcome to the shell!\n" );
+    printf( "Welcome to the shell!\r\n" );
 
     /* Enable interrupts */
     enable();
