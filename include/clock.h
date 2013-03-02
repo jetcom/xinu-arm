@@ -12,7 +12,12 @@
 #include <queue.h>
 #include <stddef.h>
 
-#define CLKTICKS_PER_SEC  1000  /**< clock timer resolution             */
+//#define CLKTICKS_PER_SEC  1000  /**< clock timer resolution             */
+/* If this value is >=90, the Raspberry Pi won't have timer interrupts occur
+   properly. I have a feeling that this is due to a combination of the VIC
+   emulator and the timer routine being too slow.
+*/
+#define CLKTICKS_PER_SEC  10
 
 extern ulong clkticks;          /**< counts clock interrupts            */
 extern ulong clktime;           /**< current time in secs since boot    */
