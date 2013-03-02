@@ -55,19 +55,11 @@ void uartStat(ushort uartnum)
     printf("\n\tINTERRUPT ENABLE:\n");
     printf("\t------------------------------------------\n");
 
-    //enabled = (pucsr->ier & UART_IER_ERBFI) ? 1 : 0;
     enabled = (pucsr->imsc & PL011_IMSC_RXIM) ? 1 : 0;
     printf("\t%s  Receiver FIFO Reached Trigger Level\n", label[enabled]);
 
-    //enabled = (pucsr->ier & UART_IER_ETBEI) ? 1 : 0;
     enabled = (pucsr->imsc & PL011_IMSC_TXIM) ? 1 : 0;
     printf("\t%s  Transmitter FIFO Empty\n", label[enabled]);
-
-    //enabled = (pucsr->ier & UART_IER_ELSI) ? 1 : 0;
-    //printf("\t%s  Receiver Error or BREAK\n", label[enabled]);
-
-    //enabled = (pucsr->ier & UART_IER_EMSI) ? 1 : 0;
-    //printf("\t%s  Modem Status", label[enabled]);
 
     printf("\n");
 }

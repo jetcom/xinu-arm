@@ -9,16 +9,11 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
-//#include "interrupt.h"
 #include "vic.h"
-//#include <led.h>
-//#include "timer.h"
 #include "gpio.h"
 
 extern ulong cpuid;                     /* Processor id                    */
 extern struct platform platform;        /* Platform specific configuration */
-
-//void kinitputc( void );
 
 //NOTE on the Raspberry Pi, we rely on the GPU to have initialized the PL011
 //properly so that we can do kprintf since we don't actually initialize it
@@ -56,9 +51,10 @@ int platforminit( void )
             kprintf("Press @ to begin.\r\n");
         }
         i = (i+1)%100000;
-        //if (c == '@') { //DEBUG (I'm tired of pressing @ :) )
+        c = kgetc(&devtab[SERIAL0]);
+        if (c == '@') {
             break;
-        //}
+        }
     }
 
     //fill in the platform information struct (from include/platform.h)
