@@ -124,7 +124,7 @@ int nulluser(void)
     kprintf("\r\n");
 
 #ifdef CONSOLE
-    open(CONSOLE, SERIAL0); //TODO: this doesn't work on the Raspberry Pi
+    open(CONSOLE, SERIAL0);
 #endif /* CONSOLE */
 
     /* enable interrupts here */
