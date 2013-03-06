@@ -207,7 +207,7 @@ IRQ_Routine:
 	 */
 	add	sp, sp, #8
 
-	/* Enable interrupts and switch back to IRQ mode to use sp_irq again. */
+	/* Switch back to IRQ mode to use sp_irq again; keep interrupts disabled. */
 	msr	cpsr, #MODE_IRQ|I_BIT
 
 	/* Load lr_irq from the user stack */
