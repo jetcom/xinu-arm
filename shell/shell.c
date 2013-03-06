@@ -30,6 +30,7 @@ const struct centry commandtab[] = {
 #if NETHER
     {"ethstat", FALSE, xsh_ethstat},
 #endif
+    {"echo", TRUE, xsh_echo}
     {"exit", TRUE, xsh_exit},
 #if NFLASH
     {"flashstat", FALSE, xsh_flashstat},
@@ -90,7 +91,6 @@ const struct centry commandtab[] = {
     {"xweb", FALSE, xsh_xweb},
 #endif
     {"?", FALSE, xsh_help},
-    {"echo", TRUE, xsh_echo}
 };
 
 const ulong ncommand = sizeof(commandtab) / sizeof(struct centry);
