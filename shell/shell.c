@@ -30,7 +30,7 @@ const struct centry commandtab[] = {
 #if NETHER
     {"ethstat", FALSE, xsh_ethstat},
 #endif
-    {"echo", TRUE, xsh_echo}
+    {"echo", TRUE, xsh_echo},
     {"exit", TRUE, xsh_exit},
 #if NFLASH
     {"flashstat", FALSE, xsh_flashstat},
