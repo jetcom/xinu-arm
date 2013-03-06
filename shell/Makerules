@@ -7,7 +7,7 @@ COMP = shell
 C_FILES = shell.c lexan.c
 
 # General shell commands
-C_FILES += xsh_clear.c xsh_date.c xsh_exit.c xsh_help.c xsh_reset.c xsh_sleep.c
+C_FILES += xsh_clear.c xsh_date.c xsh_exit.c xsh_help.c xsh_reset.c xsh_sleep.c xsh_echo.c
 
 # Processes commands
 C_FILES += xsh_kill.c xsh_ps.c
