@@ -1,4 +1,4 @@
-- u-boot.bin - This is the u-boot binary. This is lanunched instead of kernel.img. This was compiled from the source at http://github.com/gonzoula/u-boot-pi
+- u-boot.bin - This is the u-boot binary. This is lanunched instead of kernel.img. This was compiled from the source at https://github.com/gonzoua/u-boot-pi 
 - boot-tftp.cmd - This is the uncompiled u-boot script. This tells u-boot to start the usb and ethernet devices, download kernel.img, and jump to 0x10000
 - boot.scr - This is the compiled u-boot script. This must keep its name, u-boot looks for this file specifically.
 - uEnv.txt - This contains the environment variables for u-boot. For tftp you must assign an ip-address to the RPi and configure where the tftp server is
