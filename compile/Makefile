@@ -70,7 +70,7 @@ INDENT_TYPES = -T uchar -T ushort -T uint -T ulong -T bool -T message    \
                -T syscall -T devcall -T shellcmd -T thread -T interrupt  \
                -T device
 INDENT_ARGS = -npro -kr -bl -blf -bls -bli0 -nce -ncs -nlps -l74 -lc74 -nut
-INDENT_FILES = $(shell find ${TOPDIR} -name '*.[ch]')
+INDENT_FILES = $(shell find ${TOPDIR} -name '*.[ch]' -name "u-boot" -prune)
 
 # Export variables for recursive make calls (such as the library)
 export
