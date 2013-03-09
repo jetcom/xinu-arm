@@ -8,7 +8,8 @@ init_uart_clock=3000000
 
 # Load and run code starting at the same address our QMEU system does.
 # By default, the GPU in the Pi will try to boot the ARM at 0x8000.
-kernel_address=0x00010000
+#kernel_address=0x00010000
+kernel=u-boot.bin
 
 # Clocking options.
 # WARNING: Changing these may effect the timing of ARM peripheral devices.
