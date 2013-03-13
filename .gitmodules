@@ -1,0 +1,3 @@
+[submodule "boot/raspberry-pi/u-boot"]
+	path = boot/raspberry-pi/u-boot
+	url = git@github.com:gonzoua/u-boot-pi.git
