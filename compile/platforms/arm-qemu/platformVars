@@ -39,7 +39,7 @@ BUGFLAG = -gstabs+
 # C compilation flags
 CFLAGS = -O0 -Wall -Wstrict-prototypes -Wno-trigraphs    \
        -nostdinc -fno-builtin -fno-strict-aliasing -fno-common \
-        -fomit-frame-pointer -fno-pic -ffunction-sections \
+        -fno-omit-frame-pointer -fno-pic -ffunction-sections \
         ${DEBUG} ${INCLUDE} ${DETAIL} ${DEFS} -c
 
 # Assembler flags
