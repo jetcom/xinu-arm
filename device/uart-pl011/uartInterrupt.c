@@ -74,6 +74,7 @@ interrupt uartInterrupt(void)
             {
                 uartptr->oidle = TRUE;
             }
+            signaln(uartptr->osema, count);
         }else if(ris & PL011_RIS_RXRIS){ //if the receiver FIFO is full
             uartptr->iirq++; //increment input IRQ count
             count = 0;
