@@ -130,9 +130,15 @@ int nulluser(void)
     /* enable interrupts here */
     enable();
 
+#if 0
     ready(create
           ((void *)main, INITSTK, INITPRIO, "MAIN", 2, 0,
            NULL), RESCHED_YES);
+#else // Quick hack to fix bug in ctxsw for raspberry-pi: First resched *MUST* be called from an IRQ!!!
+    ready(create
+          ((void *)main, INITSTK, INITPRIO, "MAIN", 2, 0,
+           NULL), RESCHED_NO);
+#endif
 
     while (TRUE)
     {
