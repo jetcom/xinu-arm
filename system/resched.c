@@ -23,7 +23,9 @@ int resdefer;                   /* >0 if rescheduling deferred */
  */
 int resched(void)
 {
+#if 0
     uchar asid;                 /* address space identifier */
+#endif
     struct thrent *throld;      /* old thread entry */
     struct thrent *thrnew;      /* new thread entry */
 
@@ -53,15 +55,17 @@ int resched(void)
     thrnew = &thrtab[thrcurrent];
     thrnew->state = THRCURR;
 
-    /* change address space identifier to thread id */
-    asid = thrcurrent & 0xff;
+    if (thrnew != throld) {
 #if 0
-  // XXX Fix this later?
-  asm("mtc0 %0, $10": :"r"(asid));
+        /* change address space identifier to thread id */
+        asid = thrcurrent & 0xff;
+        // XXX Fix this later?
+        asm("mtc0 %0, $10": :"r"(asid));
 #endif
 
-    restore(thrnew->intmask);
-    ctxsw(&throld->stkptr, &thrnew->stkptr);
+        restore(thrnew->intmask);
+        ctxsw(&throld->stkptr, &thrnew->stkptr);
+    }
 
     /* old thread returns here when resumed */
     restore(throld->intmask);
